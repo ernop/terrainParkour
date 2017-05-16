@@ -7,3 +7,4 @@ all.sql
 private
 __pycache__
 db.sqlite3
+local
