@@ -17,6 +17,9 @@ def security(func):
 		return func(request, *kwgs)
 	return inner
 
+def test(request):
+	return JsonResponse({"result":True, "message":'test.'})
+
 #general user info
 def getRobloxUser(request, userId):
 	user=RobloxUser.objects.filter(userId=userId)
