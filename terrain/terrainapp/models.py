@@ -30,12 +30,20 @@ class BaseModel(models.Model):
 		    text=self
 		return u'<a class="btn btn-default" href="%s/day/%s/%d/">%s</a>'%(wrap,settings.ADMIN_EXTERNAL_BASE, self.__class__.__name__.lower(), self.id, text)
 
+	
+	def mustGet(**kwgs):
+		try:
+			res=self.objects.get(**kwgs)
+		except ObjectDoesNotExist:
+			res=None
+		return res
+	
 	class Meta:
-		app_label='terrain'
+		app_label='terrainapp'
 		abstract=True
 
 class RobloxUser(BaseModel):
-	userId=models.IntegerField() #blank=True, null=True
+	userId=models.IntegerField(unique=True) #blank=True, null=True
 	username=models.CharField(max_length=30)
 	
 	class Meta:
@@ -44,3 +52,60 @@ class RobloxUser(BaseModel):
 
 	def __unicode__(self):
 		return self.username
+		
+class GameJoin(BaseModel):
+	user=models.ForeignKey('RobloxUser', related_name='joins')
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='gamejoin'
+		
+class GameLeave(BaseModel):
+	user=models.ForeignKey('RobloxUser', related_name='leaves')
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='gameleave'
+		
+class Sign(BaseModel):
+	signid=models.IntegerField()
+	name=models.CharField(max_length=50)
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='sign'
+		
+	def __unicode__(self):
+		return 'Sign %d (%s)'%(self.signid, self.name)
+		
+	def __str__(self):
+		return 'Sign %d (%s)'%(self.signid, self.name)
+		
+class Find(BaseModel):
+	sign=models.ForeignKey('Sign', related_name='finds')
+	user=models.ForeignKey('RobloxUser', related_name='finds')
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='find'
+		
+	def __unicode__(self):
+		return '%s found %s'%(self.user.username, self.sign.name)
+		
+class Race(BaseModel):
+	start=models.ForeignKey('Sign', related_name='starts')
+	end=models.ForeignKey('Sign', related_name='ends')
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='race'
+		
+class Run(BaseModel):
+	race=models.ForeignKey('Race', related_name='runs')
+	user=models.ForeignKey('RobloxUser', related_name='runs')
+	racemilliseconds=models.IntegerField() #run time in milliseconds
+	
+	class Meta:
+		app_label='terrainapp'
+		db_table='run'
+	

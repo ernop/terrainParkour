@@ -15,9 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from controllers import security
 import controllers
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'user/(\d+)/',controllers.getRobloxUser),
+    url(r'user/(\d+)/', security(controllers.getRobloxUser)),
+    url(r'userjoined/(\d+)/',security(controllers.robloxUserJoined)),
+    url(r'userleft/(\d+)/',security(controllers.robloxUserLeft)),
+    url(r'userfoundsign/(\d+)/(\d+)/',security(controllers.userFoundSign)),
 ]
