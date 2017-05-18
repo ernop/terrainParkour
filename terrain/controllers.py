@@ -1,11 +1,12 @@
 from django.http import JsonResponse
 from terrainapp.models import *
+import admin
 
 def getSecretKey():
 	res=open('secret.txt','r').read().strip()
 	return res
 
-secret=getSecretKey()
+secret=getSecretKey() 
 noKey={'error':True,'message':'missing secret key'}
 
 #there is a required secret key
@@ -40,7 +41,6 @@ def robloxUserJoined(request, userId):
 	
 def robloxUserLeft(request, userId):
 	user, created=RobloxUser.objects.get_or_create(userId=userId)
-	res={'success':True}
 	leave=GameLeave(user=user)
 	leave.save()
 	return JsonResponse(res)
@@ -52,4 +52,18 @@ def userFoundSign(request, userId, signId):
 		return {'error':True,'message':'no such sign %s'%str(signId)}
 	find=UserFoundSign(user=user, sign=sign)
 	find.save()
-	return JsonResponse(res)
+	return JsonResponse({'success':'true'})
+	
+def userFinishedRace(request ,userId, startId, endId, racemilliseconds):
+	user, created=RobloxUser.objects.get_or_create(userId=userId)
+	start=Sign.mustGet(Sign, signId=startId)
+	if not start:
+		return {'error':True,'message':'no such sign %s'%str(startId)}
+	end=Sign.mustGet(Sign, signId=endId)
+	if not end:
+		return {'error':True,'message':'no such sign %s'%str(endId)}
+	race, created=Race.objects.get_or_create(start=start, end=end)
+	race.save()
+	run=Run(user=user, race=race, racemilliseconds=racemilliseconds)
+	run.save()
+	return JsonResponse({'success':'true'})

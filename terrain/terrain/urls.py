@@ -19,10 +19,11 @@ from controllers import security
 import controllers
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^terrain/adminx/', admin.site.urls),
     url(r'terrain/$', security(controllers.test)),
-    url(r'terrain/user/(\d+)/', security(controllers.getRobloxUser)),
-    url(r'terrain/userjoined/(\d+)/',security(controllers.robloxUserJoined)),
-    url(r'terrain/userleft/(\d+)/',security(controllers.robloxUserLeft)),
-    url(r'terrain/userfoundsign/(\d+)/(\d+)/',security(controllers.userFoundSign)),
+    url(r'terrain/user/(-?\d+)/', security(controllers.getRobloxUser)),
+    url(r'terrain/userjoined/(-?\d+)/',security(controllers.robloxUserJoined)),
+    url(r'terrain/userleft/(-?\d+)/',security(controllers.robloxUserLeft)),
+    url(r'terrain/userfoundsign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
+    url(r'terrain/userfinishedrace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
 ]
