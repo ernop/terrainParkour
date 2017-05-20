@@ -64,6 +64,6 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
 		return {'error':True,'message':'no such sign %s'%str(endId)}
 	race, created=Race.objects.get_or_create(start=start, end=end)
 	race.save()
-	run=Run(user=user, race=race, racemilliseconds=racemilliseconds)
+	run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
 	run.save()
 	return JsonResponse({'success':'true'})

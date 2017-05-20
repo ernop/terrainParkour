@@ -106,7 +106,7 @@ class Race(BaseModel):
 class Run(BaseModel):
 	race=models.ForeignKey('Race', related_name='runs')
 	user=models.ForeignKey('RobloxUser', related_name='runs')
-	racemilliseconds=models.IntegerField() #run time in milliseconds
+	raceMilliseconds=models.IntegerField() #run time in milliseconds
 	
 	class Meta:
 		app_label='terrainapp'
