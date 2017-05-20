@@ -21,9 +21,12 @@ import controllers
 urlpatterns = [
     url(r'^terrain/adminx/', admin.site.urls),
     url(r'terrain/$', security(controllers.test)),
+    #gets
     url(r'terrain/user/(-?\d+)/', security(controllers.getRobloxUser)),
-    url(r'terrain/userjoined/(-?\d+)/',security(controllers.robloxUserJoined)),
-    url(r'terrain/userleft/(-?\d+)/',security(controllers.robloxUserLeft)),
-    url(r'terrain/userfoundsign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
-    url(r'terrain/userfinishedrace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
+    
+    #posts
+    url(r'terrain/userJoined/(-?\d+)/',security(controllers.robloxUserJoined)),
+    url(r'terrain/userLeft/(-?\d+)/',security(controllers.robloxUserLeft)),
+    url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
+    url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
 ]

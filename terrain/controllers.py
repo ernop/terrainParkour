@@ -54,7 +54,7 @@ def userFoundSign(request, userId, signId):
 	find.save()
 	return JsonResponse({'success':'true'})
 	
-def userFinishedRace(request ,userId, startId, endId, racemilliseconds):
+def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
 	user, created=RobloxUser.objects.get_or_create(userId=userId)
 	start=Sign.mustGet(Sign, signId=startId)
 	if not start:
