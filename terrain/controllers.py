@@ -40,16 +40,18 @@ def robloxUserLeft(request, userId):
     return JsonResponse({'success':True})
 
 def userFoundSign(request, userId, signId):
-    open('log.log','a').write('userid: %s signid: %s'%str(userId), str(signId))
+    log='/tmp/logfile.log'
+    open(log,'a').write('here')
+    open(log,'a').write('userid: %s signid: %s'%str(userId), str(signId))
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    open('log.log','a').write(user, created)
+    open(log,'a').write(user, created)
     sign=tryGet(Sign, {'signId':signId})
-    open('log.log','a').write(sign)
+    open(log,'a').write(sign)
     if not sign:
-        open('log.log','a').write('error')
+        open(log,'a').write('error')
         return {'error':True,'message':'no such sign %s'%str(signId)}
     find, created=Find.objects.get_or_create(user=user, sign=sign)
-    open('log.log','a').write('find')
+    open(log,'a').write('find')
     return JsonResponse({'success':'true', 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
 
 def tryGet(cls, params):
