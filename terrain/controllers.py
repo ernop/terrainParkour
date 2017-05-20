@@ -1,3 +1,5 @@
+import datetime
+
 from django.http import JsonResponse
 from terrainapp.models import *
 import admin
@@ -43,7 +45,7 @@ def userFoundSign(request, userId, signId):
     if not sign:
         return {'error':True,'message':'no such sign %s'%str(signId)}
     find, created=UserFoundSign.objects.get_or_create(user=user, sign=sign)
-    return JsonResponse({'success':'true', 'created':created, 'findCount':user.finds.Count()})
+    return JsonResponse({'success':'true', 'created':created, 'findCount':user.finds.count()})
 
 def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -60,55 +62,55 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     return JsonResponse({'success':'true'})
 
 def getUserSignFinds(request, userId):
-    res=Find.objects.where(user__userId=userId)
+    res=Find.objects.filter(user__userId=userId)
     res={f.signId:True for f in res}
     return JsonResponse(res)
 
 def getTotalFindCountBySign(request, signId):
-    res=Find.objects.where(sign__id=signId)
-    return JsonResponse({'count':res.Count()})
+    res=Find.objects.filter(sign__id=signId)
+    return JsonResponse({'count':res.count()})
 
-def getTotalFindCountByUser(request, userId, signId):
-    res=Run.objects.where(start__id=startId, end__id=endId)
-    return JsonResponse({'count':res.Count()})
+def getTotalFindCountByUser(request, userId):
+    res=Find.objects.filter(user__userId=userId)
+    return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByDay(request):
     today=datetime.datetime.today()
     tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
-    res=Run.objects.where(created__gte=today, created__lt=tomorrow)
-    return JsonResponse({'count':res.Count()})
+    res=Run.objects.filter(created__gte=today, created__lt=tomorrow)
+    return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUserAndDay(request, userId):
     today=datetime.datetime.today()
     tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
-    res=Run.objects.where(created__gte=today, created__lt=tomorrow, user__userId=userId)
-    return JsonResponse({'count':res.Count()})
+    res=Run.objects.filter(created__gte=today, created__lt=tomorrow, user__userId=userId)
+    return JsonResponse({'count':res.count()})
 
 def getTotalFindCountByDay(request):
     today=datetime.datetime.today()
     tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
-    res=Find.objects.where(created__gte=today, created__lt=tomorrow)
-    return JsonResponse({'count':res.Count()})
+    res=Find.objects.filter(created__gte=today, created__lt=tomorrow)
+    return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUserAndRace(request, userId, startId, endId):
-    res=Run.objects.where(start__id=startId, end__id=endId, user__userId=userId)
-    return JsonResponse({'count':res.Count()})
+    res=Run.objects.filter(race__start__id=startId, race__end__id=endId, user__userId=userId)
+    return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByRace(request, startId, endId):
-    res=Run.objects.where(start__id=startId, end__id=endId)
-    return JsonResponse({'count':res.Count()})
+    res=Run.objects.filter(race__start__id=startId, race__end__id=endId)
+    return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUser(request, userId):
-    res=Run.objects.where(user__userId=userId)
-    return JsonResponse({'count':res.Count()})
+    res=Run.objects.filter(user__userId=userId)
+    return JsonResponse({'count':res.count()})
 
 def getBestTimesByRace(request, startId, endId):
-    res=Run.objects.where(start__id=startId, end__id=endId).OrderBy(run__milliSeconds__asc)[:10]
+    res=Run.objects.filter(race__start__id=startId, race__end__id=endId).order_by('raceMilliseconds')[:10]
     res=[jsonRun(r) for r in res]
     return JsonResponse({'count':res})
 
 def jsonRun(r):
-    res={'milliSeconds':r.milliSeconds,
+    res={'raceMilliseconds':r.raceMilliseconds,
         'username':r.user.username,
         'userId':r.user.userId}
     return res

@@ -112,4 +112,4 @@ class Run(BaseModel):
         db_table='run'
 
     def __str__(self):
-        return '%s ran the race from %s to %s in %f'%(self.user.username, self.race.start.name, self.race.end.name, self.racemilliseconds/1000)
+        return '%s ran the race from %s to %s in %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
