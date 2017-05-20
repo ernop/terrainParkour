@@ -92,6 +92,18 @@ def getTotalFindCountByUser(request, userId):
     res=Find.objects.filter(user__userId=userId)
     return JsonResponse({'count':res.count()})
 
+def getTotalRunCount(request):
+    return JsonResponse({'count':Run.objects.count()})
+
+def getTotalRaceCount(request):
+    return JsonResponse({'count':Race.objects.count()})
+
+def getTotalRaceCountByDay(request):
+    today=datetime.datetime.today()
+    tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
+    races=Race.objects.filter(created__gte=today, created__lt=tomorrow)
+    return JsonResponse({'count':races.count()})
+
 def getTotalRunCountByDay(request):
     today=datetime.datetime.today()
     tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)

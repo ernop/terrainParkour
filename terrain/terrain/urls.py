@@ -32,10 +32,13 @@ urlpatterns = [
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
 
     #stats
+    url(r'terrain/getTotalRunCount/',security(controllers.getTotalRunCount)),
+    url(r'terrain/getTotalRaceCount/',security(controllers.getTotalRaceCount)),
     url(r'terrain/getTotalFindCountBySign/(\d+)/',security(controllers.getTotalFindCountBySign)),
     url(r'terrain/getTotalFindCountByUser/(\d+)/',security(controllers.getTotalFindCountByUser)),
 
     url(r'terrain/getTotalRunCountByDay/',security(controllers.getTotalRunCountByDay)),
+    url(r'terrain/getTotalRaceCountByDay/',security(controllers.getTotalRaceCountByDay)),
     url(r'terrain/getTotalRunCountByUserAndDay/(-?\d+)/',security(controllers.getTotalRunCountByUserAndDay)),
     url(r'terrain/getTotalFindCountByDay/',security(controllers.getTotalFindCountByDay)),
 

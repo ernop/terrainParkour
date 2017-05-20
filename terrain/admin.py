@@ -211,7 +211,10 @@ class RunAdmin(OverriddenModelAdmin):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
         if exi:
             best=exi[0]
-            besttext=' (best: %0.3f)'%(best.raceMilliseconds/1000)
+            if best.raceMilliseconds==obj.raceMilliseconds:
+                return '<b>%0.3f Best</b>'%(obj.raceMilliseconds*1.0/1000)
+            else:
+                besttext=' (best: %0.3f)'%(best.raceMilliseconds/1000)
         else:
             besttext=' best missing? weird.'
         return '%0.3f%s'%(obj.raceMilliseconds*1.0/1000, besttext)
