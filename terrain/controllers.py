@@ -37,7 +37,7 @@ def robloxUserLeft(request, userId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     leave=GameLeave(user=user)
     leave.save()
-    return JsonResponse(res)
+    return JsonResponse({'success':True})
 
 def userFoundSign(request, userId, signId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)

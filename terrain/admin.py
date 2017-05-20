@@ -178,6 +178,22 @@ class FindAdmin(OverriddenModelAdmin):
 
     adminify(myuser, mysign)
 
+class GameLeaveAdmin(OverriddenModelAdmin):
+    list_display='id myuser created'.split()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    adminify(myuser)
+
+class GameJoinAdmin(OverriddenModelAdmin):
+    list_display='id myuser created'.split()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    adminify(myuser)
+
 class RunAdmin(OverriddenModelAdmin):
     list_display='id myuser myrace mystart myend mytime created'.split()
     list_filter=['race', 'race__start','race__end',]
@@ -204,9 +220,14 @@ class RunAdmin(OverriddenModelAdmin):
 
     adminify(mystart, myend, myuser, mytime, myrace)
 
+
+
 admin.site.register(RobloxUser, RobloxUserAdmin)
 
 admin.site.register(Sign, SignAdmin)
 admin.site.register(Find, FindAdmin)
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Run, RunAdmin)
+
+admin.site.register(GameLeave, GameLeaveAdmin)
+admin.site.register(GameJoin, GameJoinAdmin)

@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'terrain/getUserSignFinds/(-?\d+)/', security(controllers.getUserSignFinds)),
 
     #actions
-    url(r'terrain/userJoined/(-?\d+)/([\s ]+)',security(controllers.robloxUserJoined)),
+    url(r'terrain/userJoined/(-?\d+)/([\w ]+)',security(controllers.robloxUserJoined)),
     url(r'terrain/userLeft/(-?\d+)/',security(controllers.robloxUserLeft)),
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
