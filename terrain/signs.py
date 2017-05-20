@@ -120,6 +120,8 @@ module['signname2id']={
 	'Tipperary':116,
 	'Weir':117,
 	'Obby':118,
+	'Flint'=119,
+	'Pachacuti'=120,
 }
 
 
