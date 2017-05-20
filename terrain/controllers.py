@@ -69,7 +69,7 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
 
 def getUserSignFinds(request, userId):
     res=Find.objects.filter(user__userId=userId)
-    res={f.signId:True for f in res}
+    res={f.sign.signId:True for f in res}
     return JsonResponse(res)
 
 def getTotalFindCountBySign(request, signId):
