@@ -19,6 +19,7 @@ class BaseModel(models.Model):
             text=self
         if not tooltip:
             tooltip=''
+
         return u'<a class="%s%s" title="%s" href="../../%s/%s/?id=%d">%s</a>'%(klass, wrap, tooltip, APP, self.__class__.__name__.lower(), self.id, text)
 
     class Meta:
@@ -34,7 +35,7 @@ class RobloxUser(BaseModel):
         db_table='robloxuser'
 
     def __str__(self):
-        return self.username
+        return self.username or str(self.userId)
 
 class GameJoin(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='joins')
@@ -97,7 +98,8 @@ class Race(BaseModel):
 
 class Run(BaseModel):
     race=models.ForeignKey('Race', related_name='runs')
-    user=models.ForeignKey('RobloxUser', related_name='runs')
+    user=models.ForeignKey('RobloxUser', related_name='runs', db_index=True)
+
     raceMilliseconds=models.IntegerField() #run time in milliseconds
 
     class Meta:
@@ -107,9 +109,10 @@ class Run(BaseModel):
     def __str__(self):
         return '%s ran the race from %s to %s in %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
 
-class BestRun(BaseModel):
+class BestRun(BaseModel): #an individual user's best run of a certain race.  This is how we generate user-distinct top 10
     race=models.ForeignKey('Race', related_name='bestruns')
     user=models.ForeignKey('RobloxUser', related_name='bestruns')
+    place=models.IntegerField(blank=True, null=True) #global place for this race.
     raceMilliseconds=models.IntegerField() #run time in milliseconds
 
     class Meta:
@@ -117,5 +120,6 @@ class BestRun(BaseModel):
         db_table='bestrun'
 
     def __str__(self):
-        return '%s\'s bestrun of the race from %s to %s took: %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
+        placeText=self.place and '[place: %d]'%self.place
+        return '%s\'s bestrun of the race from %s to %s took: %f%s'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000, placeText)
 

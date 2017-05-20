@@ -35,7 +35,9 @@ urlpatterns = [
     url(r'terrain/getTotalRunCount/',security(controllers.getTotalRunCount)),
     url(r'terrain/getTotalRaceCount/',security(controllers.getTotalRaceCount)),
     url(r'terrain/getTotalFindCountBySign/(\d+)/',security(controllers.getTotalFindCountBySign)),
-    url(r'terrain/getTotalFindCountByUser/(\d+)/',security(controllers.getTotalFindCountByUser)),
+    url(r'terrain/getTotalFindCountByUser/(-?\d+)/',security(controllers.getTotalFindCountByUser)),
+    url(r'terrain/getTotalWorldRecordCountByUser/(\d+)/',security(controllers.getTotalWorldRecordCountByUser)),
+    url(r'terrain/getTotalTopTenCountByUser/(\d+)/',security(controllers.getTotalTopTenCountByUser)),
 
     url(r'terrain/getTotalRunCountByDay/',security(controllers.getTotalRunCountByDay)),
     url(r'terrain/getTotalRaceCountByDay/',security(controllers.getTotalRaceCountByDay)),
@@ -43,8 +45,9 @@ urlpatterns = [
     url(r'terrain/getTotalFindCountByDay/',security(controllers.getTotalFindCountByDay)),
 
     url(r'terrain/getTotalRunCountByUserAndRace/(-?\d+)/(\d+)/(\d+)/',security(controllers.getTotalRunCountByUserAndRace)),
-    url(r'terrain/getTotalRunCountByRace/(\d+)/(\d+)/',security(controllers.getTotalRunCountByRace)),
     url(r'terrain/getTotalRunCountByUser/(-?\d+)/',security(controllers.getTotalRunCountByUser)),
+    url(r'terrain/getTotalRunCountByRace/(\d+)/(\d+)/',security(controllers.getTotalRunCountByRace)),
+    url(r'terrain/getRaceInfoByUser/(-?\d+)/(\d+)/(\d+)',security(controllers.getRaceInfoByUser)),
     url(r'terrain/getTotalRaceCountByUser/(-?\d+)/',security(controllers.getTotalRaceCountByUser)),
 
     url(r'terrain/getBestTimesByRace/(\d+)/(\d+)/',security(controllers.getBestTimesByRace)),

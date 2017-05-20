@@ -63,21 +63,64 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
         return {'error':True,'message':'no such sign %s'%str(endId)}
     race, created=Race.objects.get_or_create(start=start, end=end)
     race.save()
-    run=Run(user=user, race=race, raceMilliseconds=math.ceil(int(raceMilliseconds)))
+    raceMilliseconds=math.ceil(int(raceMilliseconds))
+    exi=Run.objects.filter(user=user, race=race, raceMilliseconds=raceMilliseconds)
+    if exi.count()>0:
+        #run already exists, no duplicates allowed!
+        return JsonResponse({'success':'true' })
+    run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
     maybeCreateBestrun(user, run)
     return JsonResponse({'success':'true'})
 
 def maybeCreateBestrun(user, run):
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
+    placesNeedAdjustment=False
     if exi.count()>0:
         bestrun=exi[0]
         if bestrun.raceMilliseconds>run.raceMilliseconds:
             bestrun.raceMilliseconds=run.raceMilliseconds
             bestrun.save()
+            placesNeedAdjustment=True
     else:
         bestrun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
         bestrun.save()
+        placesNeedAdjustment=True
+    if placesNeedAdjustment:
+        adjustPlaces(user, run, bestrun)
+
+def adjustPlaces(user, run, bestrun):
+    #we know bestrun is in the top 10.
+    res=getTopTen(run.race.start.signId, run.race.end.signId, extra=True)
+    ii=1
+    for bestrun in res:
+        useii=ii<=10 and ii or None
+        if bestrun.place!=useii:
+            bestrun.place=useii
+            bestrun.save()
+        ii=ii+1
+
+def getTotalWorldRecordCountByUser(request, userId):
+    bests=BestRun.objects.filter(user__userId=userId).filter(place=1)
+    return JsonResponse({'count':bests.count()})
+
+def getTotalTopTenCountByUser(request, userId):
+    topTens=BestRun.objects.filter(user__userId=userId).exclude(place=None)
+    return JsonResponse({'count':topTens.count()})
+
+def getRaceInfoByUser(request, userId, startId, endId):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    start=tryGet(Sign, {'signId':startId})
+    if not start:
+        return {'error':True,'message':'no such sign %s'%str(startId)}
+    end=tryGet(Sign, {'signId':endId})
+    if not end:
+        return {'error':True,'message':'no such sign %s'%str(endId)}
+    race=tryGet(Race, {start:start, end:end})
+    runs=Run.objects.filter(start=start, end=end, user=user)
+    bests=getBestTimesByRace(request, startId, endId)
+    res={'runs':runs.count(),}
+    return JsonResponse(res)
 
 def getUserSignFinds(request, userId):
     res=Find.objects.filter(user__userId=userId)
@@ -139,14 +182,22 @@ def getTotalRaceCountByUser(request, userId):
     return JsonResponse({'count':res.count()})
 
 def getBestTimesByRace(request, startId, endId):
-    res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:10]
+    res=getTopTen(startId, endId)
     res=[jsonRun(r) for r in res]
     return JsonResponse({'res':res})
+
+def getTopTen(startId, endId, extra=False):
+    lim=10
+    if extra:
+        lim=11
+    res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:lim]
+    return res
 
 def jsonRun(r):
     res={'raceMilliseconds':r.raceMilliseconds,
         'username':r.user.username,
-        'userId':r.user.userId}
+        'userId':r.user.userId,
+        'place':r.place}
     return res
 
 
