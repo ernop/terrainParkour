@@ -61,7 +61,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'terrain.wsgi.application'
+#WSGI_APPLICATION = 'terrain.wsgi.application'
 
 
 # Database
