@@ -106,3 +106,16 @@ class Run(BaseModel):
 
     def __str__(self):
         return '%s ran the race from %s to %s in %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
+
+class BestRun(BaseModel):
+    race=models.ForeignKey('Race', related_name='bestruns')
+    user=models.ForeignKey('RobloxUser', related_name='bestruns')
+    raceMilliseconds=models.IntegerField() #run time in milliseconds
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='bestrun'
+
+    def __str__(self):
+        return '%s\'s bestrun of the race from %s to %s took: %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
+

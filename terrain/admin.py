@@ -208,7 +208,13 @@ class RunAdmin(OverriddenModelAdmin):
         return obj.user.clink()
 
     def mytime(self, obj):
-        return obj.raceMilliseconds*1.0/1000
+        exi=BestRun.objects.filter(race=obj.race, user=obj.user)
+        if exi:
+            best=exi[0]
+            besttext=' (best: %0.3f)'%(best.raceMilliseconds/1000)
+        else:
+            besttext=' best missing? weird.'
+        return '%0.3f%s'%(obj.raceMilliseconds*1.0/1000, besttext)
 
     def myrace(self, obj):
         return obj.race.clink()
@@ -228,6 +234,7 @@ admin.site.register(Sign, SignAdmin)
 admin.site.register(Find, FindAdmin)
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Run, RunAdmin)
+admin.site.register(BestRun, RunAdmin)
 
 admin.site.register(GameLeave, GameLeaveAdmin)
 admin.site.register(GameJoin, GameJoinAdmin)

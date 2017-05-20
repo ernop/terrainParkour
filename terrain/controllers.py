@@ -1,4 +1,4 @@
-import datetime
+import datetime, math
 
 from django.http import JsonResponse
 from terrainapp.models import *
@@ -63,9 +63,21 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
         return {'error':True,'message':'no such sign %s'%str(endId)}
     race, created=Race.objects.get_or_create(start=start, end=end)
     race.save()
-    run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
+    run=Run(user=user, race=race, raceMilliseconds=math.ceil(int(raceMilliseconds)))
     run.save()
+    maybeCreateBestrun(user, run)
     return JsonResponse({'success':'true'})
+
+def maybeCreateBestrun(user, run):
+    exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
+    if exi.count()>0:
+        bestrun=exi[0]
+        if bestrun.raceMilliseconds>run.raceMilliseconds:
+            bestrun.raceMilliseconds=run.raceMilliseconds
+            bestrun.save()
+    else:
+        bestrun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
+        bestrun.save()
 
 def getUserSignFinds(request, userId):
     res=Find.objects.filter(user__userId=userId)
@@ -111,7 +123,7 @@ def getTotalRunCountByUser(request, userId):
     return JsonResponse({'count':res.count()})
 
 def getBestTimesByRace(request, startId, endId):
-    res=Run.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:10]
+    res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:10]
     res=[jsonRun(r) for r in res]
     return JsonResponse({'res':res})
 
