@@ -27,7 +27,7 @@ class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds'.split()
 
     def myfinds(self, obj):
-        return '%d'%(obj.finds.count())
+        return '<a href="../find/?sign__signId__exact=%d">%d finds</a>'%(obj.signId, obj.finds.count())
 
     adminify(myfinds)
 
@@ -61,7 +61,7 @@ class FindAdmin(OverriddenModelAdmin):
         return obj.user.clink()
 
     def lookup_allowed(self, key, value):
-        if key in ('user__userId', ):
+        if key in ('user__userId','sign__signId__exact', ):
             return True
         return super(FindAdmin, self).lookup_allowed(key, value)
 
