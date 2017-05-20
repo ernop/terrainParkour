@@ -113,7 +113,7 @@ def getTotalRunCountByUser(request, userId):
 def getBestTimesByRace(request, startId, endId):
     res=Run.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:10]
     res=[jsonRun(r) for r in res]
-    return JsonResponse({'res:'res})
+    return JsonResponse({'res':res})
 
 def jsonRun(r):
     res={'raceMilliseconds':r.raceMilliseconds,
