@@ -45,7 +45,7 @@ def userFoundSign(request, userId, signId):
     if not sign:
         return {'error':True,'message':'no such sign %s'%str(signId)}
     find, created=Find.objects.get_or_create(user=user, sign=sign)
-    return JsonResponse({'success':'true', 'created':created, 'findCount':user.finds.count()})
+    return JsonResponse({'success':'true', 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
 
 def tryGet(cls, params):
     res=cls.objects.filter(**params)
@@ -73,7 +73,7 @@ def getUserSignFinds(request, userId):
     return JsonResponse(res)
 
 def getTotalFindCountBySign(request, signId):
-    res=Find.objects.filter(sign__id=signId)
+    res=Find.objects.filter(sign__signid=signId)
     return JsonResponse({'count':res.count()})
 
 def getTotalFindCountByUser(request, userId):
@@ -99,11 +99,11 @@ def getTotalFindCountByDay(request):
     return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUserAndRace(request, userId, startId, endId):
-    res=Run.objects.filter(race__start__id=startId, race__end__id=endId, user__userId=userId)
+    res=Run.objects.filter(race__start__signid=startId, race__end__signid=endId, user__userId=userId)
     return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByRace(request, startId, endId):
-    res=Run.objects.filter(race__start__id=startId, race__end__id=endId)
+    res=Run.objects.filter(race__start__signid=startId, race__end__signid=endId)
     return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUser(request, userId):
@@ -111,7 +111,7 @@ def getTotalRunCountByUser(request, userId):
     return JsonResponse({'count':res.count()})
 
 def getBestTimesByRace(request, startId, endId):
-    res=Run.objects.filter(race__start__id=startId, race__end__id=endId).order_by('raceMilliseconds')[:10]
+    res=Run.objects.filter(race__start__signid=startId, race__end__signid=endId).order_by('raceMilliseconds')[:10]
     res=[jsonRun(r) for r in res]
     return JsonResponse({'count':res})
 
