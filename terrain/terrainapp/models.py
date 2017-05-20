@@ -21,13 +21,6 @@ class BaseModel(models.Model):
             tooltip=''
         return u'<a class="%s%s" title="%s" href="../../%s/%s/?id=%d">%s</a>'%(klass, wrap, tooltip, APP, self.__class__.__name__.lower(), self.id, text)
 
-    def mustGet(self, **kwgs):
-        try:
-            res=self.objects.get(**kwgs)
-        except Exception as ex:
-            res=None
-        return res
-
     class Meta:
         app_label=APP
         abstract=True

@@ -41,18 +41,24 @@ def robloxUserLeft(request, userId):
 
 def userFoundSign(request, userId, signId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    sign=Sign.mustGet(signId=signId)
+    sign=tryGet(Sign, {'signId':signId})
     if not sign:
         return {'error':True,'message':'no such sign %s'%str(signId)}
-    find, created=UserFoundSign.objects.get_or_create(user=user, sign=sign)
+    find, created=Find.objects.get_or_create(user=user, sign=sign)
     return JsonResponse({'success':'true', 'created':created, 'findCount':user.finds.count()})
+
+def tryGet(cls, params):
+    res=cls.objects.filter(**params)
+    if res.count()>0:
+        return res[0]
+    return None
 
 def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    start=Sign.mustGet(Sign, signId=startId)
+    start=tryGet(Sign, {'signId':startId})
     if not start:
         return {'error':True,'message':'no such sign %s'%str(startId)}
-    end=Sign.mustGet(Sign, signId=endId)
+    end=tryGet(Sign, {'signId':endId})
     if not end:
         return {'error':True,'message':'no such sign %s'%str(endId)}
     race, created=Race.objects.get_or_create(start=start, end=end)
