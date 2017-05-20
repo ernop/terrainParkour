@@ -79,9 +79,6 @@ class Find(BaseModel):
         app_label='terrainapp'
         db_table='find'
 
-    def __unicode__(self):
-        return '%s found %s'%(self.user.username, self.sign.name)
-
     def __str__(self):
         return '%s found %s'%(self.user.username, self.sign.name)
 
