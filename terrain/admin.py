@@ -121,7 +121,10 @@ def adminify(*args):
         func.short_description=name
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username myjoins myleaves myruns'.split()
+    list_display='id userId username myjoins myleaves myruns myfinds'.split()
+
+    def myfinds(self, obj):
+        return '<a href="../find?user__userId=%d">%d</a>'%(obj.userId, obj.finds.count())
 
     def myjoins(self, obj):
         return obj.joins.count()
@@ -130,15 +133,15 @@ class RobloxUserAdmin(OverriddenModelAdmin):
         return obj.leaves.count()
 
     def myruns(self, obj):
-        return obj.runs.count()
+        return '<a href="../run?user__userId=%d">%d</a>'%(obj.userId, obj.runs.count())
 
-    adminify(myjoins, myleaves, myruns)
+    adminify(myjoins, myleaves, myruns, myfinds)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds'.split()
 
     def myfinds(self, obj):
-        return obj.finds.count()
+        return '%d'%(obj.finds.count())
 
     adminify(myfinds)
 
@@ -159,8 +162,24 @@ class RaceAdmin(OverriddenModelAdmin):
 
     adminify(mystart, myend, myruncount, myruns)
 
+class FindAdmin(OverriddenModelAdmin):
+    list_display='id mysign myuser created'.split()
+
+    def mysign(self, obj):
+        return obj.sign.clink()
+
+    def myuser(self, obj):
+        return obj.user.clink()
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId', ):
+            return True
+        return super(FindAdmin, self).lookup_allowed(key, value)
+
+    adminify(myuser, mysign)
+
 class RunAdmin(OverriddenModelAdmin):
-    list_display='id myuser myrace mystart myend mytime'.split()
+    list_display='id myuser myrace mystart myend mytime created'.split()
     list_filter=['race', 'race__start','race__end',]
 
     def mystart(self, obj):
@@ -178,10 +197,16 @@ class RunAdmin(OverriddenModelAdmin):
     def myrace(self, obj):
         return obj.race.clink()
 
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId', ):
+            return True
+        return super(RunAdmin, self).lookup_allowed(key, value)
+
     adminify(mystart, myend, myuser, mytime, myrace)
 
 admin.site.register(RobloxUser, RobloxUserAdmin)
 
 admin.site.register(Sign, SignAdmin)
+admin.site.register(Find, FindAdmin)
 admin.site.register(Race, RaceAdmin)
 admin.site.register(Run, RunAdmin)
