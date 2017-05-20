@@ -1,4 +1,4 @@
-import datetime, math
+import datetime, math, os
 
 from django.http import JsonResponse
 from terrainapp.models import *
@@ -41,12 +41,14 @@ def robloxUserLeft(request, userId):
 
 def userFoundSign(request, userId, signId):
     log='/tmp/logfile.log'
+    if not os.path.exists('/tmp'):
+        log='c:/dl/logfile.log'
     open(log,'a').write('here')
-    open(log,'a').write('userid: %s signid: %s'%str(userId), str(signId))
+    open(log,'a').write('userid: %s signid: %s'%(str(userId), str(signId)))
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    open(log,'a').write(user, created)
+    open(log,'a').write('%s %s'%(user, created))
     sign=tryGet(Sign, {'signId':signId})
-    open(log,'a').write(sign)
+    open(log,'a').write(str(sign))
     if not sign:
         open(log,'a').write('error')
         return {'error':True,'message':'no such sign %s'%str(signId)}
