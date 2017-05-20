@@ -2,6 +2,16 @@ from django.contrib import admin
 
 from terrainapp.models import *
 
+def construct_querystring_without_field(request, field):
+    q = request.GET.copy()
+    del q[field]
+    return q
+
+def make_untoggle_link(request, field):
+    qs = construct_querystring_without_field(request, field)
+    newqs = qs.urlencode()
+    return '<a href=%s?%s>X</a>' % (request.path, newqs)
+
 class OverriddenModelAdmin(admin.ModelAdmin):
     """normal, except overrides some widgets."""
     formfield_overrides = {
@@ -83,14 +93,14 @@ class OverriddenModelAdmin(admin.ModelAdmin):
                                 except ValueError:
                                     pass
                             if not choice:
-                               from utils import ipdb;ipdb() 
+                               pass
                         else:
                             choice = uf.used_parameters.keys()[0]
                             choice = current_val
                         desc = (uf.title, choice, make_untoggle_link(request, uf.used_parameters.items()[0][0]))
                         filter_descriptions.append(desc)
                     except Exception as e:
-                        from utils import ipdb;ipdb()
+                        pass
             if request.GET and 'q' in request.GET:
                 desc = ('Searching for', "\"%s\"" % request.GET['q'], make_untoggle_link(request, 'q'))
                 filter_descriptions.append(desc)
@@ -115,13 +125,13 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 
     def myjoins(self, obj):
         return obj.joins.count()
-    
+
     def myleaves(self, obj):
         return obj.leaves.count()
 
     def myruns(self, obj):
         return obj.runs.count()
-    
+
     adminify(myjoins, myleaves, myruns)
 
 class SignAdmin(OverriddenModelAdmin):
@@ -129,9 +139,49 @@ class SignAdmin(OverriddenModelAdmin):
 
     def myfinds(self, obj):
         return obj.finds.count()
-    
+
     adminify(myfinds)
+
+class RaceAdmin(OverriddenModelAdmin):
+    list_display='id mystart myend myruncount myruns'.split()
+
+    def mystart(self, obj):
+        return obj.start.clink()
+
+    def myend(self, obj):
+        return obj.end.clink()
+
+    def myruncount(self, obj):
+        return obj.runs.count()
+
+    def myruns(self, obj):
+        return '<a href=../run/?race__id=%d>%d runs</a>'%(obj.id, obj.runs.count())
+
+    adminify(mystart, myend, myruncount, myruns)
+
+class RunAdmin(OverriddenModelAdmin):
+    list_display='id myuser myrace mystart myend mytime'.split()
+    list_filter=['race', 'race__start','race__end',]
+
+    def mystart(self, obj):
+        return obj.race.start.clink()
+
+    def myend(self, obj):
+        return obj.race.end.clink()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def mytime(self, obj):
+        return obj.raceMilliseconds*1.0/1000
+
+    def myrace(self, obj):
+        return obj.race.clink()
+
+    adminify(mystart, myend, myuser, mytime, myrace)
 
 admin.site.register(RobloxUser, RobloxUserAdmin)
 
 admin.site.register(Sign, SignAdmin)
+admin.site.register(Race, RaceAdmin)
+admin.site.register(Run, RunAdmin)
