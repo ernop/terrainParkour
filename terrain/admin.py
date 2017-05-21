@@ -1,10 +1,23 @@
+import math
+
 from django.contrib import admin
 
 from terrainapp.models import *
 from admin_helpers import *
 
+def dist(s1, s2):
+    distance=math.pow(math.pow(s1.x-s2.x, 2)+math.pow(s1.y-s2.y, 2)+math.pow(s1.z-s2.z, 2), 1/2)
+    return distance
+
+for s1 in Sign.objects.all():
+    for s2 in Sign.objects.all():
+        if s1.id>s2.id:
+            if s1.x and s2.x:
+                distance=dist(s1, s2)
+                print('%s %s %0.3f'%(s1, s2, dist))
+
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username myjoins myleaves myruns myfinds mybestruns'.split()
+    list_display='id userId username myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()
 
     def myfinds(self, obj):
         return '<a href="../find?user__userId=%d">%d</a>'%(obj.userId, obj.finds.count())
@@ -15,21 +28,43 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def myleaves(self, obj):
         return obj.leaves.count()
 
+    def mytoptens(self, obj):
+        return 0
+
+    def mywrs(self,obj):
+        wrs=BestRun.objects.filter(place=1)
+        return '<a href="../bestrun/?user__userId__exact=%d&place__exact=1">%d</a>'%(obj.userId, wrs.count())
+
+    def myleaves(self, obj):
+        return obj.leaves.count()
+
     def myruns(self, obj):
         return '<a href="../run?user__userId=%d">%d</a>'%(obj.userId, obj.runs.count())
 
     def mybestruns(self, obj):
         return '<a href="../bestrun?user__userId=%d">%d</a>'%(obj.userId, obj.bestruns.count())
 
-    adminify(myjoins, myleaves, myruns, myfinds, mybestruns)
+    adminify(myjoins, myleaves, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
-    list_display='id signId name myfinds'.split()
+    list_display='id signId name myfinds  mystarts myends mypos'.split()
+    list_filter=['name',]
 
     def myfinds(self, obj):
         return '<a href="../find/?sign__signId__exact=%d">%d finds</a>'%(obj.signId, obj.finds.count())
 
-    adminify(myfinds)
+    def mystarts(self, obj):
+        return '<a href="../race/?start__signId=%d">%d starts</a>'%(obj.id, Race.objects.filter(start__signId=obj.signId).count())
+
+    def myends(self, obj):
+        return '<a href="../race/?end__signId=%d">%d ends</a>'%(obj.id, Race.objects.filter(end__signId=obj.signId).count())
+
+    def mypos(self, obj):
+        if obj.X is not None and obj.Y is not None and obj.Z is not None:
+            return '%0.1f, %0.1f, %0.1f'%(obj.X, obj.Y, obj.Z)
+        return ''
+
+    adminify(myfinds, myends, mystarts, mypos)
 
 class RaceAdmin(OverriddenModelAdmin):
     list_display='id mystart myend myruncount myruns mybestruns'.split()
@@ -117,7 +152,7 @@ class RunAdmin(OverriddenModelAdmin):
         return obj.race.clink()
 
     def lookup_allowed(self, key, value):
-        if key in ('user__userId', ):
+        if key in ('user__userId', 'user__userId__exact',  ):
             return True
         return super(RunAdmin, self).lookup_allowed(key, value)
 

@@ -47,13 +47,23 @@ def userFoundSign(request, userId, signId):
     find=Find.objects.filter(user=user, sign=sign)
     if find.count()==0:
         find, created=Find.objects.get_or_create(user=user, sign=sign)
-    return JsonResponse({'success':'true', 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
+    return JsonResponse({'success':True, 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
 
 def tryGet(cls, params):
     res=cls.objects.filter(**params)
     if res.count()>0:
         return res[0]
     return None
+
+def setSignPosition(request, signId, x,y,z):
+    sign=tryGet(Sign, {'signId':signId})
+    if not sign:
+        return {'error':True,'message':'no such sign %s'%str(signId)}
+    sign.x=x
+    sign.y=y
+    sign.z=y
+    sign.save()
+    return JsonResponse({'success':True})
 
 def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -69,11 +79,11 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     exi=Run.objects.filter(user=user, race=race, raceMilliseconds=raceMilliseconds)
     if exi.count()>0:
         #run already exists, no duplicates allowed!
-        return JsonResponse({'success':'true' })
+        return JsonResponse({'success':True })
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
     maybeCreateBestrun(user, run)
-    return JsonResponse({'success':'true'})
+    return JsonResponse({'success':True})
 
 def maybeCreateBestrun(user, run):
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
@@ -201,17 +211,3 @@ def jsonRun(r):
         'userId':r.user.userId,
         'place':r.place}
     return res
-
-
-
-
-
-
-
-
-
-
-
-
-
-

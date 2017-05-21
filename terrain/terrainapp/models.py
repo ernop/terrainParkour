@@ -60,6 +60,9 @@ class GameLeave(BaseModel):
 class Sign(BaseModel):
     signId=models.IntegerField()
     name=models.CharField(max_length=50)
+    x=models.FloatField(blank=True, null=True)
+    y=models.FloatField(blank=True, null=True)
+    z=models.FloatField(blank=True, null=True)
 
     class Meta:
         app_label='terrainapp'
