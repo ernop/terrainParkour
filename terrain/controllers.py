@@ -187,6 +187,10 @@ def getTotalRunCountByRace(request, startId, endId):
     res=Run.objects.filter(race__start__signId=startId, race__end__signId=endId)
     return JsonResponse({'count':res.count()})
 
+def getTotalBestRunCountByRace(request, startId, endId):
+    res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId)
+    return JsonResponse({'count':res.count()})
+
 def getTotalRunCountByUser(request, userId):
     res=Run.objects.filter(user__userId=userId)
     return JsonResponse({'count':res.count()})
