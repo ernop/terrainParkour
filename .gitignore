@@ -12,3 +12,5 @@ secret.txt
 deploy
 *.pyc
 staticx
+*.log
+logs
