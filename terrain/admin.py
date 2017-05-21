@@ -36,10 +36,11 @@ class RobloxUserAdmin(OverriddenModelAdmin):
         return obj.leaves.count()
 
     def mytoptens(self, obj):
-        return 0
+        topTens=BestRun.objects.filter(user__userId=obj.userId).exclude(place=None)
+        return '<a href="../bestrun/?user__userId__exact=%d&place__exact=1">%d</a>'%(obj.userId, topTens.count())
 
     def mywrs(self,obj):
-        wrs=BestRun.objects.filter(place=1)
+        wrs=BestRun.objects.filter(place=1, user__userId=obj.userId)
         return '<a href="../bestrun/?user__userId__exact=%d&place__exact=1">%d</a>'%(obj.userId, wrs.count())
 
     def myleaves(self, obj):
@@ -75,6 +76,7 @@ class SignAdmin(OverriddenModelAdmin):
 
 class RaceAdmin(OverriddenModelAdmin):
     list_display='id mystart myend myruncount myruns mybestruns'.split()
+    list_filter='start end'.split()
 
     def mystart(self, obj):
         return obj.start.clink()
