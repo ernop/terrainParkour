@@ -44,7 +44,7 @@ def userFoundSign(request, userId, signId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     sign=tryGet(Sign, {'signId':signId})
     if not sign:
-        return {'error':True,'message':'no such sign %s'%str(signId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     find=Find.objects.filter(user=user, sign=sign)
     if find.count()==0:
         find, created=Find.objects.get_or_create(user=user, sign=sign)
@@ -59,7 +59,7 @@ def tryGet(cls, params):
 def setSignPosition(request, signId, x,y,z):
     sign=tryGet(Sign, {'signId':signId})
     if not sign:
-        return {'error':True,'message':'no such sign %s'%str(signId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     sign.x=x
     sign.y=y
     sign.z=y
@@ -70,10 +70,10 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     start=tryGet(Sign, {'signId':startId})
     if not start:
-        return {'error':True,'message':'no such sign %s'%str(startId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(startId)})
     end=tryGet(Sign, {'signId':endId})
     if not end:
-        return {'error':True,'message':'no such sign %s'%str(endId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
     race, created=Race.objects.get_or_create(start=start, end=end)
     race.save()
     raceMilliseconds=math.ceil(int(raceMilliseconds))
@@ -125,10 +125,10 @@ def getRaceInfoByUser(request, userId, startId, endId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     start=tryGet(Sign, {'signId':startId})
     if not start:
-        return {'error':True,'message':'no such sign %s'%str(startId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(startId)})
     end=tryGet(Sign, {'signId':endId})
     if not end:
-        return {'error':True,'message':'no such sign %s'%str(endId)}
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
     race=tryGet(Race, {start:start, end:end})
     runs=Run.objects.filter(start=start, end=end, user=user)
     bests=getBestTimesByRace(request, startId, endId)
