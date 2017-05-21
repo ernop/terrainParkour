@@ -60,8 +60,8 @@ class SignAdmin(OverriddenModelAdmin):
         return '<a href="../race/?end__signId=%d">%d ends</a>'%(obj.id, Race.objects.filter(end__signId=obj.signId).count())
 
     def mypos(self, obj):
-        if obj.X is not None and obj.Y is not None and obj.Z is not None:
-            return '%0.1f, %0.1f, %0.1f'%(obj.X, obj.Y, obj.Z)
+        if obj.x is not None and obj.y is not None and obj.z is not None:
+            return '%0.1f, %0.1f, %0.1f'%(obj.x, obj.y, obj.z)
         return ''
 
     adminify(myfinds, myends, mystarts, mypos)
