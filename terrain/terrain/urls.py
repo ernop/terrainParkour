@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'terrain/userLeft/(-?\d+)/',security(controllers.robloxUserLeft)),
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
-    url(r'terrain/setSignPosition/(\d+)/([\d\.]+)/([\d\.]+)/([\d\.]+)', security(controllers.setSignPosition)),
+    url(r'terrain/setSignPosition/(\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)', security(controllers.setSignPosition)),
 
     #stats
     url(r'terrain/getTotalRunCount/',security(controllers.getTotalRunCount)),
