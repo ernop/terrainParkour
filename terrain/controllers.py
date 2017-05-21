@@ -56,13 +56,14 @@ def tryGet(cls, params):
         return res[0]
     return None
 
-def setSignPosition(request, signId, x,y,z):
+def setSignPosition(request, signId, name, x,y,z):
     sign=tryGet(Sign, {'signId':signId})
     if not sign:
         return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     sign.x=x
     sign.y=y
     sign.z=y
+    sign.name=name
     sign.save()
     return JsonResponse({'success':True})
 
