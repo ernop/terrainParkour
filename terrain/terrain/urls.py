@@ -55,4 +55,22 @@ urlpatterns = [
 ]
 
 
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.http import JsonResponse
+from django.http import HttpResponse
+
+import logging, traceback
+
+def handler404(request):
+    #response.status_code = 404
+    logging.error("404: %s", request.path)
+    return HttpResponse(status=200)
+
+
+def handler500(request):
+    #response.status_code = 500
+    logging.error(traceback.format_exc())
+    return HttpResponse(status=200)
+
 

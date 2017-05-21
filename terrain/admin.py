@@ -9,12 +9,13 @@ def dist(s1, s2):
     distance=math.pow(math.pow(s1.x-s2.x, 2)+math.pow(s1.y-s2.y, 2)+math.pow(s1.z-s2.z, 2), 1/2)
     return distance
 
-for s1 in Sign.objects.all():
-    for s2 in Sign.objects.all():
-        if s1.id>s2.id:
-            if s1.x and s2.x:
-                distance=dist(s1, s2)
-                print('%s %s %0.3f'%(s1, s2, dist))
+if False:
+    for s1 in Sign.objects.all():
+        for s2 in Sign.objects.all():
+            if s1.id>s2.id:
+                if s1.x and s2.x:
+                    distance=dist(s1, s2)
+                    print('%s %s %0.3f'%(s1, s2, distance))
 
 class RobloxUserAdmin(OverriddenModelAdmin):
     list_display='id userId username myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()

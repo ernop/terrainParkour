@@ -1,6 +1,7 @@
 import datetime, math, os
 
 from django.http import JsonResponse
+from django.http import HttpResponse
 from terrainapp.models import *
 import admin
 
