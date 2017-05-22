@@ -1,9 +1,11 @@
 import math
 
 from django.contrib import admin
+from django.conf import settings
 
 from terrainapp.models import *
 from admin_helpers import *
+from pytz import timezone as pytz_timezone
 
 def dist(s1, s2):
     distance=math.pow(math.pow(s1.x-s2.x, 2)+math.pow(s1.y-s2.y, 2)+math.pow(s1.z-s2.z, 2), 1/2)
@@ -25,6 +27,7 @@ if False:
 
 class RobloxUserAdmin(OverriddenModelAdmin):
     list_display='id userId username myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()
+    search_fields=['username',]
 
     def myfinds(self, obj):
         return '<a href="../find?user__userId=%d">%d</a>'%(obj.userId, obj.finds.count())
@@ -76,7 +79,7 @@ class SignAdmin(OverriddenModelAdmin):
 
 class RaceAdmin(OverriddenModelAdmin):
     list_display='id mystart myend myruncount myruns mybestruns'.split()
-    list_filter='start end'.split()
+    list_filter='start__signId end__signId'.split()
 
     def mystart(self, obj):
         return obj.start.clink()
@@ -96,7 +99,7 @@ class RaceAdmin(OverriddenModelAdmin):
     adminify(mystart, myend, myruncount, myruns, mybestruns)
 
 class FindAdmin(OverriddenModelAdmin):
-    list_display='id mysign myuser created'.split()
+    list_display='id mysign myuser created_tz'.split()
 
     def mysign(self, obj):
         return obj.sign.clink()
@@ -108,6 +111,12 @@ class FindAdmin(OverriddenModelAdmin):
         if key in ('user__userId','sign__signId__exact', ):
             return True
         return super(FindAdmin, self).lookup_allowed(key, value)
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    created_tz.short_description = 'Created'
 
     adminify(myuser, mysign)
 

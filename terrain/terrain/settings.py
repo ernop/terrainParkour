@@ -107,3 +107,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "staticx/static")
+
+ADMIN_TIMEZONE='America/Los_Angeles'
+
+FULL_DATE_FORMAT='%Y-%m-%d %H:%M:%S %A'
+DATE_FORMAT='%Y, %b %d, %A %H:%M:%S '

@@ -1,3 +1,6 @@
+import django.utils
+django.utils.timezone.activate('America/Juneau')
+
 from django.db import models
 APP='terrainapp'
 
