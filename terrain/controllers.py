@@ -76,7 +76,6 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
     if not end:
         return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
     race, created=Race.objects.get_or_create(start=start, end=end)
-    race.save()
     raceMilliseconds=math.ceil(int(raceMilliseconds))
     exi=Run.objects.filter(user=user, race=race, raceMilliseconds=raceMilliseconds)
     if exi.count()>0:
