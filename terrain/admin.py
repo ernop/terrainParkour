@@ -26,17 +26,21 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId username created_tz myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
 
     def myfinds(self, obj):
         return '<a href="../find?user__userId=%d">%d</a>'%(obj.userId, obj.finds.count())
 
     def myjoins(self, obj):
-        return obj.joins.count()
+        return '<a href="../gamejoin/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.joins.count())
 
     def myleaves(self, obj):
-        return obj.leaves.count()
+        return '<a href="../gameleave/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.leaves.count())
 
     def mytoptens(self, obj):
         topTens=BestRun.objects.filter(user__userId=obj.userId).exclude(place=None)
@@ -45,9 +49,6 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mywrs(self,obj):
         wrs=BestRun.objects.filter(place=1, user__userId=obj.userId)
         return '<a href="../bestrun/?user__userId__exact=%d&place__exact=1">%d</a>'%(obj.userId, wrs.count())
-
-    def myleaves(self, obj):
-        return obj.leaves.count()
 
     def myruns(self, obj):
         return '<a href="../run?user__userId=%d">%d</a>'%(obj.userId, obj.runs.count())
@@ -78,8 +79,12 @@ class SignAdmin(OverriddenModelAdmin):
     adminify(myfinds, myends, mystarts, mypos)
 
 class RaceAdmin(OverriddenModelAdmin):
-    list_display='id mystart myend myruncount myruns mybestruns'.split()
+    list_display='id mystart myend myruncount myruns mybestruns created_tz'.split()
     list_filter='start__signId end__signId'.split()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
 
     def mystart(self, obj):
         return obj.start.clink()
@@ -121,25 +126,47 @@ class FindAdmin(OverriddenModelAdmin):
     adminify(myuser, mysign)
 
 class GameLeaveAdmin(OverriddenModelAdmin):
-    list_display='id myuser created'.split()
+    list_display='id myuser created_tz'.split()
 
     def myuser(self,obj):
         return obj.user.clink()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact',):
+            return True
+        return super(FindAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser)
 
 class GameJoinAdmin(OverriddenModelAdmin):
-    list_display='id myuser created'.split()
+    list_display='id myuser created_tz'.split()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
 
     def myuser(self,obj):
         return obj.user.clink()
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact', ):
+            return True
+        return super(FindAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser)
 
 
 class RunAdmin(OverriddenModelAdmin):
-    list_display='id myuser myrace mystart myend mytime created'.split()
+    list_display='id myuser myrace mystart myend mytime created_tz'.split()
     list_filter=[make_null_filter('place', 'top10'), 'race', 'race__start','race__end', ]
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
 
     def mystart(self, obj):
         return obj.race.start.clink()
@@ -177,7 +204,11 @@ class RunAdmin(OverriddenModelAdmin):
     adminify(mystart, myend, myuser, mytime, myrace)
 
 class BestRunAdmin(RunAdmin):
-    list_display='id myuser myrace mystart myend mytime place created'.split()
+    list_display='id myuser myrace mystart myend mytime place created_tz'.split()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
 
     def mytime(self, obj):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
