@@ -40,6 +40,21 @@ def robloxUserLeft(request, userId):
     leave.save()
     return JsonResponse({'success':True})
 
+
+def robloxUserDied(request, userId, x, y, z):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    res={'success':True}
+    join=UserDied(user=user, x=x, y=y, z=z)
+    join.save()
+    return JsonResponse(res)
+
+def robloxUserReset(request, userId, x, y, z):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    res={'success':True}
+    join=UserReset(user=user, x=x, y=y, z=z)
+    join.save()
+    return JsonResponse(res)
+
 def userFoundSign(request, userId, signId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     sign=tryGet(Sign, {'signId':signId})

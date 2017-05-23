@@ -26,7 +26,7 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username created_tz myjoins myleaves myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId username created_tz myjoins myleaves mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
 
     def created_tz(self, obj):
@@ -42,6 +42,12 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def myleaves(self, obj):
         return '<a href="../gameleave/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.leaves.count())
 
+    def mydeaths(self, obj):
+        return '<a href="../userdied/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.deaths.count())
+
+    def myresets(self, obj):
+        return '<a href="../userreset/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.resets.count())
+
     def mytoptens(self, obj):
         topTens=BestRun.objects.filter(user__userId=obj.userId).exclude(place=None)
         return '<a href="../bestrun/?user__userId__exact=%d&place__exact=1">%d</a>'%(obj.userId, topTens.count())
@@ -56,7 +62,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mybestruns(self, obj):
         return '<a href="../bestrun?user__userId=%d">%d</a>'%(obj.userId, obj.bestruns.count())
 
-    adminify(myjoins, myleaves, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    adminify(myjoins, myleaves, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
@@ -138,7 +144,41 @@ class GameLeaveAdmin(OverriddenModelAdmin):
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
             return True
-        return super(FindAdmin, self).lookup_allowed(key, value)
+        return super(GameLeaveAdmin, self).lookup_allowed(key, value)
+
+    adminify(myuser)
+
+class DeathAdmin(OverriddenModelAdmin):
+    list_display='id myuser created_tz'.split()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact',):
+            return True
+        return super(DeathAdmin, self).lookup_allowed(key, value)
+
+    adminify(myuser)
+
+class ResetAdmin(OverriddenModelAdmin):
+    list_display='id myuser created_tz'.split()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact',):
+            return True
+        return super(ResetAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser)
 
@@ -155,10 +195,9 @@ class GameJoinAdmin(OverriddenModelAdmin):
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact', ):
             return True
-        return super(FindAdmin, self).lookup_allowed(key, value)
+        return super(GameJoinAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser)
-
 
 class RunAdmin(OverriddenModelAdmin):
     list_display='id myuser myrace mystart myend mytime created_tz'.split()
@@ -228,3 +267,5 @@ admin.site.register(BestRun, BestRunAdmin)
 
 admin.site.register(GameLeave, GameLeaveAdmin)
 admin.site.register(GameJoin, GameJoinAdmin)
+admin.site.register(UserDied, DeathAdmin)
+admin.site.register(UserReset, ResetAdmin)
