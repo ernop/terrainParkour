@@ -26,7 +26,7 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username created_tz myjoins myleaves mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId username created_tz myjoins myleaves mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
 
     def created_tz(self, obj):
@@ -62,7 +62,10 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mybestruns(self, obj):
         return '<a href="../bestrun?user__userId=%d">%d</a>'%(obj.userId, obj.bestruns.count())
 
-    adminify(myjoins, myleaves, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    def mysources(self, obj):
+        return '<a href="../usersource?user__userId=%d">%d</a>'%(obj.userId, obj.usersources.count())
+
+    adminify(myjoins, myleaves, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
@@ -253,9 +256,47 @@ class BestRunAdmin(RunAdmin):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
         return '%0.3f'%(obj.raceMilliseconds*1.0/1000)
 
+class RequestSourceAdmin(OverriddenModelAdmin):
+    list_display='id ip success_count failure_count myfailures myusersources created_tz'.split()
 
+    def myfailures(self, obj):
+        return '<a href="../failedsecurityattempt/?source__id=%d">%d</a>'%(obj.id, obj.failures.count())
 
+    def myusersources(self,obj):
+        return '<a href="../usersource/?source__id=%d">%d</a>'%(obj.id, obj.usersources.count())
 
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    adminify(myfailures, myusersources)
+
+class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
+    list_display='id params mysource created_tz'.split()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def mysource(self,obj):
+        return obj.source.clink()
+
+    adminify(mysource)
+
+class UserSourceAdmin(OverriddenModelAdmin):
+    list_display='id myuser mysource count'.split()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def mysource(self,obj):
+        return obj.source.clink()
+
+    adminify(myuser, mysource)
 
 admin.site.register(RobloxUser, RobloxUserAdmin)
 
@@ -269,3 +310,7 @@ admin.site.register(GameLeave, GameLeaveAdmin)
 admin.site.register(GameJoin, GameJoinAdmin)
 admin.site.register(UserDied, DeathAdmin)
 admin.site.register(UserReset, ResetAdmin)
+
+admin.site.register(RequestSource, RequestSourceAdmin)
+admin.site.register(FailedSecurityAttempt, FailedSecurityAttemptAdmin)
+admin.site.register(UserSource, UserSourceAdmin)

@@ -29,6 +29,41 @@ class BaseModel(models.Model):
         app_label=APP
         abstract=True
 
+class RequestSource(BaseModel):
+    ip=models.CharField(max_length=100)
+    success_count=models.IntegerField(default=0)
+    failure_count=models.IntegerField(default=0)
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='requestsource'
+
+    def __str__(self):
+        return 'Source:%s success:%d failures:%d'%(self.ip, self.success_count, self.failure_count)
+
+class UserSource(BaseModel): #this is the summary of every time a user joined from this IP.
+    user=models.ForeignKey('RobloxUser', related_name='usersources')
+    source=models.ForeignKey('RequestSource', related_name='usersources')
+    count=models.IntegerField(default=0)
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='usersource'
+
+    def __str__(self):
+        return '%s joined from ip %s %d times.'%(self.user, self.source.ip, self.count)
+
+class FailedSecurityAttempt(BaseModel):
+    source=models.ForeignKey('RequestSource', related_name='failures')
+    params=models.CharField(max_length=250, blank=True, null=True)
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='failedsecurityattempt'
+
+    def __str__(self):
+        return '%s failed at %s'%(self.source, self.created)
+
 class RobloxUser(BaseModel):
     userId=models.IntegerField(unique=True) #blank=True, null=True
     username=models.CharField(max_length=30)

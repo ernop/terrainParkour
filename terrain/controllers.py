@@ -13,16 +13,33 @@ secret=getSecretKey()
 noKey={'error':True,'message':'missing secret key'}
 
 #there is a required secret key
-def security(func):
+def security(func, should_log_user_source=False):
+
     def inner(request, *kwgs):
         provided_secret=request.GET.get('secret')
+        source, created=RequestSource.objects.get_or_create(ip=request.META['REMOTE_ADDR'])
         if provided_secret!=secret:
+            failure=FailedSecurityAttempt(source=source, params=request.META['QUERY_STRING'])
+            failure.save()
+            source.failure_count=source.failure_count+1
+            source.save()
             return JsonResponse(noKey)
+        if should_log_user_source:
+            logUser(kwgs[0], source)
+        source.success_count=source.success_count+1
+        source.save()
         return func(request, *kwgs)
     return inner
 
 def test(request):
     return JsonResponse({"result":True, "message":'test.'})
+
+def logUser(userId, source):
+    '''log this user coming from this source.'''
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    userSource, created=UserSource.objects.get_or_create(user=user, source=source)
+    userSource.count=userSource.count+1
+    userSource.save()
 
 def robloxUserJoined(request, userId, username):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -39,7 +56,6 @@ def robloxUserLeft(request, userId):
     leave=GameLeave(user=user)
     leave.save()
     return JsonResponse({'success':True})
-
 
 def robloxUserDied(request, userId, x, y, z):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
