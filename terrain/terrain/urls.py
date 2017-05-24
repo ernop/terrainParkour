@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'terrain/getUserSignFinds/(-?\d+)/', security(controllers.getUserSignFinds)),
 
     #actions
-    url(r'terrain/userJoined/(-?\d+)/([/s]+)/',security(controllers.robloxUserJoined)),
+    url(r'terrain/userJoined/(-?\d+)/([\w ]+)',security(controllers.robloxUserJoined)),
     url(r'terrain/userLeft/(-?\d+)/',security(controllers.robloxUserLeft)),
     url(r'terrain/userDied/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserDied)),
     url(r'terrain/userReset/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserReset)),
