@@ -299,7 +299,7 @@ class UserSourceAdmin(OverriddenModelAdmin):
     def lookup_allowed(self, key, value):
         if key in ('user__userId', ):
             return True
-        return super(FindAdmin, self).lookup_allowed(key, value)
+        return super(UserSourceAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser, mysource)
 
