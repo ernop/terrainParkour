@@ -296,6 +296,11 @@ class UserSourceAdmin(OverriddenModelAdmin):
     def mysource(self,obj):
         return obj.source.clink()
 
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId', ):
+            return True
+        return super(FindAdmin, self).lookup_allowed(key, value)
+
     adminify(myuser, mysource)
 
 admin.site.register(RobloxUser, RobloxUserAdmin)
