@@ -74,7 +74,9 @@ def tryGet(cls, params):
 def setSignPosition(request, signId, name, x,y,z):
     sign=tryGet(Sign, {'signId':signId})
     if not sign:
-        return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
+        sign=Sign(signId=signId, name=name, x=x, y=y, z=z)
+        sign.save()
+        #return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     sign.x=x
     sign.y=y
     sign.z=y
