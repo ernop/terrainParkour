@@ -17,7 +17,7 @@ def security(func, should_log_user_source=False, first=False):
     def inner(request, *kwgs):
         provided_secret=request.GET.get('secret')
         exi=RequestSource.objects.filter(ip=request.META['REMOTE_ADDR'])
-        if exi.count>0:
+        if exi.count()>0:
             source=exi[0]
         else:
             source=RequestSource(ip=request.META['REMOTE_ADDR'])
