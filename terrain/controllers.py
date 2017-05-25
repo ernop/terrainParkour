@@ -68,6 +68,13 @@ def robloxUserDied(request, userId, x, y, z):
     join.save()
     return JsonResponse(res)
 
+def robloxUserQuit(request, userId, x, y, z):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    res={'success':True}
+    join=UserQuit(user=user, x=x, y=y, z=z)
+    join.save()
+    return JsonResponse(res)
+
 def robloxUserReset(request, userId, x, y, z):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     res={'success':True}

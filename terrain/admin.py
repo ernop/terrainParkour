@@ -26,7 +26,7 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username created_tz myjoins myleaves mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId username created_tz myjoins myleaves myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
 
     def created_tz(self, obj):
@@ -41,6 +41,9 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 
     def myleaves(self, obj):
         return '<a href="../gameleave/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.leaves.count())
+
+    def myquits(self, obj):
+        return '<a href="../userquit/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.quits.count())
 
     def mydeaths(self, obj):
         return '<a href="../userdied/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.deaths.count())
@@ -65,7 +68,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mysources(self, obj):
         return '<a href="../usersource?user__userId=%d">%d</a>'%(obj.userId, obj.usersources.count())
 
-    adminify(myjoins, myleaves, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    adminify(myjoins, myleaves, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
@@ -165,6 +168,23 @@ class DeathAdmin(OverriddenModelAdmin):
         if key in ('user__userId__exact',):
             return True
         return super(DeathAdmin, self).lookup_allowed(key, value)
+
+    adminify(myuser)
+
+class QuitAdmin(OverriddenModelAdmin):
+    list_display='id myuser created_tz x y z'.split()
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact',):
+            return True
+        return super(QuitAdmin, self).lookup_allowed(key, value)
 
     adminify(myuser)
 
@@ -316,6 +336,7 @@ admin.site.register(BestRun, BestRunAdmin)
 admin.site.register(GameLeave, GameLeaveAdmin)
 admin.site.register(GameJoin, GameJoinAdmin)
 admin.site.register(UserDied, DeathAdmin)
+admin.site.register(UserQuit, QuitAdmin)
 admin.site.register(UserReset, ResetAdmin)
 
 admin.site.register(RequestSource, RequestSourceAdmin)
