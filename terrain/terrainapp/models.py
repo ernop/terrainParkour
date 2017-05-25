@@ -44,6 +44,7 @@ class RequestSource(BaseModel):
 class UserSource(BaseModel): #this is the summary of every time a user joined from this IP.
     user=models.ForeignKey('RobloxUser', related_name='usersources')
     source=models.ForeignKey('RequestSource', related_name='usersources')
+    first=models.BooleanField(default=0) #whether the user started the server.
     count=models.IntegerField(default=0)
 
     class Meta:

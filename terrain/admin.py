@@ -152,7 +152,7 @@ class GameLeaveAdmin(OverriddenModelAdmin):
     adminify(myuser)
 
 class DeathAdmin(OverriddenModelAdmin):
-    list_display='id myuser created_tz'.split()
+    list_display='id myuser created_tz x y z'.split()
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -284,7 +284,9 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
     adminify(mysource)
 
 class UserSourceAdmin(OverriddenModelAdmin):
-    list_display='id myuser mysource count'.split()
+    list_display='id myuser first mysource count'.split()
+    list_filter=['first',]
+    search_fields=['user__username',]
 
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))

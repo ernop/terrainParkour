@@ -41,8 +41,7 @@ def test(request):
 def logUser(userId, source, first):
     '''log this user coming from this source.'''
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    userSource, created=UserSource.objects.get_or_create(user=user, source=source)
-    userSource.first=first
+    userSource, created=UserSource.objects.get_or_create(user=user, source=source, first=first)
     userSource.count=userSource.count+1
     userSource.save()
 
