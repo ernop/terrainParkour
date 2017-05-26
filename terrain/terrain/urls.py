@@ -29,8 +29,8 @@ urlpatterns = [
     url(r'terrain/getTotalRaceCount/',security(controllers.getTotalRaceCount)),
     url(r'terrain/getTotalFindCountBySign/(\d+)/',security(controllers.getTotalFindCountBySign)),
     url(r'terrain/getTotalFindCountByUser/(-?\d+)/',security(controllers.getTotalFindCountByUser)),
-    url(r'terrain/getTotalWorldRecordCountByUser/(\d+)/',security(controllers.getTotalWorldRecordCountByUser)),
-    url(r'terrain/getTotalTopTenCountByUser/(\d+)/',security(controllers.getTotalTopTenCountByUser)),
+    url(r'terrain/getTotalWorldRecordCountByUser/-?(\d+)/',security(controllers.getTotalWorldRecordCountByUser)),
+    url(r'terrain/getTotalTopTenCountByUser/(-?\d+)/',security(controllers.getTotalTopTenCountByUser)),
 
     url(r'terrain/getTotalRunCountByDay/',security(controllers.getTotalRunCountByDay)),
     url(r'terrain/getTotalRaceCountByDay/',security(controllers.getTotalRaceCountByDay)),
