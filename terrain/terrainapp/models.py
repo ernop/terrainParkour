@@ -39,7 +39,7 @@ class RequestSource(BaseModel):
         db_table='requestsource'
 
     def __str__(self):
-        return 'Source:%s success:%d failures:%d'%(self.ip, self.success_count, self.failure_count)
+        return 'Source:%s successes: %d failures: %d'%(self.ip, self.success_count, self.failure_count)
 
 class UserSource(BaseModel): #this is the summary of every time a user joined from this IP.
     user=models.ForeignKey('RobloxUser', related_name='usersources')

@@ -199,26 +199,26 @@ def getTotalRaceCount(request):
     return JsonResponse({'count':Race.objects.count()})
 
 def getTotalRaceCountByDay(request):
-    today=datetime.datetime.today()
-    tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
+    today=datetime.datetime.today()-datetime.timedelta(days=1)
+    tomorrow=datetime.datetime.today()
     races=Race.objects.filter(created__gte=today, created__lt=tomorrow)
     return JsonResponse({'count':races.count()})
 
 def getTotalRunCountByDay(request):
-    today=datetime.datetime.today()
-    tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
+    today=datetime.datetime.today()-datetime.timedelta(days=1)
+    tomorrow=datetime.datetime.today()
     res=Run.objects.filter(created__gte=today, created__lt=tomorrow)
     return JsonResponse({'count':res.count()})
 
 def getTotalRunCountByUserAndDay(request, userId):
-    today=datetime.datetime.today()
-    tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
+    today=datetime.datetime.today()-datetime.timedelta(days=1)
+    tomorrow=datetime.datetime.today()
     res=Run.objects.filter(created__gte=today, created__lt=tomorrow, user__userId=userId)
     return JsonResponse({'count':res.count()})
 
 def getTotalFindCountByDay(request):
-    today=datetime.datetime.today()
-    tomorrow=datetime.datetime.today()+datetime.timedelta(days=1)
+    today=datetime.datetime.today()-datetime.timedelta(days=1)
+    tomorrow=datetime.datetime.today()
     res=Find.objects.filter(created__gte=today, created__lt=tomorrow)
     return JsonResponse({'count':res.count()})
 

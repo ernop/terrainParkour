@@ -229,6 +229,7 @@ class RunAdmin(OverriddenModelAdmin):
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+    created_tz.admin_order_field='created'
 
     def mystart(self, obj):
         return obj.race.start.clink()
@@ -271,10 +272,13 @@ class BestRunAdmin(RunAdmin):
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+    created_tz.admin_order_field='created'
 
     def mytime(self, obj):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
         return '%0.3f'%(obj.raceMilliseconds*1.0/1000)
+
+    adminify(mytime)
 
 class RequestSourceAdmin(OverriddenModelAdmin):
     list_display='id ip success_count failure_count myfailures myusersources created_tz'.split()
@@ -288,6 +292,7 @@ class RequestSourceAdmin(OverriddenModelAdmin):
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+    created_tz.admin_order_field='created'
 
     adminify(myfailures, myusersources)
 
@@ -305,7 +310,6 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
 
 class UserSourceAdmin(OverriddenModelAdmin):
     list_display='id myuser first mysource count'.split()
-    list_filter=['first',]
     search_fields=['user__username',]
 
     def created_tz(self, obj):
