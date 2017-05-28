@@ -21,7 +21,11 @@ urlpatterns = [
     url(r'terrain/userQuit/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserQuit)),
     url(r'terrain/userReset/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserReset)),
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
-    url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRace)),
+
+    #deprecate this
+    url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
+
+    url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
     url(r'terrain/setSignPosition/(\d+)/([\w ]+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)', security(controllers.setSignPosition)),
 
     #stats

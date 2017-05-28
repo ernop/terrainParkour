@@ -178,6 +178,7 @@ class Race(BaseModel):
 class Run(BaseModel):
     race=models.ForeignKey('Race', related_name='runs')
     user=models.ForeignKey('RobloxUser', related_name='runs', db_index=True)
+    place=models.IntegerField(default=0)
 
     raceMilliseconds=models.IntegerField() #run time in milliseconds
 

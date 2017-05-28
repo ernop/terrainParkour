@@ -111,7 +111,7 @@ def setSignPosition(request, signId, name, x,y,z):
     sign.save()
     return JsonResponse({'success':True})
 
-def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
+def userFinishedRun(request ,userId, startId, endId, raceMilliseconds):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     start=tryGet(Sign, {'signId':startId})
     if not start:
@@ -127,10 +127,11 @@ def userFinishedRace(request ,userId, startId, endId, raceMilliseconds):
         return JsonResponse({'success':True })
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
-    maybeCreateBestrun(user, run)
-    return JsonResponse({'success':True})
+    resp={'success':True}
+    resp=maybeCreateBestrun(user, run, resp)
+    return JsonResponse(resp)
 
-def maybeCreateBestrun(user, run):
+def maybeCreateBestrun(user, run, resp):
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
     placesNeedAdjustment=False
     if exi.count()>0:
@@ -145,6 +146,13 @@ def maybeCreateBestrun(user, run):
         placesNeedAdjustment=True
     if placesNeedAdjustment:
         adjustPlaces(user, run, bestrun)
+    bestrun=BestRun.objects.get(id=bestrun.id)
+    #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
+    if bestrun.place<=10:
+        resp['topTenCount']=user.bestruns.exclude(place=None).count()
+    if bestrun.place==1:
+        resp['wrCount']=user.bestruns.filter(place=1).count()
+    return resp
 
 def adjustPlaces(user, run, bestrun):
     #we know bestrun is in the top 10.

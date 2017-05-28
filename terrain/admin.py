@@ -223,7 +223,7 @@ class GameJoinAdmin(OverriddenModelAdmin):
     adminify(myuser)
 
 class RunAdmin(OverriddenModelAdmin):
-    list_display='id myuser myrace mystart myend mytime created_tz'.split()
+    list_display='id myuser myrace place mystart myend mytime created_tz'.split()
     list_filter=[make_null_filter('place', 'top10'), 'race', 'race__start','race__end', ]
 
     def created_tz(self, obj):
@@ -302,6 +302,7 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+    created_tz.admin_order_field='created'
 
     def mysource(self,obj):
         return obj.source.clink()
@@ -309,12 +310,13 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
     adminify(mysource)
 
 class UserSourceAdmin(OverriddenModelAdmin):
-    list_display='id myuser first mysource count'.split()
+    list_display='id myuser first mysource count created_tz'.split()
     search_fields=['user__username',]
 
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+    created_tz.admin_order_field='created'
 
     def myuser(self,obj):
         return obj.user.clink()
