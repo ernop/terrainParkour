@@ -137,6 +137,7 @@ def userFinishedRun(request, userId, startId, endId, raceMilliseconds):
 def maybeCreateBestrun(user, run, resp):
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
     placesNeedAdjustment=False
+    thisPlace=None
     if exi.count()>0:
         bestrun=exi[0]
         if bestrun.raceMilliseconds>run.raceMilliseconds:
@@ -148,10 +149,10 @@ def maybeCreateBestrun(user, run, resp):
         bestrun.save()
         placesNeedAdjustment=True
     if placesNeedAdjustment:
-        adjustPlaces(user, run, bestrun)
+        thisPlace=adjustPlaces(user, run, bestrun)
     bestrun=BestRun.objects.get(id=bestrun.id)
     #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
-    resp['place']=bestrun.place
+    resp['place']=thisPlace
     if bestrun.place<=10:
         resp['topTenCount']=user.bestruns.exclude(place=None).count()
     if bestrun.place==1:
@@ -162,12 +163,16 @@ def adjustPlaces(user, run, bestrun):
     #we know bestrun is in the top 10.
     res=getTopTen(run.race.start.signId, run.race.end.signId, extra=True)
     ii=1
+    thisPlace=None
     for bestrun in res:
         useii=ii<=10 and ii or None
         if bestrun.place!=useii:
             bestrun.place=useii
             bestrun.save()
+            if thisPlace==None and bestrun.raceMilliseconds==run.raceMilliseconds:
+                thisPlace=useii
         ii=ii+1
+    return thisPlace
 
 def getTotalWorldRecordCountByUser(request, userId):
     bests=BestRun.objects.filter(user__userId=userId).filter(place=1)
