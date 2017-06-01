@@ -3,7 +3,7 @@ django.utils.timezone.activate('America/Juneau')
 
 from django.conf.urls import url
 from django.contrib import admin
-from controllers import security
+from controllers import security, postSecurity
 import controllers
 
 urlpatterns = [
@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'terrain/userQuit/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserQuit)),
     url(r'terrain/userReset/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserReset)),
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
-    url(r'terrain/userSentMessage/',security(controllers.userSentMessage)),
+    url(r'terrain/userSentMessage/',postSecurity(controllers.userSentMessage)),
 
     #deprecate this
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),

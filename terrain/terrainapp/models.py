@@ -231,4 +231,4 @@ class ChatMessage(BaseModel):
         fil=''
         if self.rawtext!=self.filteredtext:
             fil=' => '+self.filteredtext
-        return 'ChatMessage %s%s'%(self.rawtext, fil)
+        return '%s sent %s%s'%(self.user.username, self.rawtext, fil)

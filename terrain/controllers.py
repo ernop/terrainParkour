@@ -2,6 +2,9 @@ import datetime, math, os
 
 from django.http import JsonResponse
 from django.http import HttpResponse
+
+from django.views.decorators.csrf import csrf_exempt
+
 from terrainapp.models import *
 import admin
 
@@ -12,9 +15,38 @@ def getSecretKey():
 secret=getSecretKey()
 noKey={'error':True,'message':'missing secret key'}
 
-#there is a required secret key
-def security(func, should_log_user_source=False, first=False):
+def postSecurity(func, should_log_user_source=False, first=False):
+    @csrf_exempt
     def inner(request, *kwgs):
+        #also check request.META
+        assert request.method=='POST'
+        provided_secret=request.POST.get('secret')
+        exi=RequestSource.objects.filter(ip=request.META['REMOTE_ADDR'])
+        if exi.count()>0:
+            source=exi[0]
+        else:
+            source=RequestSource(ip=request.META['REMOTE_ADDR'])
+            source.save()
+        if provided_secret!=secret:
+            failure=FailedSecurityAttempt(source=source, params=str(request.POST))
+            failure.save()
+            source.failure_count=source.failure_count+1
+            source.save()
+            return JsonResponse(noKey)
+        if should_log_user_source:
+            logUser(kwgs[0], source, first)
+        source.success_count=source.success_count+1
+        source.save()
+        #add source in to args for posts.
+        return func(request, source)
+    return inner
+
+#there is a required secret key
+
+def security(func, should_log_user_source=False, first=False):
+
+    def inner(request, *kwgs):
+        assert request.method=='GET'
         provided_secret=request.GET.get('secret')
         exi=RequestSource.objects.filter(ip=request.META['REMOTE_ADDR'])
         if exi.count()>0:
@@ -278,5 +310,12 @@ def jsonRun(r):
         'place':r.place}
     return res
 
-def userSentMessage(request):
-    pass
+def userSentMessage(request, source):
+    userId=request.POST['userId']
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    rawtext=request.POST['rawtext']
+    filteredtext=request.POST['filteredtext']
+    mm=ChatMessage(user=user, requestsource=source, rawtext=rawtext, filteredtext=filteredtext)
+    mm.save()
+    resp={'success':True}
+    return JsonResponse(resp)

@@ -26,12 +26,15 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username created_tz myjoins myleaves myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
 
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
+
+    def mychats(self, obj):
+        return '<a href="../chatmessage?user__userId=%d">%d</a>'%(obj.userId, obj.chatmessages.count())
 
     def myfinds(self, obj):
         return '<a href="../find?user__userId=%d">%d</a>'%(obj.userId, obj.finds.count())
@@ -68,7 +71,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mysources(self, obj):
         return '<a href="../usersource?user__userId=%d">%d</a>'%(obj.userId, obj.usersources.count())
 
-    adminify(myjoins, myleaves, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    adminify(myjoins, myleaves, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
@@ -289,7 +292,7 @@ class BestRunAdmin(RunAdmin):
     adminify(mytime)
 
 class RequestSourceAdmin(OverriddenModelAdmin):
-    list_display='id ip success_count failure_count myfailures myusersources created_tz'.split()
+    list_display='id ip success_count failure_count myfailures mychats myusersources created_tz'.split()
 
     def myfailures(self, obj):
         return '<a href="../failedsecurityattempt/?source__id=%d">%d</a>'%(obj.id, obj.failures.count())
@@ -297,12 +300,15 @@ class RequestSourceAdmin(OverriddenModelAdmin):
     def myusersources(self,obj):
         return '<a href="../usersource/?source__id=%d">%d</a>'%(obj.id, obj.usersources.count())
 
+    def mychats(self,obj):
+        return '<a href="../chatmessage/?requestsource__id=%d">%d</a>'%(obj.id, obj.chatmessages.count())
+
     def created_tz(self, obj):
         dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
         return dt.strftime(settings.DATE_FORMAT)
     created_tz.admin_order_field='created'
 
-    adminify(myfailures, myusersources)
+    adminify(myfailures, mychats, myusersources)
 
 class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
     list_display='id params mysource created_tz'.split()
@@ -340,7 +346,7 @@ class UserSourceAdmin(OverriddenModelAdmin):
     adminify(myuser, mysource)
 
 class ChatMessageAdmin(OverriddenModelAdmin):
-    list_display='id myuser mytext mysource'.split()
+    list_display='id myuser mytext created_tz mysource'.split()
     list_filter=['requestsource__ip',]
 
     def myuser(self,obj):
@@ -348,12 +354,23 @@ class ChatMessageAdmin(OverriddenModelAdmin):
 
     def mytext(self,obj):
         fil=''
-        if self.rawtext!=self.filteredtext:
-            fil='<br>=&gt; '+self.filteredtext
-        return '%s%s'%(self.rawtext, fil)
+        if obj.rawtext!=obj.filteredtext:
+            fil='<br>=&gt; '+obj.filteredtext
+        return '%s%s'%(obj.rawtext, fil)
 
     def mysource(self, obj):
         return obj.requestsource.clink()
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId', ):
+            return True
+        return super(ChatMessageAdmin, self).lookup_allowed(key, value)
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    created_tz.admin_order_field='created'
 
     adminify(myuser, mytext, mysource)
 
