@@ -143,6 +143,8 @@ class Sign(BaseModel):
     y=models.FloatField(blank=True, null=True)
     z=models.FloatField(blank=True, null=True)
 
+    calcFinds=models.IntegerField(default=0) #calculated values for total finds.
+
     class Meta:
         app_label='terrainapp'
         db_table='sign'
@@ -203,3 +205,30 @@ class BestRun(BaseModel): #an individual user's best run of a certain race.  Thi
         placeText=self.place and '[place: %d]'%self.place
         return '%s\'s bestrun of the race from %s to %s took: %f%s'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000, placeText)
 
+class Message(BaseModel):
+    user=models.ForeignKey('RobloxUser', related_name='messages')
+    text=models.CharField(max_length=200)
+    read=models.BooleanField(default=False)
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='message'
+
+    def __str__(self):
+        return 'Message %s=>%s'%(self.user, self.text)
+
+class ChatMessage(BaseModel):
+    user=models.ForeignKey('RobloxUser', related_name='chatmessages')
+    rawtext=models.CharField(max_length=500)
+    filteredtext=models.CharField(max_length=500)
+    requestsource=models.ForeignKey('RequestSource', related_name='chatmessages')
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='chatmessage'
+
+    def __str__(self):
+        fil=''
+        if self.rawtext!=self.filteredtext:
+            fil=' => '+self.filteredtext
+        return 'ChatMessage %s%s'%(self.rawtext, fil)

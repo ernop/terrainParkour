@@ -73,9 +73,12 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
     list_filter=['name',]
+    actions=['recalculate_find_totals',]
 
     def myfinds(self, obj):
         return '<a href="../find/?sign__signId__exact=%d">%d finds</a>'%(obj.signId, obj.finds.count())
+
+    myfinds.admin_order_field='calcFinds'
 
     def mystarts(self, obj):
         return '<a href="../race/?start__signId=%d">%d starts</a>'%(obj.id, Race.objects.filter(start__signId=obj.signId).count())
@@ -87,6 +90,11 @@ class SignAdmin(OverriddenModelAdmin):
         if obj.x is not None and obj.y is not None and obj.z is not None:
             return '%0.1f, %0.1f, %0.1f'%(obj.x, obj.y, obj.z)
         return ''
+
+    def recalculate_find_totals(self, request, queryset):
+        for sign in queryset:
+            sign.calcFinds= sign.finds.count()
+            sign.save()
 
     adminify(myfinds, myends, mystarts, mypos)
 
@@ -331,6 +339,25 @@ class UserSourceAdmin(OverriddenModelAdmin):
 
     adminify(myuser, mysource)
 
+class ChatMessageAdmin(OverriddenModelAdmin):
+    list_display='id myuser mytext mysource'.split()
+    list_filter=['requestsource__ip',]
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def mytext(self,obj):
+        fil=''
+        if self.rawtext!=self.filteredtext:
+            fil='<br>=&gt; '+self.filteredtext
+        return '%s%s'%(self.rawtext, fil)
+
+    def mysource(self, obj):
+        return obj.requestsource.clink()
+
+    adminify(myuser, mytext, mysource)
+
+admin.site.register(ChatMessage,ChatMessageAdmin)
 admin.site.register(RobloxUser, RobloxUserAdmin)
 
 admin.site.register(Sign, SignAdmin)

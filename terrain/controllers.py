@@ -277,3 +277,6 @@ def jsonRun(r):
         'userId':r.user.userId,
         'place':r.place}
     return res
+
+def userSentMessage(request):
+    pass
