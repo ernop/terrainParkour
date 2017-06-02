@@ -180,10 +180,14 @@ class Race(BaseModel):
     def calculateDistance(self):
         if self.start and self.end:
             self.distance=terrainutil.getDistance(self.start, self.end)
-            self.save()
 
     def __str__(self):
         return '%s => %s'%(self.start.name, self.end.name)
+
+    def save(self, *args, **kwargs):
+        if not self.distance:
+            self.calculateDistance()
+        super(Race, self).save(*args, **kwargs)
 
 class Run(BaseModel):
     race=models.ForeignKey('Race', related_name='runs')
