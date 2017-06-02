@@ -1,5 +1,4 @@
 import datetime, math, os
-import ipdb
 from django.http import JsonResponse
 from django.http import HttpResponse
 
