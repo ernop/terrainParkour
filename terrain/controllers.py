@@ -136,7 +136,7 @@ def setSignPosition(request, signId, name, x,y,z):
         #return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     sign.x=x
     sign.y=y
-    sign.z=y
+    sign.z=z
     sign.name=name
     sign.save()
     return JsonResponse({'success':True})

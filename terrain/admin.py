@@ -105,9 +105,8 @@ class RaceAdmin(OverriddenModelAdmin):
 
     def recalculate_distance(self, request, queryset):
         for race in queryset:
-            if race.distance==0:
-                race.calculateDistance()
-                race.save()
+            race.calculateDistance()
+            race.save()
 
     def mystart(self, obj):
         return obj.start.clink()
