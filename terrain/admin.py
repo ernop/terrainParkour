@@ -99,8 +99,15 @@ class SignAdmin(OverriddenModelAdmin):
     adminify(myfinds, myends, mystarts, mypos)
 
 class RaceAdmin(OverriddenModelAdmin):
-    list_display='id mystart myend myruncount myruns mybestruns created_tz'.split()
+    list_display='id mystart myend distance myruncount myruns mybestruns created_tz'.split()
     list_filter='start__signId end__signId'.split()
+    actions=['recalculate_distance',]
+
+    def recalculate_distance(self, request, queryset):
+        for race in queryset:
+            if race.distance==0:
+                race.calculateDistance()
+                race.save()
 
     def mystart(self, obj):
         return obj.start.clink()

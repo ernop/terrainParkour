@@ -1,3 +1,5 @@
+from . import terrainutil
+
 import django.utils
 django.utils.timezone.activate('America/Juneau')
 
@@ -169,10 +171,16 @@ class Find(BaseModel):
 class Race(BaseModel):
     start=models.ForeignKey('Sign', related_name='starts')
     end=models.ForeignKey('Sign', related_name='ends')
+    distance=models.IntegerField(default=0)
 
     class Meta:
         app_label='terrainapp'
         db_table='race'
+
+    def calculateDistance(self):
+        if self.start and self.end:
+            self.distance=terrainutil.getDistance(self.start, self.end)
+            self.save()
 
     def __str__(self):
         return '%s => %s'%(self.start.name, self.end.name)
