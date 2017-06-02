@@ -1,5 +1,5 @@
 import datetime, math, os
-
+import ipdb
 from django.http import JsonResponse
 from django.http import HttpResponse
 
@@ -18,7 +18,6 @@ noKey={'error':True,'message':'missing secret key'}
 def postSecurity(func, should_log_user_source=False, first=False):
     @csrf_exempt
     def inner(request, *kwgs):
-        #also check request.META
         assert request.method=='POST'
         provided_secret=request.POST.get('secret')
         exi=RequestSource.objects.filter(ip=request.META['REMOTE_ADDR'])
@@ -311,13 +310,14 @@ def jsonRun(r):
     return res
 
 def userSentMessage(request, source):
-    userId=request.POST['userId']
+    resp={'success':True}
+    userId=request.POST.get('userId') or None
+    if not userId: return resp
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    rawtext=request.POST['rawtext']
-    filteredtext=request.POST['filteredtext']
+    rawtext=request.POST.get('rawtext') or ''
+    filteredtext=request.POST.get('filteredtext') or ''
     mm=ChatMessage(user=user, requestsource=source, rawtext=rawtext, filteredtext=filteredtext)
     mm.save()
-    resp={'success':True}
     return JsonResponse(resp)
 
 def receiveError(request, source):
