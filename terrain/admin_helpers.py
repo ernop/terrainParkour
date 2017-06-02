@@ -5,6 +5,9 @@ from django.contrib.admin.views.main import ChangeList
 from django.contrib.admin.views.main import SuspiciousOperation, ImproperlyConfigured, IncorrectLookupParameters
 from django.db.models import Q, Count
 
+from django.conf import settings
+from pytz import timezone as pytz_timezone
+
 def construct_querystring_without_field(request, field):
     q = request.GET.copy()
     del q[field]
@@ -19,6 +22,12 @@ class OverriddenModelAdmin(admin.ModelAdmin):
     """normal, except overrides some widgets."""
     formfield_overrides = {
     }
+
+    def created_tz(self, obj):
+        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    created_tz.admin_order_field='created'
 
     def changelist_view(self, request, extra_context=None):
         '''rewriting this to sometimes kill the "ID" filter when you click on another one.'''

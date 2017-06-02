@@ -319,3 +319,12 @@ def userSentMessage(request, source):
     mm.save()
     resp={'success':True}
     return JsonResponse(resp)
+
+def receiveError(request, source):
+    code=request.POST.get('code') or ''
+    data=request.POST.get('data') or ''
+    message=request.POST.get('message') or ''
+    err=GameServerError(requestsource=source, code=code, message=message, data=data)
+    err.save()
+    resp={'success':True}
+    return JsonResponse(resp)

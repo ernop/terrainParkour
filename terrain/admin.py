@@ -29,10 +29,6 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     list_display='id userId username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
     def mychats(self, obj):
         return '<a href="../chatmessage?user__userId=%d">%d</a>'%(obj.userId, obj.chatmessages.count())
 
@@ -106,10 +102,6 @@ class RaceAdmin(OverriddenModelAdmin):
     list_display='id mystart myend myruncount myruns mybestruns created_tz'.split()
     list_filter='start__signId end__signId'.split()
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
     def mystart(self, obj):
         return obj.start.clink()
 
@@ -141,12 +133,6 @@ class FindAdmin(OverriddenModelAdmin):
             return True
         return super(FindAdmin, self).lookup_allowed(key, value)
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
-    created_tz.short_description = 'Created'
-
     adminify(myuser, mysign)
 
 class GameLeaveAdmin(OverriddenModelAdmin):
@@ -154,10 +140,6 @@ class GameLeaveAdmin(OverriddenModelAdmin):
 
     def myuser(self,obj):
         return obj.user.clink()
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
 
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
@@ -172,10 +154,6 @@ class DeathAdmin(OverriddenModelAdmin):
     def myuser(self,obj):
         return obj.user.clink()
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
             return True
@@ -188,10 +166,6 @@ class QuitAdmin(OverriddenModelAdmin):
 
     def myuser(self,obj):
         return obj.user.clink()
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
 
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
@@ -206,10 +180,6 @@ class ResetAdmin(OverriddenModelAdmin):
     def myuser(self,obj):
         return obj.user.clink()
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
             return True
@@ -219,10 +189,6 @@ class ResetAdmin(OverriddenModelAdmin):
 
 class GameJoinAdmin(OverriddenModelAdmin):
     list_display='id myuser created_tz'.split()
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -237,11 +203,6 @@ class GameJoinAdmin(OverriddenModelAdmin):
 class RunAdmin(OverriddenModelAdmin):
     list_display='id myuser myrace place mystart myend mytime created_tz'.split()
     list_filter=[make_null_filter('place', 'top10'), 'race', 'race__start','race__end', ]
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-    created_tz.admin_order_field='created'
 
     def mystart(self, obj):
         return obj.race.start.clink()
@@ -281,11 +242,6 @@ class RunAdmin(OverriddenModelAdmin):
 class BestRunAdmin(RunAdmin):
     list_display='id myuser myrace mystart myend mytime place created_tz'.split()
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-    created_tz.admin_order_field='created'
-
     def mytime(self, obj):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
         return '%0.3f'%(obj.raceMilliseconds*1.0/1000)
@@ -304,20 +260,10 @@ class RequestSourceAdmin(OverriddenModelAdmin):
     def mychats(self,obj):
         return '<a href="../chatmessage/?requestsource__id=%d">%d</a>'%(obj.id, obj.chatmessages.count())
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-    created_tz.admin_order_field='created'
-
     adminify(myfailures, mychats, myusersources)
 
 class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
     list_display='id params mysource created_tz'.split()
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-    created_tz.admin_order_field='created'
 
     def mysource(self,obj):
         return obj.source.clink()
@@ -327,11 +273,6 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
 class UserSourceAdmin(OverriddenModelAdmin):
     list_display='id myuser first mysource count created_tz'.split()
     search_fields=['user__username',]
-
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-    created_tz.admin_order_field='created'
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -367,13 +308,12 @@ class ChatMessageAdmin(OverriddenModelAdmin):
             return True
         return super(ChatMessageAdmin, self).lookup_allowed(key, value)
 
-    def created_tz(self, obj):
-        dt = obj.created.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
-        return dt.strftime(settings.DATE_FORMAT)
-
-    created_tz.admin_order_field='created'
-
     adminify(myuser, mytext, mysource)
+
+class GameServerErrorAdmin(OverriddenModelAdmin):
+    list_display='id code message data created_tz'.split()
+    list_filter='code message data'.split()
+
 
 admin.site.register(ChatMessage,ChatMessageAdmin)
 admin.site.register(RobloxUser, RobloxUserAdmin)
@@ -393,3 +333,4 @@ admin.site.register(UserReset, ResetAdmin)
 admin.site.register(RequestSource, RequestSourceAdmin)
 admin.site.register(FailedSecurityAttempt, FailedSecurityAttemptAdmin)
 admin.site.register(UserSource, UserSourceAdmin)
+admin.site.register(GameServerError, GameServerErrorAdmin)

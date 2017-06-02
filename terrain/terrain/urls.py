@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'terrain/userReset/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserReset)),
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
     url(r'terrain/userSentMessage/',postSecurity(controllers.userSentMessage)),
+    url(r'terrain/receiveError/',postSecurity(controllers.receiveError)),
 
     #deprecate this
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
