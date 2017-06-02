@@ -76,6 +76,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
     list_filter=['name',]
+    search_fields=['name',]
     actions=['recalculate_find_totals',]
 
     def myfinds(self, obj):
@@ -84,10 +85,10 @@ class SignAdmin(OverriddenModelAdmin):
     myfinds.admin_order_field='calcFinds'
 
     def mystarts(self, obj):
-        return '<a href="../race/?start__signId=%d">%d starts</a>'%(obj.id, Race.objects.filter(start__signId=obj.signId).count())
+        return '<a href="../race/?start__signId=%d">%d starts</a>'%(obj.signId, Race.objects.filter(start__signId=obj.signId).count())
 
     def myends(self, obj):
-        return '<a href="../race/?end__signId=%d">%d ends</a>'%(obj.id, Race.objects.filter(end__signId=obj.signId).count())
+        return '<a href="../race/?end__signId=%d">%d ends</a>'%(obj.signId, Race.objects.filter(end__signId=obj.signId).count())
 
     def mypos(self, obj):
         if obj.x is not None and obj.y is not None and obj.z is not None:
