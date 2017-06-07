@@ -1,6 +1,7 @@
 import datetime, math, os
 from django.http import JsonResponse
 from django.http import HttpResponse
+from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -42,7 +43,6 @@ def postSecurity(func, should_log_user_source=False, first=False):
 #there is a required secret key
 
 def security(func, should_log_user_source=False, first=False):
-
     def inner(request, *kwgs):
         assert request.method=='GET'
         provided_secret=request.GET.get('secret')
@@ -52,7 +52,7 @@ def security(func, should_log_user_source=False, first=False):
         else:
             source=RequestSource(ip=request.META['REMOTE_ADDR'])
             source.save()
-        if provided_secret!=secret:
+        if provided_secret!=secret and not settings.LOCAL:
             failure=FailedSecurityAttempt(source=source, params=request.META['QUERY_STRING'])
             failure.save()
             source.failure_count=source.failure_count+1
@@ -74,6 +74,14 @@ def logUser(userId, source, first):
     userSource, created=UserSource.objects.get_or_create(user=user, source=source, first=first)
     userSource.count=userSource.count+1
     userSource.save()
+
+#return all that initial stuff with fewer requests!
+def getUserInitialBlob(request, userId):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    res={}
+    #extend this to other stuff later?
+    res['banLevel']=user.banLevel
+    return JsonResponse(res)
 
 def robloxUserJoined(request, userId, username):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -121,6 +129,18 @@ def userFoundSign(request, userId, signId):
     if find.count()==0:
         find, created=Find.objects.get_or_create(user=user, sign=sign)
     return JsonResponse({'success':True, 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
+
+def setUserBanLevel(request, userId, banLevel):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    if banLevel!=user.banLevel:
+        user.banLevel=banLevel
+        user.save()
+        return JsonResponse({'success':True})
+    return JsonResponse({'success':True, 'message':'no change'})
+
+def getUserBanLevel(request, userId):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    return JsonResponse({'banLevel':user.banLevel})
 
 def tryGet(cls, params):
     res=cls.objects.filter(**params)

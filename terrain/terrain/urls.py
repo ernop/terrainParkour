@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
     url(r'terrain/userSentMessage/',postSecurity(controllers.userSentMessage)),
     url(r'terrain/receiveError/',postSecurity(controllers.receiveError)),
+    url(r'terrain/setUserBanLevel/(-?\d+)/(\d+)/',security(controllers.setUserBanLevel)),
+    url(r'terrain/getUserBanLevel/(-?\d+)/',security(controllers.getUserBanLevel)),
+    url(r'terrain/getUserInitialBlob/(-?\d+)/', security(controllers.getUserInitialBlob)),
 
     #deprecate this
     url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),

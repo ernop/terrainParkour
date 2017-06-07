@@ -26,8 +26,22 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId mybanLevel username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
+
+    actions=['unban_users', 'softban_users', 'hardban_users',]
+
+    def unban_users(self, request, queryset):
+        for obj in queryset:
+            obj.setBanLevel(0)
+
+    def softban_users(self, request, queryset):
+        for obj in queryset:
+            obj.setBanLevel(1)
+
+    def hardban_users(self, request, queryset):
+        for obj in queryset:
+            obj.setBanLevel(2)
 
     def mychats(self, obj):
         return '<a href="../chatmessage?user__userId=%d">%d</a>'%(obj.userId, obj.chatmessages.count())
@@ -37,6 +51,12 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 
     def myjoins(self, obj):
         return '<a href="../gamejoin/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.joins.count())
+
+    def mybanLevel(self, obj):
+        if obj.banLevel==0: return ''
+        if obj.banLevel==1: return 'Soft Ban'
+        if obj.banLevel==2: return 'Hard Ban'
+        return 'Broken Banlevel: %s'%str(obj.banLevel)
 
     def myleaves(self, obj):
         return '<a href="../gameleave/?user__userId__exact=%d">%d</a>'%(obj.userId, obj.leaves.count())
@@ -67,7 +87,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mysources(self, obj):
         return '<a href="../usersource?user__userId=%d">%d</a>'%(obj.userId, obj.usersources.count())
 
-    adminify(myjoins, myleaves, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    adminify(myjoins, myleaves, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds  mystarts myends mypos'.split()
@@ -296,6 +316,20 @@ class UserSourceAdmin(OverriddenModelAdmin):
 class ChatMessageAdmin(OverriddenModelAdmin):
     list_display='id myuser mytext created_tz mysource'.split()
     list_filter=['requestsource__ip',]
+
+    actions=['unban_users', 'softban_users', 'hardban_users',]
+
+    def unban_users(self, request, queryset):
+        for obj in queryset:
+            obj.setBanLevel(0)
+
+    def softban_users(self, request, queryset):
+        for obj in queryset:
+            obj.user.setBanLevel(1)
+
+    def hardban_users(self, request, queryset):
+        for obj in queryset:
+            obj.user.setBanLevel(2)
 
     def myuser(self,obj):
         return obj.user.clink()
