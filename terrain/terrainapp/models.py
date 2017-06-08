@@ -1,3 +1,4 @@
+import math
 from . import terrainutil
 
 import django.utils
@@ -157,6 +158,7 @@ class Sign(BaseModel):
     z=models.FloatField(blank=True, null=True)
 
     calcFinds=models.IntegerField(default=0) #calculated values for total finds.
+    calcNearest=models.ForeignKey('Sign', related_name='nearest_to', default=None, null=True)
 
     class Meta:
         app_label='terrainapp'
@@ -167,6 +169,19 @@ class Sign(BaseModel):
 
     def __str__(self):
         return '%s'%(self.name)
+
+    def findNearestSign(self, others):
+        bestDistance=None
+        for o in others:
+            if o.id==self.id:continue
+            dist=Sign.getDistance(self, o)
+            if bestDistance==None or dist<bestDistance:
+                bestDistance=dist
+                bestOther=o
+        return bestOther
+
+    def getDistance(self, other):
+        return math.pow(((self.x-other.x)**2+(self.y-other.y)**2+(self.z-other.z)**2), 1/2)
 
 class Find(BaseModel):
     sign=models.ForeignKey('Sign', related_name='finds')

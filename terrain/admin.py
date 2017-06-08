@@ -28,6 +28,7 @@ if False:
 class RobloxUserAdmin(OverriddenModelAdmin):
     list_display='id userId mybanLevel username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
+    list_filter=['banLevel',]
 
     actions=['unban_users', 'softban_users', 'hardban_users',]
 
@@ -90,10 +91,10 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     adminify(myjoins, myleaves, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
-    list_display='id signId name myfinds  mystarts myends mypos'.split()
+    list_display='id signId name myfinds mynearest mystarts myends mypos'.split()
     list_filter=['name',]
     search_fields=['name',]
-    actions=['recalculate_find_totals',]
+    actions=['recalculate_find_totals','recalculate_nearest',]
 
     def myfinds(self, obj):
         return '<a href="../find/?sign__signId__exact=%d">%d finds</a>'%(obj.signId, obj.finds.count())
@@ -113,13 +114,24 @@ class SignAdmin(OverriddenModelAdmin):
 
     def recalculate_find_totals(self, request, queryset):
         for sign in queryset:
-            sign.calcFinds= sign.finds.count()
+            sign.calcFinds=sign.finds.count()
             sign.save()
 
-    adminify(myfinds, myends, mystarts, mypos)
+    def recalculate_nearest(self, request, queryset):
+        for sign in queryset:
+            sign.calcNearest=sign.findNearestSign(Sign.objects.all())
+            sign.save()
+
+    def mynearest(self, obj):
+        if not obj.calcNearest:
+            return '-'
+        dist=obj.getDistance(obj.calcNearest)
+        return obj.calcNearest.clink(text='%s %d'%(obj.calcNearest.name, dist))
+
+    adminify(myfinds, myends, mystarts, mypos, mynearest)
 
 class RaceAdmin(OverriddenModelAdmin):
-    list_display='id mystart myend distance myruncount myruns mybestruns created_tz'.split()
+    list_display='id mystart myend distance myruns mybestruns created_tz'.split()
     list_filter='start__signId end__signId'.split()
     actions=['recalculate_distance',]
 

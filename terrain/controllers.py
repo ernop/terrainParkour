@@ -153,7 +153,6 @@ def setSignPosition(request, signId, name, x,y,z):
     if not sign:
         sign=Sign(signId=signId, name=name, x=x, y=y, z=z)
         sign.save()
-        #return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     sign.x=x
     sign.y=y
     sign.z=z
