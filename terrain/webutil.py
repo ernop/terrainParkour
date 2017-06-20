@@ -50,7 +50,6 @@ def postSecurity(func, should_log_user_source=False, first=False):
 
 def security(func, should_log_user_source=False, first=False):
     def inner(request, *kwgs):
-        import ipdb;ipdb.set_trace()
         assert request.method=='GET'
         provided_secret=request.GET.get('secret')
         exi=RequestSource.objects.filter(ip=request.META['REMOTE_ADDR'])
