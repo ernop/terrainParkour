@@ -57,6 +57,40 @@ class UserSource(BaseModel): #this is the summary of every time a user joined fr
     def __str__(self):
         return '%s joined from ip %s %d times.'%(self.user, self.source.ip, self.count)
 
+class Day(BaseModel):
+    #day=models.IntegerField() #e.g. 17 = 1970 jan 1st + 17 days
+    daystr=models.CharField(max_length=50) # Jan 18, 1970
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='day'
+
+    def __str__(self):
+        return '%s has power %s on %s'%(self.user, self.power, self.daystr)
+
+class UserPower(BaseModel):
+    user=models.ForeignKey('RobloxUser', related_name='userpowers')
+    power=models.ForeignKey('Power', related_name='userpowers')
+    day=models.ForeignKey('Day', related_name='userpowers')
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='userpower'
+
+    def __str__(self):
+        return '%s has power %s on %s'%(self.user, self.power.name, self.day)
+
+class Power(BaseModel):
+    name=models.CharField(max_length=50)
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='power'
+
+    def __str__(self):
+        return 'power: %s'%(self.name)
+
+
 class FailedSecurityAttempt(BaseModel):
     source=models.ForeignKey('RequestSource', related_name='failures')
     params=models.CharField(max_length=250, blank=True, null=True)
@@ -67,6 +101,16 @@ class FailedSecurityAttempt(BaseModel):
 
     def __str__(self):
         return '%s failed at %s'%(self.source, self.created)
+
+#~ class UserStats(BaseModel):
+    #~ user=models.ForeignKey('User', related_name='stats')
+    #~ finds=models.IntegerField()
+    #~ wrs=models.IntegerField()
+    #~ topTens=models.IntegerField()
+
+    #~ class Meta:
+        #~ app_label='terrainapp'
+        #~ db_table='userstats'
 
 class RobloxUser(BaseModel):
     userId=models.IntegerField(unique=True) #blank=True, null=True

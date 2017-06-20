@@ -5,6 +5,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from controllers import security, postSecurity
 import controllers
+import lists
 
 urlpatterns = [
     url(r'^terrain/adminx/', admin.site.urls),
@@ -54,6 +55,9 @@ urlpatterns = [
     url(r'terrain/getTotalRaceCountByUser/(-?\d+)/',security(controllers.getTotalRaceCountByUser)),
 
     url(r'terrain/getBestTimesByRace/(\d+)/(\d+)/',security(controllers.getBestTimesByRace)),
+
+    #paged stats - need post data with ['type',]
+    url(r'terrain/getListbyType/', postSecurity(lists.getListByType)),
 ]
 
 
