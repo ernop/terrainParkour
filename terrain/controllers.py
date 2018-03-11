@@ -222,6 +222,10 @@ def getTotalRunCountByUserAndDay(request, userId):
     res=Run.objects.filter(created__gte=today, created__lt=tomorrow, user__userId=userId)
     return JsonResponse({'count':res.count()})
 
+def getTotalRunCountByUser(request, userId):
+    res=Run.objects.filter(user__userId=userId)
+    return JsonResponse({'count':res.count()})
+
 def getTotalFindCountByDay(request):
     today=datetime.datetime.today()-datetime.timedelta(days=1)
     tomorrow=datetime.datetime.today()
