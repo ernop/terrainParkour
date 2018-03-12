@@ -247,7 +247,7 @@ class GameJoinAdmin(OverriddenModelAdmin):
     adminify(myuser)
 
 class RunAdmin(OverriddenModelAdmin):
-    list_display='id myuser myrace place mystart myend mytime created_tz'.split()
+    list_display='id myuser myrace place mystart myend mytime myspeed created_tz'.split()
     list_filter=[make_null_filter('place', 'top10'), 'race', 'race__start','race__end', ]
 
     def mystart(self, obj):
@@ -283,16 +283,30 @@ class RunAdmin(OverriddenModelAdmin):
             return True
         return super(RunAdmin, self).lookup_allowed(key, value)
 
-    adminify(mystart, myend, myuser, mytime, myrace)
+    def myspeed(self, obj):
+        if not obj.speed:
+            obj.save()
+        return '%0.1f studs/sec'%obj.speed
+
+    myspeed.admin_order_field='-speed'
+
+    adminify(mystart, myend, myuser, mytime, myrace, myspeed)
 
 class BestRunAdmin(RunAdmin):
-    list_display='id myuser myrace mystart myend mytime place created_tz'.split()
+    list_display='id myuser myrace mystart myend mytime myspeed place created_tz'.split()
 
     def mytime(self, obj):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
         return '%0.3f'%(obj.raceMilliseconds*1.0/1000)
 
-    adminify(mytime)
+    def myspeed(self, obj):
+        if not obj.speed:
+            obj.save()
+        return '%0.1f studs/sec'%obj.speed
+
+    myspeed.admin_order_field='-speed'
+
+    adminify(mytime, myspeed)
 
 class RequestSourceAdmin(OverriddenModelAdmin):
     list_display='id ip success_count failure_count myfailures mychats myusersources created_tz'.split()
