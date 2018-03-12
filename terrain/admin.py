@@ -157,7 +157,7 @@ class RaceAdmin(OverriddenModelAdmin):
 
     def mytop10(self,obj):
         res=''
-        bestruns = obj.bestruns.exclude(place=None)
+        bestruns = obj.bestruns.exclude(place=None).order_by('raceMilliseconds')
         rows=[]
         for br in bestruns:
             rows.append('%s (%0.3f)'%(br.user.clink(), br.raceMilliseconds/1000.0 or 0))
