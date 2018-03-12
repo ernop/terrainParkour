@@ -161,7 +161,7 @@ class RaceAdmin(OverriddenModelAdmin):
         rows=[]
         for br in bestruns:
             rows.append('%s (%0.3f)'%(br.user.clink(), br.raceMilliseconds/1000.0 or 0))
-        return rows.join('<br>')
+        return '<br>'.join(rows)
 
     adminify(mystart, myend, myruncount, myruns, mybestruns, mytop10)
 
