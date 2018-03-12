@@ -248,7 +248,7 @@ class GameJoinAdmin(OverriddenModelAdmin):
 
 class RunAdmin(OverriddenModelAdmin):
     list_display='id myuser myrace place mystart myend mytime myspeed created_tz'.split()
-    list_filter=[make_null_filter('place', 'top10'), 'race', 'race__start','race__end', ]
+    list_filter=[make_null_filter('place', 'top10'),  'race__start','race__end', ] #'race',
 
     def mystart(self, obj):
         return obj.race.start.clink()
