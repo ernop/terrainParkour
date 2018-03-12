@@ -327,3 +327,21 @@ class ChatMessage(BaseModel):
         if self.rawtext!=self.filteredtext:
             fil=' => '+self.filteredtext
         return '%s sent %s%s'%(self.user.username, self.rawtext, fil)
+
+#not shipped
+#~ class Event(BaseModel):
+    #~ race=models.ForeignKey('Race', related_name='events')
+    #~ start=models.DateTimeField()
+    #~ end=models.DateTimeField()
+    #~ badge=models.ForeignKey('Badge', related_name='events')
+
+#~ class Badge(BaseModel):
+    #~ name=models.CharField(max_length=200)
+    #~ assetid=models.IntegerField('id') #the roblox assetId
+
+    #~ class Mega:
+        #~ app_label='terrainapp'
+        #~ db_table='badge'
+
+    #~ def __str__(self):
+        #~ return 'badge: %s (%d)'%(self.name, self.assetid)

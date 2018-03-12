@@ -131,7 +131,7 @@ class SignAdmin(OverriddenModelAdmin):
     adminify(myfinds, myends, mystarts, mypos, mynearest)
 
 class RaceAdmin(OverriddenModelAdmin):
-    list_display='id mystart myend distance myruns mybestruns created_tz'.split()
+    list_display='id mystart myend distance myruns mybestruns created_tz mytop10'.split()
     list_filter='start__signId end__signId'.split()
     actions=['recalculate_distance',]
 
@@ -155,7 +155,15 @@ class RaceAdmin(OverriddenModelAdmin):
     def mybestruns(self, obj):
         return '<a href=../bestrun/?race__id=%d>%d bestruns</a>'%(obj.id, obj.bestruns.count())
 
-    adminify(mystart, myend, myruncount, myruns, mybestruns)
+    def mytop10(self,obj):
+        res=''
+        bestruns = obj.bestruns.exclude(place=None)
+        rows=[]
+        for br in bestruns:
+            rows.append('%s (%0.3f)'%(br.user.clink(), br.raceMilliseconds/1000.0 or 0))
+        return rows.join('<br>')
+
+    adminify(mystart, myend, myruncount, myruns, mybestruns, mytop10)
 
 class FindAdmin(OverriddenModelAdmin):
     list_display='id mysign myuser created_tz'.split()
