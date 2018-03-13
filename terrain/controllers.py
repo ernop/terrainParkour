@@ -5,6 +5,7 @@ from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt
 
+from serializers import *
 from terrainapp.models import *
 import admin
 
@@ -273,37 +274,11 @@ def getPowerForUser(userId):
     pasPowers=Power.object.filter(user=user)
     return Power.objects.get(1)
 
-def jsonPower(power):
-    res={'name':power.name,
-             'id':power.id}
-    return res
-
 def getTopTen(startId, endId, extra=False):
     lim=10
     if extra:
         lim=11
     res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:lim]
-    return res
-
-def jsonRun(r):
-    res={'raceMilliseconds':r.raceMilliseconds,
-        'username':r.user.username,
-        'userId':r.user.userId,
-        'place':r.place}
-    return res
-
-def jsonEvent(e):
-    res={
-        'id':e.id,
-        'start':e.start,
-        'end':e.end,
-        'badgeAssetId':e.badge.assetId,
-        'badgeId':e.badge.id,
-        'badgeName':e.badge.name,
-        'start_signid':e.race.start.signId,
-        'end_signid':e.race.end.signId,
-        'distance':e.race.distance,
-    }
     return res
 
 def userSentMessage(request, source):
@@ -327,7 +302,8 @@ def receiveError(request, source):
     return JsonResponse(resp)
 
 def getUpcomingEvents(request):
-    now=datetime.now()
-    events=Event.objects.Where(start__lt=now, end__gt=now)
-    resp={'success':True}
+    now=datetime.datetime.now()
+    events=RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now)
+    resp={'success':True, 'res':[jsonEvent(e) for e in events]}
+    return JsonResponse(resp)
 
