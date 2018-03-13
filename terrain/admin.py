@@ -388,6 +388,29 @@ class GameServerErrorAdmin(OverriddenModelAdmin):
     list_display='id code message data created_tz'.split()
     list_filter='code message data'.split()
 
+class BadgeAdmin(OverriddenModelAdmin):
+    list_display='name assetId'.split()
+
+class RaceEventAdmin(OverriddenModelAdmin):
+    list_display='mydesc myrace mystartdate myenddate mybadge'.split()
+
+    def mydesc(self, obj):
+        return '%s<br>%s'%(obj.name, obj.description)
+
+    def myrace(self,obj):
+        return obj.race.clink()
+
+    def mystartdate(self,obj):
+        return util.safeDateAsString(obj.startdate)
+
+    def myenddate(self,obj):
+        return util.safeDateAsString(obj.enddate)
+
+    def mybadge(self, obj):
+        return obj.badge.clink()
+
+    adminify(mydesc, myrace, mystartdate, myenddate, mybadge)
+
 
 admin.site.register(ChatMessage,ChatMessageAdmin)
 admin.site.register(RobloxUser, RobloxUserAdmin)
@@ -408,3 +431,6 @@ admin.site.register(RequestSource, RequestSourceAdmin)
 admin.site.register(FailedSecurityAttempt, FailedSecurityAttemptAdmin)
 admin.site.register(UserSource, UserSourceAdmin)
 admin.site.register(GameServerError, GameServerErrorAdmin)
+
+admin.site.register(Badge, BadgeAdmin)
+admin.site.register(RaceEvent, RaceEventAdmin)

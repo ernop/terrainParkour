@@ -222,10 +222,6 @@ def getTotalRunCountByUserAndDay(request, userId):
     res=Run.objects.filter(created__gte=today, created__lt=tomorrow, user__userId=userId)
     return JsonResponse({'count':res.count()})
 
-def getTotalRunCountByUser(request, userId):
-    res=Run.objects.filter(user__userId=userId)
-    return JsonResponse({'count':res.count()})
-
 def getTotalFindCountByDay(request):
     today=datetime.datetime.today()-datetime.timedelta(days=1)
     tomorrow=datetime.datetime.today()
@@ -296,6 +292,20 @@ def jsonRun(r):
         'place':r.place}
     return res
 
+def jsonEvent(e):
+    res={
+        'id':e.id,
+        'start':e.start,
+        'end':e.end,
+        'badgeAssetId':e.badge.assetId,
+        'badgeId':e.badge.id,
+        'badgeName':e.badge.name,
+        'start_signid':e.race.start.signId,
+        'end_signid':e.race.end.signId,
+        'distance':e.race.distance,
+    }
+    return res
+
 def userSentMessage(request, source):
     resp={'success':True}
     userId=request.POST.get('userId') or None
@@ -315,3 +325,9 @@ def receiveError(request, source):
     err.save()
     resp={'success':True}
     return JsonResponse(resp)
+
+def getUpcomingEvents(request):
+    now=datetime.now()
+    events=Event.objects.Where(start__lt=now, end__gt=now)
+    resp={'success':True}
+

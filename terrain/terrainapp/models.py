@@ -1,5 +1,6 @@
 import math
 from . import terrainutil
+import util
 
 import django.utils
 django.utils.timezone.activate('America/Juneau')
@@ -252,7 +253,7 @@ class Race(BaseModel):
             self.distance=terrainutil.getDistance(self.start, self.end)
 
     def __str__(self):
-        return '%s => %s'%(self.start.name, self.end.name)
+        return '%s => %s (%0.0f)'%(self.start.name, self.end.name, self.distance)
 
     def save(self, *args, **kwargs):
         if not self.distance:
@@ -338,20 +339,30 @@ class ChatMessage(BaseModel):
             fil=' => '+self.filteredtext
         return '%s sent %s%s'%(self.user.username, self.rawtext, fil)
 
-#not shipped
-#~ class Event(BaseModel):
-    #~ race=models.ForeignKey('Race', related_name='events')
-    #~ start=models.DateTimeField()
-    #~ end=models.DateTimeField()
-    #~ badge=models.ForeignKey('Badge', related_name='events')
+class RaceEvent(BaseModel):
+    name=models.CharField(max_length=100, default='')
+    description=models.CharField(max_length=1000, default='')
+    race=models.ForeignKey('Race', related_name='events')
+    startdate=models.DateTimeField()
+    enddate=models.DateTimeField()
+    badge=models.ForeignKey('Badge', related_name='events')
 
-#~ class Badge(BaseModel):
-    #~ name=models.CharField(max_length=200)
-    #~ assetid=models.IntegerField('id') #the roblox assetId
+    class Meta:
+        app_label='terrainapp'
+        db_table='raceevent'
 
-    #~ class Mega:
-        #~ app_label='terrainapp'
-        #~ db_table='badge'
+    def __str__(self):
+        return 'event: %s. Race: %s and get badge: %s.  Start:%s End:%s. %s'%(self.name, self.race, self.badge.name, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
 
-    #~ def __str__(self):
-        #~ return 'badge: %s (%d)'%(self.name, self.assetid)
+class Badge(BaseModel):
+    name=models.CharField(max_length=200)
+    assetId=models.IntegerField() #the roblox assetId
+
+    class Meta:
+        app_label='terrainapp'
+        db_table='badge'
+
+    def __str__(self):
+        return 'badge: %s (%d)'%(self.name, self.assetId)
+
+#more stuff like find best 10 etc.
