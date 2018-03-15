@@ -38,6 +38,11 @@ def robloxUserLeft(request, userId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     leave=GameLeave(user=user)
     leave.save()
+    last_join=GameJoin.get_last_join_prior_to(userId, leave.created)
+    if last_join:
+        last_join.length=(last_join.created-leave.created).total_seconds()
+        last_join.save()
+
     return JsonResponse({'success':True})
 
 def robloxUserDied(request, userId, x, y, z):

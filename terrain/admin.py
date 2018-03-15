@@ -5,6 +5,8 @@ from django.conf import settings
 
 from terrainapp.models import *
 from admin_helpers import *
+import util
+
 from pytz import timezone as pytz_timezone
 
 def dist(s1, s2):
@@ -26,7 +28,7 @@ if False:
                     print(ct)
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId mybanLevel username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId myplaytime mybanLevel username created_tz myjoins myleaves mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
     list_filter=['banLevel',]
 
@@ -88,7 +90,13 @@ class RobloxUserAdmin(OverriddenModelAdmin):
     def mysources(self, obj):
         return '<a href="../usersource?user__userId=%d">%d</a>'%(obj.userId, obj.usersources.count())
 
-    adminify(myjoins, myleaves, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    def myplaytime(self, obj):
+        total=0
+        for join in obj.joins.all():
+            total+=join.length
+        return util.describe_session_duration(total)
+
+    adminify(myjoins, myleaves, myplaytime, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
 
 class SignAdmin(OverriddenModelAdmin):
     list_display='id signId name myfinds mynearest mystarts myends mypos'.split()
@@ -182,7 +190,9 @@ class FindAdmin(OverriddenModelAdmin):
     adminify(myuser, mysign)
 
 class GameLeaveAdmin(OverriddenModelAdmin):
+
     list_display='id myuser created_tz'.split()
+    actions=['update_join',]
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -192,7 +202,31 @@ class GameLeaveAdmin(OverriddenModelAdmin):
             return True
         return super(GameLeaveAdmin, self).lookup_allowed(key, value)
 
+    def update_join(self, request, queryset):
+        for leave in queryset:
+            last_join=GameJoin.get_last_join_prior_to(leave.user.id, leave.created)
+            if last_join:
+                last_join.length=(leave.created-last_join.created).total_seconds()
+                last_join.save()
+
     adminify(myuser)
+
+class GameJoinAdmin(OverriddenModelAdmin):
+    list_display='id myuser mylength created_tz'.split()
+    #list_filter=active_session
+
+    def myuser(self,obj):
+        return obj.user.clink()
+
+    def lookup_allowed(self, key, value):
+        if key in ('user__userId__exact', ):
+            return True
+        return super(GameJoinAdmin, self).lookup_allowed(key, value)
+
+    def mylength(self, obj):
+        return util.describe_session_duration(obj.length)
+
+    adminify(myuser, mylength)
 
 class DeathAdmin(OverriddenModelAdmin):
     list_display='id myuser created_tz x y z'.split()
@@ -233,18 +267,7 @@ class ResetAdmin(OverriddenModelAdmin):
 
     adminify(myuser)
 
-class GameJoinAdmin(OverriddenModelAdmin):
-    list_display='id myuser created_tz'.split()
 
-    def myuser(self,obj):
-        return obj.user.clink()
-
-    def lookup_allowed(self, key, value):
-        if key in ('user__userId__exact', ):
-            return True
-        return super(GameJoinAdmin, self).lookup_allowed(key, value)
-
-    adminify(myuser)
 
 class RunAdmin(OverriddenModelAdmin):
     list_display='id myuser myrace place mystart myend mytime myspeed created_tz'.split()

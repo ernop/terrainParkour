@@ -137,13 +137,20 @@ class RobloxUser(BaseModel):
 
 class GameJoin(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='joins')
+    length=models.IntegerField(default=0) #the number of seconds til the next game leave
+
+    @classmethod
+    def get_last_join_prior_to(self, userId, leavetime):
+        last_join=GameJoin.objects.filter(user__id=userId, created__lt=leavetime).order_by('-created')
+        if last_join:
+            return last_join[0]
 
     class Meta:
         app_label='terrainapp'
         db_table='gamejoin'
 
     def __str__(self):
-        return '%s joined game.'%self.user.username
+        return '%s joined game (%s).'%(self.user.username, util.describe_session_duration(self.length))
 
 class UserDied(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='deaths')
