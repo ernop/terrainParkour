@@ -1,0 +1,3 @@
+fix leave
+get vs set up as editor
+title changer

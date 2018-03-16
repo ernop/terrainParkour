@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <Name>TerrainParkourVS</Name>
+    <RootNamespace>TerrainParkourVS</RootNamespace>
+    <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>4cb57bae-c3fc-47ef-8110-f90e03105ee3</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <StartupFile>manage.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <WebBrowserUrl>http://localhost</WebBrowserUrl>
+    <LaunchProvider>Django launcher</LaunchProvider>
+    <DjangoSettingsModule>TerrainParkourVS.settings</DjangoSettingsModule>
+    <OutputPath>.</OutputPath>
+    <SuppressCollectPythonCloudServiceFiles>true</SuppressCollectPythonCloudServiceFiles>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="app\forms.py" />
+    <Compile Include="app\models.py" />
+    <Compile Include="app\tests.py" />
+    <Compile Include="app\views.py" />
+    <Compile Include="app\__init__.py" />
+    <Compile Include="app\migrations\__init__.py" />
+    <Compile Include="manage.py" />
+    <Compile Include="TerrainParkourVS\__init__.py" />
+    <Compile Include="TerrainParkourVS\settings.py" />
+    <Compile Include="TerrainParkourVS\urls.py" />
+    <Compile Include="TerrainParkourVS\wsgi.py" />
+    <Compile Include="terrain\admin.py" />
+    <Compile Include="terrain\admin_helpers.py" />
+    <Compile Include="terrain\controllers.py" />
+    <Compile Include="terrain\errors.py" />
+    <Compile Include="terrain\lists.py" />
+    <Compile Include="terrain\localsettings.py" />
+    <Compile Include="terrain\manage.py" />
+    <Compile Include="terrain\models.py" />
+    <Compile Include="terrain\serializers.py" />
+    <Compile Include="terrain\signs.py" />
+    <Compile Include="terrain\terrainapp\admin.py" />
+    <Compile Include="terrain\terrainapp\apps.py" />
+    <Compile Include="terrain\terrainapp\migrations\0001_initial.py" />
+    <Compile Include="terrain\terrainapp\migrations\0002_auto_20170518_0552.py" />
+    <Compile Include="terrain\terrainapp\migrations\0003_auto_20170520_0802.py" />
+    <Compile Include="terrain\terrainapp\migrations\0004_bestrun.py" />
+    <Compile Include="terrain\terrainapp\migrations\0005_run_rank.py" />
+    <Compile Include="terrain\terrainapp\migrations\0006_auto_20170520_1343.py" />
+    <Compile Include="terrain\terrainapp\migrations\0007_auto_20170520_1350.py" />
+    <Compile Include="terrain\terrainapp\migrations\0008_auto_20170520_1806.py" />
+    <Compile Include="terrain\terrainapp\migrations\0009_auto_20170520_1835.py" />
+    <Compile Include="terrain\terrainapp\migrations\0010_userdied.py" />
+    <Compile Include="terrain\terrainapp\migrations\0011_auto_20170523_0810.py" />
+    <Compile Include="terrain\terrainapp\migrations\0012_userreset.py" />
+    <Compile Include="terrain\terrainapp\migrations\0013_auto_20170524_0816.py" />
+    <Compile Include="terrain\terrainapp\migrations\0014_auto_20170524_0831.py" />
+    <Compile Include="terrain\terrainapp\migrations\0015_usersource.py" />
+    <Compile Include="terrain\terrainapp\migrations\0016_usersource_first.py" />
+    <Compile Include="terrain\terrainapp\migrations\0017_userquit.py" />
+    <Compile Include="terrain\terrainapp\migrations\0018_run_place.py" />
+    <Compile Include="terrain\terrainapp\migrations\0019_chatmessage_message.py" />
+    <Compile Include="terrain\terrainapp\migrations\0020_sign_calcfinds.py" />
+    <Compile Include="terrain\terrainapp\migrations\0021_gameservererror.py" />
+    <Compile Include="terrain\terrainapp\migrations\0022_gameservererror_requestsource.py" />
+    <Compile Include="terrain\terrainapp\migrations\0023_race_distance.py" />
+    <Compile Include="terrain\terrainapp\migrations\0024_robloxuser_banlevel.py" />
+    <Compile Include="terrain\terrainapp\migrations\0025_auto_20170608_0844.py" />
+    <Compile Include="terrain\terrainapp\migrations\0026_day_power_userpower.py" />
+    <Compile Include="terrain\terrainapp\migrations\0027_auto_20180311_2204.py" />
+    <Compile Include="terrain\terrainapp\migrations\0028_badge_raceevent.py" />
+    <Compile Include="terrain\terrainapp\migrations\0029_auto_20180312_2254.py" />
+    <Compile Include="terrain\terrainapp\migrations\0030_gamejoin_length.py" />
+    <Compile Include="terrain\terrainapp\migrations\__init__.py" />
+    <Compile Include="terrain\terrainapp\models.py" />
+    <Compile Include="terrain\terrainapp\terrainutil.py" />
+    <Compile Include="terrain\terrainapp\tests.py" />
+    <Compile Include="terrain\terrainapp\views.py" />
+    <Compile Include="terrain\terrainapp\__init__.py" />
+    <Compile Include="terrain\terrain\settings.py" />
+    <Compile Include="terrain\terrain\urls.py" />
+    <Compile Include="terrain\terrain\__init__.py" />
+    <Compile Include="terrain\util.py" />
+    <Compile Include="terrain\webutil.py" />
+    <Compile Include="terrain\wsgi.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\" />
+    <Folder Include="app\migrations\" />
+    <Folder Include="app\static\" />
+    <Folder Include="app\static\app\" />
+    <Folder Include="app\static\app\content\" />
+    <Folder Include="app\static\app\fonts\" />
+    <Folder Include="app\static\app\scripts\" />
+    <Folder Include="app\templates\" />
+    <Folder Include="app\templates\app\" />
+    <Folder Include="TerrainParkourVS\" />
+    <Folder Include="terrain\" />
+    <Folder Include="terrain\logs\" />
+    <Folder Include="terrain\staticx\" />
+    <Folder Include="terrain\staticx\static\" />
+    <Folder Include="terrain\staticx\static\admin\" />
+    <Folder Include="terrain\staticx\static\admin\css\" />
+    <Folder Include="terrain\staticx\static\admin\fonts\" />
+    <Folder Include="terrain\staticx\static\admin\img\" />
+    <Folder Include="terrain\staticx\static\admin\img\gis\" />
+    <Folder Include="terrain\staticx\static\admin\js\" />
+    <Folder Include="terrain\staticx\static\admin\js\admin\" />
+    <Folder Include="terrain\staticx\static\admin\js\vendor\" />
+    <Folder Include="terrain\staticx\static\admin\js\vendor\jquery\" />
+    <Folder Include="terrain\staticx\static\admin\js\vendor\xregexp\" />
+    <Folder Include="terrain\static\" />
+    <Folder Include="terrain\static\admin\" />
+    <Folder Include="terrain\static\admin\css\" />
+    <Folder Include="terrain\static\admin\fonts\" />
+    <Folder Include="terrain\static\admin\img\" />
+    <Folder Include="terrain\static\admin\img\gis\" />
+    <Folder Include="terrain\static\admin\js\" />
+    <Folder Include="terrain\static\admin\js\admin\" />
+    <Folder Include="terrain\static\admin\js\vendor\" />
+    <Folder Include="terrain\static\admin\js\vendor\jquery\" />
+    <Folder Include="terrain\static\admin\js\vendor\xregexp\" />
+    <Folder Include="terrain\terrainapp\" />
+    <Folder Include="terrain\terrainapp\migrations\" />
+    <Folder Include="terrain\terrainapp\migrations\__pycache__\" />
+    <Folder Include="terrain\terrainapp\__pycache__\" />
+    <Folder Include="terrain\terrain\" />
+    <Folder Include="terrain\terrain\__pycache__\" />
+    <Folder Include="terrain\__pycache__\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include=".gitignore" />
+    <Content Include="requirements.txt" />
+    <Content Include="db.sqlite3" />
+    <Content Include="app\static\app\content\bootstrap.css" />
+    <Content Include="app\static\app\content\bootstrap.min.css" />
+    <Content Include="app\static\app\content\site.css" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="app\static\app\scripts\bootstrap.js" />
+    <Content Include="app\static\app\scripts\bootstrap.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
+    <Content Include="app\static\app\scripts\jquery-1.10.2.min.map" />
+    <Content Include="app\static\app\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.min.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="app\static\app\scripts\modernizr-2.6.2.js" />
+    <Content Include="app\static\app\scripts\respond.js" />
+    <Content Include="app\static\app\scripts\respond.min.js" />
+    <Content Include="app\static\app\scripts\_references.js" />
+    <Content Include="app\templates\app\about.html" />
+    <Content Include="app\templates\app\contact.html" />
+    <Content Include="app\templates\app\index.html" />
+    <Content Include="app\templates\app\layout.html" />
+    <Content Include="app\templates\app\login.html" />
+    <Content Include="app\templates\app\loginpartial.html" />
+    <Content Include="state.txt" />
+    <Content Include="symbolism.txt" />
+    <Content Include="terrain\db.sqlite3" />
+    <Content Include="terrain\local" />
+    <Content Include="terrain\logs\error.log" />
+    <Content Include="terrain\secret.txt" />
+    <Content Include="terrain\staticx\a.css" />
+    <Content Include="terrain\staticx\static\a.css" />
+    <Content Include="terrain\staticx\static\admin\css\base.css" />
+    <Content Include="terrain\staticx\static\admin\css\changelists.css" />
+    <Content Include="terrain\staticx\static\admin\css\dashboard.css" />
+    <Content Include="terrain\staticx\static\admin\css\fonts.css" />
+    <Content Include="terrain\staticx\static\admin\css\forms.css" />
+    <Content Include="terrain\staticx\static\admin\css\login.css" />
+    <Content Include="terrain\staticx\static\admin\css\rtl.css" />
+    <Content Include="terrain\staticx\static\admin\css\widgets.css" />
+    <Content Include="terrain\staticx\static\admin\fonts\LICENSE.txt" />
+    <Content Include="terrain\staticx\static\admin\fonts\README.txt" />
+    <Content Include="terrain\staticx\static\admin\fonts\Roboto-Bold-webfont.woff" />
+    <Content Include="terrain\staticx\static\admin\fonts\Roboto-Light-webfont.woff" />
+    <Content Include="terrain\staticx\static\admin\fonts\Roboto-Regular-webfont.woff" />
+    <Content Include="terrain\staticx\static\admin\img\calendar-icons.svg" />
+    <Content Include="terrain\staticx\static\admin\img\gis\move_vertex_off.svg" />
+    <Content Include="terrain\staticx\static\admin\img\gis\move_vertex_on.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-addlink.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-alert.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-calendar.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-changelink.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-clock.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-deletelink.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-no.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-unknown-alt.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-unknown.svg" />
+    <Content Include="terrain\staticx\static\admin\img\icon-yes.svg" />
+    <Content Include="terrain\staticx\static\admin\img\inline-delete.svg" />
+    <Content Include="terrain\staticx\static\admin\img\LICENSE" />
+    <Content Include="terrain\staticx\static\admin\img\README.txt" />
+    <Content Include="terrain\staticx\static\admin\img\search.svg" />
+    <Content Include="terrain\staticx\static\admin\img\selector-icons.svg" />
+    <Content Include="terrain\staticx\static\admin\img\sorting-icons.svg" />
+    <Content Include="terrain\staticx\static\admin\img\tooltag-add.svg" />
+    <Content Include="terrain\staticx\static\admin\img\tooltag-arrowright.svg" />
+    <Content Include="terrain\staticx\static\admin\js\actions.js" />
+    <Content Include="terrain\staticx\static\admin\js\actions.min.js" />
+    <Content Include="terrain\staticx\static\admin\js\admin\DateTimeShortcuts.js" />
+    <Content Include="terrain\staticx\static\admin\js\admin\RelatedObjectLookups.js" />
+    <Content Include="terrain\staticx\static\admin\js\calendar.js" />
+    <Content Include="terrain\staticx\static\admin\js\cancel.js" />
+    <Content Include="terrain\staticx\static\admin\js\change_form.js" />
+    <Content Include="terrain\staticx\static\admin\js\collapse.js" />
+    <Content Include="terrain\staticx\static\admin\js\collapse.min.js" />
+    <Content Include="terrain\staticx\static\admin\js\core.js" />
+    <Content Include="terrain\staticx\static\admin\js\inlines.js" />
+    <Content Include="terrain\staticx\static\admin\js\inlines.min.js" />
+    <Content Include="terrain\staticx\static\admin\js\jquery.init.js" />
+    <Content Include="terrain\staticx\static\admin\js\popup_response.js" />
+    <Content Include="terrain\staticx\static\admin\js\prepopulate.js" />
+    <Content Include="terrain\staticx\static\admin\js\prepopulate.min.js" />
+    <Content Include="terrain\staticx\static\admin\js\prepopulate_init.js" />
+    <Content Include="terrain\staticx\static\admin\js\SelectBox.js" />
+    <Content Include="terrain\staticx\static\admin\js\SelectFilter2.js" />
+    <Content Include="terrain\staticx\static\admin\js\timeparse.js" />
+    <Content Include="terrain\staticx\static\admin\js\urlify.js" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\jquery\jquery.js" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\jquery\jquery.min.js" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\jquery\LICENSE-JQUERY.txt" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\xregexp\LICENSE-XREGEXP.txt" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\xregexp\xregexp.js" />
+    <Content Include="terrain\staticx\static\admin\js\vendor\xregexp\xregexp.min.js" />
+    <Content Include="terrain\static\a.css" />
+    <Content Include="terrain\static\admin\css\base.css" />
+    <Content Include="terrain\static\admin\css\changelists.css" />
+    <Content Include="terrain\static\admin\css\dashboard.css" />
+    <Content Include="terrain\static\admin\css\fonts.css" />
+    <Content Include="terrain\static\admin\css\forms.css" />
+    <Content Include="terrain\static\admin\css\login.css" />
+    <Content Include="terrain\static\admin\css\rtl.css" />
+    <Content Include="terrain\static\admin\css\widgets.css" />
+    <Content Include="terrain\static\admin\fonts\LICENSE.txt" />
+    <Content Include="terrain\static\admin\fonts\README.txt" />
+    <Content Include="terrain\static\admin\fonts\Roboto-Bold-webfont.woff" />
+    <Content Include="terrain\static\admin\fonts\Roboto-Light-webfont.woff" />
+    <Content Include="terrain\static\admin\fonts\Roboto-Regular-webfont.woff" />
+    <Content Include="terrain\static\admin\img\calendar-icons.svg" />
+    <Content Include="terrain\static\admin\img\gis\move_vertex_off.svg" />
+    <Content Include="terrain\static\admin\img\gis\move_vertex_on.svg" />
+    <Content Include="terrain\static\admin\img\icon-addlink.svg" />
+    <Content Include="terrain\static\admin\img\icon-alert.svg" />
+    <Content Include="terrain\static\admin\img\icon-calendar.svg" />
+    <Content Include="terrain\static\admin\img\icon-changelink.svg" />
+    <Content Include="terrain\static\admin\img\icon-clock.svg" />
+    <Content Include="terrain\static\admin\img\icon-deletelink.svg" />
+    <Content Include="terrain\static\admin\img\icon-no.svg" />
+    <Content Include="terrain\static\admin\img\icon-unknown-alt.svg" />
+    <Content Include="terrain\static\admin\img\icon-unknown.svg" />
+    <Content Include="terrain\static\admin\img\icon-yes.svg" />
+    <Content Include="terrain\static\admin\img\inline-delete.svg" />
+    <Content Include="terrain\static\admin\img\LICENSE" />
+    <Content Include="terrain\static\admin\img\README.txt" />
+    <Content Include="terrain\static\admin\img\search.svg" />
+    <Content Include="terrain\static\admin\img\selector-icons.svg" />
+    <Content Include="terrain\static\admin\img\sorting-icons.svg" />
+    <Content Include="terrain\static\admin\img\tooltag-add.svg" />
+    <Content Include="terrain\static\admin\img\tooltag-arrowright.svg" />
+    <Content Include="terrain\static\admin\js\actions.js" />
+    <Content Include="terrain\static\admin\js\actions.min.js" />
+    <Content Include="terrain\static\admin\js\admin\DateTimeShortcuts.js" />
+    <Content Include="terrain\static\admin\js\admin\RelatedObjectLookups.js" />
+    <Content Include="terrain\static\admin\js\calendar.js" />
+    <Content Include="terrain\static\admin\js\cancel.js" />
+    <Content Include="terrain\static\admin\js\change_form.js" />
+    <Content Include="terrain\static\admin\js\collapse.js" />
+    <Content Include="terrain\static\admin\js\collapse.min.js" />
+    <Content Include="terrain\static\admin\js\core.js" />
+    <Content Include="terrain\static\admin\js\inlines.js" />
+    <Content Include="terrain\static\admin\js\inlines.min.js" />
+    <Content Include="terrain\static\admin\js\jquery.init.js" />
+    <Content Include="terrain\static\admin\js\popup_response.js" />
+    <Content Include="terrain\static\admin\js\prepopulate.js" />
+    <Content Include="terrain\static\admin\js\prepopulate.min.js" />
+    <Content Include="terrain\static\admin\js\prepopulate_init.js" />
+    <Content Include="terrain\static\admin\js\SelectBox.js" />
+    <Content Include="terrain\static\admin\js\SelectFilter2.js" />
+    <Content Include="terrain\static\admin\js\timeparse.js" />
+    <Content Include="terrain\static\admin\js\urlify.js" />
+    <Content Include="terrain\static\admin\js\vendor\jquery\jquery.js" />
+    <Content Include="terrain\static\admin\js\vendor\jquery\jquery.min.js" />
+    <Content Include="terrain\static\admin\js\vendor\jquery\LICENSE-JQUERY.txt" />
+    <Content Include="terrain\static\admin\js\vendor\xregexp\LICENSE-XREGEXP.txt" />
+    <Content Include="terrain\static\admin\js\vendor\xregexp\xregexp.js" />
+    <Content Include="terrain\static\admin\js\vendor\xregexp\xregexp.min.js" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0001_initial.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0002_auto_20170518_0552.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0002_gamejoin_gameleave.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0003_auto_20170517_0613.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0003_auto_20170520_0802.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0004_auto_20170517_0647.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0004_bestrun.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0005_auto_20170520_1157.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0005_run_rank.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0006_auto_20170520_1343.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0007_auto_20170520_1350.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0008_auto_20170520_1806.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0009_auto_20170520_1835.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0010_userdied.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0011_auto_20170523_0810.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0012_userreset.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0013_auto_20170524_0816.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0014_auto_20170524_0831.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0015_usersource.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0016_usersource_first.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0017_userquit.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0018_run_place.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0019_chatmessage_message.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0020_sign_calcfinds.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0021_gameservererror.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0022_gameservererror_requestsource.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0023_race_distance.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0024_robloxuser_banlevel.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0025_auto_20170608_0844.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0026_day_power_userpower.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0027_auto_20170619_2324.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0027_auto_20180311_2204.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0028_badge_raceevent.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0029_auto_20180312_2254.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\0030_gamejoin_length.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\migrations\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\__pycache__\admin.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\__pycache__\models.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\__pycache__\terrainutil.cpython-35.pyc" />
+    <Content Include="terrain\terrainapp\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="terrain\terrain\terrain.wsgi" />
+    <Content Include="terrain\terrain\__pycache__\settings.cpython-35.pyc" />
+    <Content Include="terrain\terrain\__pycache__\urls.cpython-35.pyc" />
+    <Content Include="terrain\terrain\__pycache__\wsgi.cpython-35.pyc" />
+    <Content Include="terrain\terrain\__pycache__\__init__.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\admin.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\admin_helpers.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\controllers.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\lists.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\localsettings.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\models.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\serializers.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\util.cpython-35.pyc" />
+    <Content Include="terrain\__pycache__\webutil.cpython-35.pyc" />
+    <Content Include="tptodo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="readme.html">
+      <SubType>WebBrowser</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="env\">
+      <Id>env</Id>
+      <Version>3.6</Version>
+      <Description>env (Python 3.6 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
+  <!-- Specify pre- and post-build commands in the BeforeBuild and 
+       AfterBuild targets below. -->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <AutoAssignPort>True</AutoAssignPort>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

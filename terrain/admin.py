@@ -189,31 +189,14 @@ class FindAdmin(OverriddenModelAdmin):
 
     adminify(myuser, mysign)
 
-class GameLeaveAdmin(OverriddenModelAdmin):
-
-    list_display='id myuser created_tz'.split()
-    actions=['update_join',]
-
-    def myuser(self,obj):
-        return obj.user.clink()
-
-    def lookup_allowed(self, key, value):
-        if key in ('user__userId__exact',):
-            return True
-        return super(GameLeaveAdmin, self).lookup_allowed(key, value)
-
-    def update_join(self, request, queryset):
-        for leave in queryset:
-            last_join=GameJoin.get_last_join_prior_to(leave.user.id, leave.created)
-            if last_join:
-                last_join.length=(leave.created-last_join.created).total_seconds()
-                last_join.save()
-
-    adminify(myuser)
-
 class GameJoinAdmin(OverriddenModelAdmin):
     list_display='id myuser mylength created_tz'.split()
     #list_filter=active_session
+    actions=['update_join',]
+
+    def update_join(self, request, queryset):
+        for join in queryset:
+            GameJoin.left(leave.user.id, leave.created)
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -444,7 +427,6 @@ admin.site.register(Race, RaceAdmin)
 admin.site.register(Run, RunAdmin)
 admin.site.register(BestRun, BestRunAdmin)
 
-admin.site.register(GameLeave, GameLeaveAdmin)
 admin.site.register(GameJoin, GameJoinAdmin)
 admin.site.register(UserDied, DeathAdmin)
 admin.site.register(UserQuit, QuitAdmin)

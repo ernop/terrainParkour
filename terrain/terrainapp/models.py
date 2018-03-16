@@ -138,12 +138,16 @@ class RobloxUser(BaseModel):
 class GameJoin(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='joins')
     length=models.IntegerField(default=0) #the number of seconds til the next game leave
+    left = models.DateTimeField()
 
     @classmethod
-    def get_last_join_prior_to(self, userId, leavetime):
+    def left(self, userId, leavetime):
         last_join=GameJoin.objects.filter(user__id=userId, created__lt=leavetime).order_by('-created')
         if last_join:
-            return last_join[0]
+            lj = last_join[0]
+            lj.left=leavetime
+            lj.length=leavetime-lj.created
+            lj.save()
 
     class Meta:
         app_label='terrainapp'
@@ -190,17 +194,6 @@ class UserReset(BaseModel):
 
     def __str__(self):
         return '%s reset in game at %0.0f, %0.0f, %0.0f.'%(self.user.username, self.x, self.y, self.z)
-
-
-class GameLeave(BaseModel):
-    user=models.ForeignKey('RobloxUser', related_name='leaves')
-
-    class Meta:
-        app_label='terrainapp'
-        db_table='gameleave'
-
-    def __str__(self):
-        return '%s left game.'%self.user.username
 
 class Sign(BaseModel):
     signId=models.IntegerField()
