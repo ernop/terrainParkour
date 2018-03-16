@@ -25,18 +25,19 @@ def getUserInitialBlob(request, userId):
     return JsonResponse(res)
 
 def robloxUserJoined(request, userId, username):
-    user, created=RobloxUser.objects.get_or_create(userId=userId)
-    if user.username!=username:
-        user.username=username
-        user.save()
+    robloxuser, created=RobloxUser.objects.get_or_create(userId=userId)
+    if robloxuser.username!=username:
+        robloxuser.username=username
+        robloxuser.save()
     res={'success':True}
-    join=GameJoin(user=user)
+    join=GameJoin(user=robloxuser)
     join.save()
     return JsonResponse(res)
 
 def robloxUserLeft(request, userId):
+    userId=int(userId)
     user, created=RobloxUser.objects.get_or_create(userId=userId)
-    GameJoin.left(userId, datetime.datetime.now())
+    GameJoin.playerLeft(userId, utcnow())
     return JsonResponse({'success':True})
 
 def robloxUserDied(request, userId, x, y, z):
@@ -301,7 +302,7 @@ def receiveError(request, source):
     return JsonResponse(resp)
 
 def getUpcomingEvents(request):
-    now=datetime.datetime.now()
+    now=utcnow()
     events=RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now)
     resp={'success':True, 'res':[jsonEvent(e) for e in events]}
     return JsonResponse(resp)

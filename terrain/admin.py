@@ -190,13 +190,8 @@ class FindAdmin(OverriddenModelAdmin):
     adminify(myuser, mysign)
 
 class GameJoinAdmin(OverriddenModelAdmin):
-    list_display='id myuser mylength created_tz'.split()
+    list_display='id myuser mylength created_tz myleft'.split()
     #list_filter=active_session
-    actions=['update_join',]
-
-    def update_join(self, request, queryset):
-        for join in queryset:
-            GameJoin.left(leave.user.id, leave.created)
 
     def myuser(self,obj):
         return obj.user.clink()
@@ -209,7 +204,11 @@ class GameJoinAdmin(OverriddenModelAdmin):
     def mylength(self, obj):
         return util.describe_session_duration(obj.length)
 
-    adminify(myuser, mylength)
+    def myleft(self, obj):
+        dt = obj.left.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+    
+    adminify(myuser, mylength, myleft)
 
 class DeathAdmin(OverriddenModelAdmin):
     list_display='id myuser created_tz x y z'.split()

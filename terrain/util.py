@@ -1,4 +1,4 @@
-import datetime
+import datetime, pytz
 
 DATE='%Y-%m-%d'
 minute=60
@@ -37,8 +37,12 @@ def describe_session_duration(remainder):
     if hours:
         res+='%d hours '%hours
     if minutes:
-        res+='%d minute '%minutes
+        res+='%d minutes '%minutes
     if seconds:
-        res+='%d seconds '%seconds
+        res+='%d seconds'%seconds
 
-    return res
+    return res.strip()
+
+def utcnow():
+    now=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+    return now

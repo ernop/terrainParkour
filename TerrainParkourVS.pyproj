@@ -12,7 +12,8 @@
     <ProjectGuid>4cb57bae-c3fc-47ef-8110-f90e03105ee3</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
-    <StartupFile>manage.py</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -37,11 +38,6 @@
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
     <Compile Include="app\migrations\__init__.py" />
-    <Compile Include="manage.py" />
-    <Compile Include="TerrainParkourVS\__init__.py" />
-    <Compile Include="TerrainParkourVS\settings.py" />
-    <Compile Include="TerrainParkourVS\urls.py" />
-    <Compile Include="TerrainParkourVS\wsgi.py" />
     <Compile Include="terrain\admin.py" />
     <Compile Include="terrain\admin_helpers.py" />
     <Compile Include="terrain\controllers.py" />
@@ -107,7 +103,6 @@
     <Folder Include="app\static\app\scripts\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
-    <Folder Include="TerrainParkourVS\" />
     <Folder Include="terrain\" />
     <Folder Include="terrain\logs\" />
     <Folder Include="terrain\staticx\" />
@@ -143,8 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="requirements.txt" />
-    <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
     <Content Include="app\static\app\content\bootstrap.min.css" />
     <Content Include="app\static\app\content\site.css" />
@@ -173,8 +166,6 @@
     <Content Include="app\templates\app\layout.html" />
     <Content Include="app\templates\app\login.html" />
     <Content Include="app\templates\app\loginpartial.html" />
-    <Content Include="state.txt" />
-    <Content Include="symbolism.txt" />
     <Content Include="terrain\db.sqlite3" />
     <Content Include="terrain\local" />
     <Content Include="terrain\logs\error.log" />
@@ -358,12 +349,6 @@
     <Content Include="terrain\__pycache__\serializers.cpython-35.pyc" />
     <Content Include="terrain\__pycache__\util.cpython-35.pyc" />
     <Content Include="terrain\__pycache__\webutil.cpython-35.pyc" />
-    <Content Include="tptodo.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="readme.html">
-      <SubType>WebBrowser</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

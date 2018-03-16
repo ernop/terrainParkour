@@ -1,9 +1,11 @@
-import math
+import math, datetime
 from . import terrainutil
 import util
 
 import django.utils
 django.utils.timezone.activate('America/Juneau')
+
+EPOCH=datetime.datetime(1970,1,1)
 
 from django.db import models
 APP='terrainapp'
@@ -138,15 +140,15 @@ class RobloxUser(BaseModel):
 class GameJoin(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='joins')
     length=models.IntegerField(default=0) #the number of seconds til the next game leave
-    left = models.DateTimeField()
+    left = models.DateTimeField(default=EPOCH)
 
     @classmethod
-    def left(self, userId, leavetime):
-        last_join=GameJoin.objects.filter(user__id=userId, created__lt=leavetime).order_by('-created')
+    def playerLeft(self, userId, leavetime):
+        last_join=GameJoin.objects.filter(user__userId=userId, created__lte=leavetime).order_by('-created')
         if last_join:
             lj = last_join[0]
             lj.left=leavetime
-            lj.length=leavetime-lj.created
+            lj.length=(leavetime-lj.created).total_seconds()
             lj.save()
 
     class Meta:
