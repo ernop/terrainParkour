@@ -169,7 +169,10 @@ class UserDied(BaseModel):
         db_table='userdied'
 
     def __str__(self):
-        return '%s died in game at %0.0f, %0.0f, %0.0f.'%(self.user.username, self.x, self.y, self.z)
+        try:
+            return '%s died in game at %0.0f, %0.0f, %0.0f.'%(self.user.username, self.x, self.y, self.z)
+        except:
+            return '%s died at broken location.'%self.user.username
 
 class UserQuit(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='quits')
