@@ -6,15 +6,12 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 
 from serializers import *
-from terrainapp.models import *
-import admin
+from allmodels import *
 
 from webutil import security, postSecurity, logUser
 
 def test(request):
     return JsonResponse({"result":True, "message":'test.'})
-
-
 
 #return all that initial stuff with fewer requests!
 def getUserInitialBlob(request, userId):

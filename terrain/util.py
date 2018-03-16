@@ -1,4 +1,4 @@
-import datetime, pytz
+import datetime, pytz, math
 
 DATE='%Y-%m-%d'
 minute=60
@@ -46,3 +46,7 @@ def describe_session_duration(remainder):
 def utcnow():
     now=datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
     return now
+
+def dist(s1, s2):
+    distance=math.pow(math.pow(s1.x-s2.x, 2)+math.pow(s1.y-s2.y, 2)+math.pow(s1.z-s2.z, 2), 1/2)
+    return distance

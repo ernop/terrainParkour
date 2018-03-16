@@ -5,7 +5,7 @@ from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt
 
-from terrainapp.models import *
+from allmodels import *
 import admin
 
 def logUser(userId, source, first):
