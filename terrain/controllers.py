@@ -65,8 +65,8 @@ def userFoundSign(request, userId, signId):
         return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     find=Find.objects.filter(user=user, sign=sign)
     if find.count()==0:
-        find, created=Find.objects.get_or_create(user=user, sign=sign)
-    return JsonResponse({'success':True, 'created':created, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
+        find, foundNew=Find.objects.get_or_create(user=user, sign=sign)
+    return JsonResponse({'success':True, 'foundNew':foundNew, 'created':foundNew, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
 
 def setUserBanLevel(request, userId, banLevel):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
