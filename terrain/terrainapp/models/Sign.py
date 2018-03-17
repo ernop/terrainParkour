@@ -1,3 +1,4 @@
+import math
 from django.db import models
 from terrainapp.basemodel import BaseModel
 from constants import *
@@ -34,4 +35,3 @@ class Sign(BaseModel):
 
     def getDistance(self, other):
         return math.pow(((self.x-other.x)**2+(self.y-other.y)**2+(self.z-other.z)**2), 1/2)
-

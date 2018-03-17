@@ -1,7 +1,7 @@
 from django.db import models
 from terrainapp.basemodel import BaseModel
 from constants import *
-
+import util
 
 class GameJoin(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='joins')

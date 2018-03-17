@@ -1,3 +1,16 @@
-fix leave
-get vs set up as editor
-title changer
+1. new sign adding should be easy
+2. 10x races - 
+3. nice UI
+	-easily browse previous messages
+	-better notification style for events
+		-started race
+		-ended race
+4. during-run wr information. as you run, arrows w/green/red against the signs you know
+5. highlight signs when you can hit them again.
+6. daily events - if you complete the race you get the "award"
+7. award system in lua side - award is getting points or something.
+8. tix system
+9. 10-sign races
+10. 26 (marathon) sign races
+11. leaderboard for today's races.
+12. allow users to warp in some way to a leaderboard way.
