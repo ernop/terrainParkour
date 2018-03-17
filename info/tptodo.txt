@@ -14,3 +14,5 @@
 10. 26 (marathon) sign races
 11. leaderboard for today's races.
 12. allow users to warp in some way to a leaderboard way.
+13. fix the broken joins & leaves based on .length of the join in django admin
+14. one other person has run this rrace ever - doesn't display top ten list.

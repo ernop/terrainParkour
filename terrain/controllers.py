@@ -27,6 +27,8 @@ def robloxUserJoined(request, userId, username):
         robloxuser.username=username
         robloxuser.save()
     res={'success':True}
+    tixGrantRes = TixTransaction.checkUserJoined(robloxuser)
+    res['tixGrantRes'] = tixGrantRes
     join=GameJoin(user=robloxuser)
     join.save()
     return JsonResponse(res)
@@ -304,3 +306,13 @@ def getUpcomingEvents(request):
     resp={'success':True, 'res':[jsonEvent(e) for e in events]}
     return JsonResponse(resp)
 
+def getTixBalanceByUsername(request, username):
+    robloxuser=RobloxUser.objects.filter(username=username)
+    if not robloxuser:
+        resp={'success':False, 'message':"Failed to get tix balance. No such user."}
+        return JsonResponse(resp)
+    balance=TixTransaction.GetTixBalanceByUser(robloxuser[0])
+    resp={'success':True,
+          'balance':balance,
+          'message':"Balance for %s: %d tix"%(username, balance)}
+    return JsonResponse(resp)

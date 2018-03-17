@@ -1,7 +1,6 @@
 all.sqL
 config
 env
-"local
 localsettings.py
 localurls.py
 todo.txt
@@ -26,3 +25,4 @@ env2
 rojo/.git
 .idea
 rojo
+local

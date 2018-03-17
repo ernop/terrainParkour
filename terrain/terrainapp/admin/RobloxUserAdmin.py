@@ -4,11 +4,15 @@ from allmodels import *
 import util
 
 class RobloxUserAdmin(OverriddenModelAdmin):
-    list_display='id userId myplaytime mybanLevel username created_tz myjoins mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
+    list_display='id userId mytix myplaytime mybanLevel username created_tz myjoins mychats myquits mysources mydeaths myruns myfinds mybestruns mytoptens mywrs'.split()
     search_fields=['username',]
     list_filter=['banLevel',]
 
     actions=['unban_users', 'softban_users', 'hardban_users',]
+
+    def mytix(self, obj):
+        bal = TixTransaction.GetTixBalanceByUser(obj)
+        return '<a href="../tixtransaction?user__userId=%d">%d tix (%d)</a>'%(obj.userId, bal, obj.tixtransactions.count())
 
     def unban_users(self, request, queryset):
         for obj in queryset:
@@ -69,4 +73,4 @@ class RobloxUserAdmin(OverriddenModelAdmin):
             total+=join.length
         return util.describe_session_duration(total)
 
-    adminify(myjoins, myplaytime, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)
+    adminify(myjoins, mytix, myplaytime, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)

@@ -63,6 +63,9 @@ urlpatterns = [
 
     #Events!
     url(r'terrain/getUpcomingEvents/',security(controllers.getUpcomingEvents)),
+
+    #tix
+    url(r'terrain/getTixBalanceByUsername/(.+)/',security(controllers.getTixBalanceByUsername)),
 ]
 
 

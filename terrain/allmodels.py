@@ -12,8 +12,10 @@ from terrainapp.models.RaceEvent import RaceEvent
 from terrainapp.models.RequestSource import RequestSource
 from terrainapp.models.Run import Run
 from terrainapp.models.RobloxUser import RobloxUser
+from terrainapp.models.TixTransaction import TixTransaction
 from terrainapp.models.UserDied import UserDied
-from terrainapp.models.UserPower import UserPower
+#~ from terrainapp.models.UserPower import UserPower
 from terrainapp.models.UserReset import UserReset
 from terrainapp.models.UserSource import UserSource
 from terrainapp.models.UserQuit import UserQuit
+
