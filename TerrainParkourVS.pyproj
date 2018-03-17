@@ -32,11 +32,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="app\forms.py" />
-    <Compile Include="app\tests.py" />
-    <Compile Include="app\views.py" />
-    <Compile Include="app\__init__.py" />
-    <Compile Include="app\migrations\__init__.py" />
     <Compile Include="terrain\admin.py" />
     <Compile Include="terrain\admin_helpers.py" />
     <Compile Include="terrain\alladmin.py" />
@@ -64,6 +59,7 @@
     <Compile Include="terrain\terrainapp\admin\SignAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\UserDiedAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\UserQuitAdmin.py" />
+    <Compile Include="terrain\terrainapp\admin\UserResetAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\UserSourceAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\__init__.py" />
     <Compile Include="terrain\terrainapp\apps.py" />
@@ -135,15 +131,6 @@
     <Compile Include="terrain\wsgi.py" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\" />
-    <Folder Include="app\migrations\" />
-    <Folder Include="app\static\" />
-    <Folder Include="app\static\app\" />
-    <Folder Include="app\static\app\content\" />
-    <Folder Include="app\static\app\fonts\" />
-    <Folder Include="app\static\app\scripts\" />
-    <Folder Include="app\templates\" />
-    <Folder Include="app\templates\app\" />
     <Folder Include="info\" />
     <Folder Include="rojo\" />
     <Folder Include="rojo\.git\" />
@@ -275,7 +262,6 @@
     <Folder Include="terrain\static\admin\js\vendor\xregexp\" />
     <Folder Include="terrain\terrainapp\" />
     <Folder Include="terrain\terrainapp\admin\" />
-    <Folder Include="terrain\terrainapp\admin\__pycache__\" />
     <Folder Include="terrain\terrainapp\migrations\" />
     <Folder Include="terrain\terrainapp\migrations\__pycache__\" />
     <Folder Include="terrain\terrainapp\models\" />
@@ -283,34 +269,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <Content Include="app\static\app\content\bootstrap.css" />
-    <Content Include="app\static\app\content\bootstrap.min.css" />
-    <Content Include="app\static\app\content\site.css" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="app\static\app\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="app\static\app\scripts\bootstrap.js" />
-    <Content Include="app\static\app\scripts\bootstrap.min.js" />
-    <Content Include="app\static\app\scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="app\static\app\scripts\jquery-1.10.2.js" />
-    <Content Include="app\static\app\scripts\jquery-1.10.2.min.js" />
-    <Content Include="app\static\app\scripts\jquery-1.10.2.min.map" />
-    <Content Include="app\static\app\scripts\jquery.validate-vsdoc.js" />
-    <Content Include="app\static\app\scripts\jquery.validate.js" />
-    <Content Include="app\static\app\scripts\jquery.validate.min.js" />
-    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="app\static\app\scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="app\static\app\scripts\modernizr-2.6.2.js" />
-    <Content Include="app\static\app\scripts\respond.js" />
-    <Content Include="app\static\app\scripts\respond.min.js" />
-    <Content Include="app\static\app\scripts\_references.js" />
-    <Content Include="app\templates\app\about.html" />
-    <Content Include="app\templates\app\contact.html" />
-    <Content Include="app\templates\app\index.html" />
-    <Content Include="app\templates\app\layout.html" />
-    <Content Include="app\templates\app\login.html" />
-    <Content Include="app\templates\app\loginpartial.html" />
     <Content Include="info\badges.xlsx" />
     <Content Include="info\requirements.txt" />
     <Content Include="info\state.txt" />
@@ -603,11 +561,6 @@
     <Content Include="terrain\static\admin\js\vendor\xregexp\LICENSE-XREGEXP.txt" />
     <Content Include="terrain\static\admin\js\vendor\xregexp\xregexp.js" />
     <Content Include="terrain\static\admin\js\vendor\xregexp\xregexp.min.js" />
-    <Content Include="terrain\terrainapp\admin\__pycache__\BadgeAdmin.cpython-35.pyc" />
-    <Content Include="terrain\terrainapp\admin\__pycache__\BestRunAdmin.cpython-35.pyc" />
-    <Content Include="terrain\terrainapp\admin\__pycache__\GameJoinAdmin.cpython-35.pyc" />
-    <Content Include="terrain\terrainapp\admin\__pycache__\RobloxUserAdmin.cpython-35.pyc" />
-    <Content Include="terrain\terrainapp\admin\__pycache__\__init__.cpython-35.pyc" />
     <Content Include="terrain\terrainapp\migrations\__pycache__\0001_initial.cpython-35.pyc" />
     <Content Include="terrain\terrainapp\migrations\__pycache__\0002_auto_20170518_0552.cpython-35.pyc" />
     <Content Include="terrain\terrainapp\migrations\__pycache__\0002_gamejoin_gameleave.cpython-35.pyc" />
