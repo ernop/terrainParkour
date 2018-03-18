@@ -40,7 +40,9 @@ class RaceEventAdmin(OverriddenModelAdmin):
         return util.safeDateAsString(obj.enddate)
 
     def mybadge(self, obj):
-        return obj.badge.clink()
+        if obj.badge:
+            return obj.badge.clink()
+        return '-'
 
     def myuserdescription(self, obj):
         return obj.GetEventDescription()
