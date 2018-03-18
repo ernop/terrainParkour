@@ -10,7 +10,7 @@ class TixTransaction(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='tixtransactions')
     amount=models.IntegerField() #gain or loss of tix to the user.
     reason=models.IntegerField() #a TixTransactionTypeEnum
-    day=models.DateField(default=None, blank=True, null=True)
+    transactionday=models.DateField(default=None, blank=True, null=True)
 
     class Meta:
         app_label=APP
@@ -25,14 +25,14 @@ class TixTransaction(BaseModel):
         today=datetime.date.today()
         reason=TixTransactionTypeEnum.DAILY
         amount=TixTransactionAmountEnum[reason.name].value
-        exi=TixTransaction.objects.filter(user=user, reason=reason.value, day=today)
+        exi=TixTransaction.objects.filter(user=user, reason=reason.value, transactionday=today)
         if exi:
-            return ActionResult(notify=False)
+            return None
         else:
-            tt=TixTransaction(user=user, amount=amount, day=today, reason=reason.value)
+            tt=TixTransaction(user=user, amount=amount, transactionday=today, reason=reason.value)
             tt.save()
             message='Daily Login Bonus: %d tix'%amount
-            return ActionResult(notify=True, message=message)
+            return ActionResult(notify=True, userId=user.userId, message=message)
 
     @classmethod
     def GetTixBalanceByUser(self, user):

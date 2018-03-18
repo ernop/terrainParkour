@@ -10,7 +10,7 @@ class BestRun(BaseModel): #an individual user's best run of a certain race.  Thi
     speed=models.FloatField(default=0)
 
     class Meta:
-        app_label='terrainapp'
+        app_label=APP
         db_table='bestrun'
 
     def __str__(self):
@@ -21,3 +21,4 @@ class BestRun(BaseModel): #an individual user's best run of a certain race.  Thi
         self.speed=self.race.distance/1.0/self.raceMilliseconds*1000
         super(BestRun, self).save(*args, **kwargs)
 
+         

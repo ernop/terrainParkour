@@ -31,7 +31,9 @@ def robloxUserJoined(request, userId, username):
         robloxuser.save()
     res={'success':True}
     actionResult = TixTransaction.checkUserJoined(robloxuser)
-    res['ActionResults'] = [vars(actionResult),]
+    res['ActionResults']=[]
+    if actionResult:
+        res['ActionResults'].append(vars(actionResult))
     join=GameJoin(user=robloxuser)
     join.save()
     return JsonResponse(res)
@@ -82,7 +84,7 @@ def userFoundSign(request, userId, signId):
     if foundNew:
         reason = TixTransactionTypeEnum.NEW_FIND
         amount = TixTransactionAmountEnum[reason.name].value
-        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+        tt = TixTransaction(user=user, amount=amount, transactionday=None, reason=reason.value)
         tt.save()
 
         if signFindCount==1:
@@ -92,14 +94,14 @@ def userFoundSign(request, userId, signId):
             message = "You were the %d person to find %s!"%(cardinality, sign.name)
     
         message="%s\nYou've found %d out of %d!\nAnd this earned you %d tix!"%(message, userFindCount, totalSignCount, amount)
-        ar=ActionResult(notify=True, message=message)
+        ar=ActionResult(notify=True, userId=userId, message=message)
 
         resp={'success':True, 'foundNew':foundNew, 'created':foundNew, 'userFindCount':user.finds.count()}
     
         actionResults.append(vars(ar))
         otherMessage ="%s found %s! They've found %d total."%(user.username, sign.name, userFindCount)
         #would be nice to have customized messages to every other player about the actions of someone!
-        ar=ActionResult(notify=True, message=otherMessage, notifyAllExcept=True)
+        ar=ActionResult(notify=True, userId=userId, message=otherMessage, notifyAllExcept=True)
         actionResults.append(vars(ar))
 
     resp['ActionResults']=actionResults
@@ -138,10 +140,10 @@ def setSignPosition(request, signId, name, x,y,z):
 def makeArForCreatedRace(user, race):
     reason = TixTransactionTypeEnum.NEW_RACE
     amount = TixTransactionAmountEnum[reason.name].value
-    tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+    tt = TixTransaction(user=user, amount=amount, transactionday=None, reason=reason.value)
     tt.save()
     message='You have earned %d tix for discovering a new run!'%amount
-    ar=ActionResult(notify=True, message=message)
+    ar=ActionResult(notify=True, userId=user.userId, message=message)
         
     return vars(ar)
 
@@ -149,15 +151,15 @@ def makeArsForImprovedPlace(user, race):
     res=[]
     reason = TixTransactionTypeEnum.NEW_WR
     amount = TixTransactionAmountEnum[reason.name].value
-    tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+    tt = TixTransaction(user=user, amount=amount, transactionday=None, reason=reason.value)
     tt.save()
         
     message='You have earned %d tix for getting a new WR!'%amount
-    ar=ActionResult(notify=True, message=message)
+    ar=ActionResult(notify=True, userId=user.userId, message=message)
     res.append(vars(ar))
         
     message='%s earned %d tix for getting a new WR on race %s!'%(user.username, amount, race)
-    ar=ActionResult(notify=True, message=message, notifyAllExcept=True)
+    ar=ActionResult(notify=True, userId=user.userId, message=message, notifyAllExcept=True)
     res.append(vars(ar))
     return res
 
@@ -187,10 +189,11 @@ def maybeCreateBestRun(user, run):
     
     resp['place']=thisPlace
     resp['improvedPlace']=oldPlace is None or bestrun.place<oldPlace
-    if bestrun.place<=10:
-        resp['userTotalTopTenCount']=user.bestruns.exclude(place=None).count()
-    if bestrun.place==1:
-        resp['userTotalWRCount']=user.bestruns.filter(place=1).count()
+    if bestrun.place:
+        if bestrun.place<=10:
+            resp['userTotalTopTenCount']=user.bestruns.exclude(place=None).count()
+        if bestrun.place==1:
+            resp['userTotalWRCount']=user.bestruns.filter(place=1).count()
     return resp
 
 def adjustPlaces(user, run):
@@ -238,7 +241,11 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     
     #if resp['improvedPlace']:
     otherPlayerIds = set([int(p) for p in playerIds.split(',') if int(p)!=userId])
-    
+
+    #always notify if you push these guys down.
+    otherPlayerIds.add(90115385) #brou
+    otherPlayerIds.add(164062733) #verv
+
     if int(userId) in otherPlayerIds:
         otherPlayerIds.remove(int(userId))
     
@@ -251,10 +258,6 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     #if they were lower and bumped, say "x bumped you down!/x beat your record"
 
     resp['ActionResults']=actionResults
-    
-    for ar in resp['ActionResults']:
-        print(ar)
-    
     return JsonResponse(resp)
 
 def makeRelativeActionResult(user, resp, top10, otherPlayerIds, race):
@@ -269,10 +272,10 @@ def makeRelativeActionResult(user, resp, top10, otherPlayerIds, race):
         if br.user.userId in otherPlayerIds:
             mymessage,othermessage=getMessage(br, user, myPlace, race)
             if mymessage:
-                ar=ActionResult(notify=True, message=mymessage, notifyAllExcept=False)
+                ar=ActionResult(notify=True, userId=user.userId, message=mymessage)
                 ars.append(vars(ar))
             if othermessage:
-                ar=ActionResult(notify=True, message=othermessage, notifyAllExcept=True)
+                ar=ActionResult(notify=True, userId=br.user.userId, message=othermessage)
                 ars.append(vars(ar))
     return ars
 
@@ -388,15 +391,6 @@ def getBestTimesByRace(request, startId, endId):
     res=[jsonRun(r) for r in res]
     return JsonResponse({'res':res})
 
-def getOrCreatePower(request, userId):
-    today=datetime.datetime.today()-datetime.timedelta(days=1)
-    day=today.days 
-    exi = Power.object.filter(user=user, day=day)
-    if exi.count>0:
-        power=exi[0]
-    else:
-        power=getPowerForUser(userId)
-    return jsonPower(p)
 
 #what rules should we use to get a power for a user?
 # what kind of powers are there?

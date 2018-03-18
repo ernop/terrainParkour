@@ -1,6 +1,7 @@
 from django.contrib import admin
 from allmodels import *
 
+from terrainapp.admin.ActionResultSentAdmin import ActionResultSentAdmin
 from terrainapp.admin.BadgeAdmin import BadgeAdmin
 from terrainapp.admin.BestRunAdmin import BestRunAdmin
 from terrainapp.admin.ChatMessageAdmin import ChatMessageAdmin
@@ -22,6 +23,7 @@ from terrainapp.admin.UserResetAdmin import UserResetAdmin
 from terrainapp.admin.UserSourceAdmin import UserSourceAdmin
 from terrainapp.admin.UserQuitAdmin import UserQuitAdmin
 
+admin.site.register(ActionResultSent, ActionResultSentAdmin)
 admin.site.register(Badge, BadgeAdmin)
 admin.site.register(BestRun, BestRunAdmin)
 admin.site.register(ChatMessage,ChatMessageAdmin)

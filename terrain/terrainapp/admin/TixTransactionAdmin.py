@@ -6,7 +6,7 @@ from TixTransactionAmountEnum import *
 import util
 
 class TixTransactionAdmin(OverriddenModelAdmin):
-    list_display='id amount myuser myreason day created_tz'.split()
+    list_display='id amount myuser myreason transactionday created_tz'.split()
     search_fields=['user__username',]
     list_filter=['reason',]
 
