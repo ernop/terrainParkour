@@ -58,3 +58,15 @@ def dist(s1, s2):
 #    for k,v in 
 #    return JsonResponse(res)
 
+def getCardinal(place):
+    if not place:
+        return ''
+    if place==1:
+        return '1st'
+    if place==2:
+        return '2nd'
+    if place==3:
+        return '3rd'
+    if place==11:
+        return '11th'
+    return '%sth'%str(place)

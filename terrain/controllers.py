@@ -90,7 +90,7 @@ def userFoundSign(request, userId, signId):
         if signFindCount==1:
             message = "You discovered %s!"%(sign.name)
         else:
-            cardinality = textmodule.getCardinal(signFindCount)
+            cardinality = util.getCardinal(signFindCount)
             message = "You were the %d person to find %s!"%(cardinality, sign.name)
     
         message="%s\nYou've found %d out of %d!\nAnd this earned you %d tix!"%(message, userFindCount, totalSignCount, amount)
@@ -286,12 +286,12 @@ def getMessage(br, user, myPlace, race):
         mymessage="You knocked %s out of the top 10!"%(br.user.username)
         othermessage="%s knocked you out of the top 10 in the race %s"%(user.username, race)
     elif br.place<myPlace: #they are still winning
-        mymessage='%s holds %s place in this race!'%(br.user.username, str(br.place))
-        othermessage='%s is approaching your place %s in the race %s!!'%\
-            (user.username, myPlace, str(br.place), race)
+        mymessage='%s holds %s place in this race!'%(br.user.username, util.getCardinal(br.place))
+        othermessage='%s is approaching your place %s in the race %s!! (they are %s)'%\
+            (user.username, util.getCardinal(br.place), race, util.getCardinal(myPlace))
     elif br.place>myPlace: #pushed them down.
-        mymessage='You pushed %s down to place:%s'%(br.user.username, str(br.place))
-        othermessage='%s pushed you down to %s place in the race %s!'%(user.username, str(br.place), race)
+        mymessage='You pushed %s down to place:%s'%(br.user.username, util.getCardinal(br.place))
+        othermessage='%s pushed you down to %s place in the race %s! They are %s.'%(user.username, util.getCardinal(br.place), race, util.getCardinal(myPlace))
     return mymessage, othermessage
     
     
