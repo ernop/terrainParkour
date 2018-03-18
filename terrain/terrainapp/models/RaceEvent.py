@@ -17,7 +17,8 @@ class RaceEvent(BaseModel):
         db_table='raceevent'
 
     def __str__(self):
-        return 'event: %s. Race: %s and get badge: %s.  Start:%s End:%s. %s'%(self.name, self.race, self.badge.name, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
+        badgetext=self.badge and ', and get badge %s'%self.badge.name or ''
+        return 'event: %s. Race: %s%s.  Start:%s End:%s. %s'%(self.name, self.race, badgetext, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
 
     def forUser(self):
         return self.name
