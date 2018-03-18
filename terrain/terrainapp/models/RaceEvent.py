@@ -5,7 +5,7 @@ import util
 
 class RaceEvent(BaseModel):
     name=models.CharField(max_length=100, default='')
-    description=models.CharField(max_length=1000, default='')
+    description=models.CharField(max_length=1000, default='', blank=True)
     race=models.ForeignKey('Race', related_name='raceevents')
     active=models.BooleanField(default=False) #is the event active.
     startdate=models.DateTimeField()

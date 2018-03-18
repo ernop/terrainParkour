@@ -62,7 +62,7 @@ def makeArForCreatedRace(user, race):
     amount = TixTransactionAmountEnum[reason.name].value
     tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value)
     tt.save()
-    message='You have earned %d tix for discovering a new run!'%amount
+    message='You have earned %d TIX for discovering a new run!'%amount
     ar=ActionResult(notify=True, userId=user.userId, message=message)
 
     return vars(ar)
@@ -74,11 +74,11 @@ def makeArsForImprovedPlace(user, race):
     tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value)
     tt.save()
 
-    message='You have earned %d tix for getting a new WR!'%amount
+    message='You have earned %d TIX for getting a new WR!'%amount
     ar=ActionResult(notify=True, userId=user.userId, message=message)
     res.append(vars(ar))
 
-    message='%s earned %d tix for getting a new WR on race %s!'%(user.username, amount, race)
+    message='%s earned %d TIX for getting a new WR on race %s!'%(user.username, amount, race)
     ar=ActionResult(notify=True, userId=user.userId, message=message, notifyAllExcept=True)
     res.append(vars(ar))
     return res
@@ -160,7 +160,7 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
         #add place onto the run too, for convenience
         run.place=resp['place']
         run.save()
-    if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm tix by gradually improving WR time.
+    if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm TIX by gradually improving WR time.
         #grant new tixtransaction.
         actionResults.extend(makeArsForImprovedPlace(user, race))
 
