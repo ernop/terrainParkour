@@ -92,8 +92,7 @@ def userFoundSign(request, userId, signId):
         if signFindCount==1:
             message = "You discovered %s!"%(sign.name)
         else:
-            cardinality = util.getCardinal(signFindCount)
-            message = "You were the %d person to find %s!"%(cardinality, sign.name)
+            message = "You were the %s person to find %s!"%(util.getCardinal(signFindCount), sign.name)
     
         message="%s\nYou've found %d out of %d!\nAnd this earned you %d tix!"%(message, userFindCount, totalSignCount, amount)
         ar=ActionResult(notify=True, userId=userId, message=message)
@@ -292,7 +291,7 @@ def getMessage(br, user, myPlace, race):
         othermessage='%s is approaching your place %s in the race %s!! (they are %s)'%\
             (user.username, util.getCardinal(br.place), race, util.getCardinal(myPlace))
     elif br.place>myPlace: #pushed them down.
-        mymessage='You pushed %s down to place:%s'%(br.user.username, util.getCardinal(br.place))
+        mymessage='You pushed %s down to %s place!'%(br.user.username, util.getCardinal(br.place))
         othermessage='%s pushed you down to %s place in the race %s! They are %s.'%(user.username, util.getCardinal(br.place), race, util.getCardinal(myPlace))
     return mymessage, othermessage
     
