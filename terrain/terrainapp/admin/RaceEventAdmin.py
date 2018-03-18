@@ -1,9 +1,18 @@
+from django import forms
+
 from admin_helpers import *
 from allmodels import *
 
 import util
 
+class RaceEventAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RaceEventAdminForm, self).__init__(*args, **kwargs)
+        self.fields['race'].queryset=Race.objects.order_by('start__name','end__name')
+        self.fields['badge'].queryset=Badge.objects.order_by('name')
+
 class RaceEventAdmin(OverriddenModelAdmin):
+    form = RaceEventAdminForm
     list_display='mydesc active myrace mystartdate myenddate mybadge'.split()
     list_filter=['active',]
     actions=['make_active', 'make_inactive',]

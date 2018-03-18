@@ -12,7 +12,7 @@ class RobloxUserAdmin(OverriddenModelAdmin):
 
     def mytix(self, obj):
         bal = TixTransaction.GetTixBalanceByUser(obj)
-        return '<a href="../tixtransaction?user__userId=%d">%d tix (%d)</a>'%(obj.userId, bal, obj.tixtransactions.count())
+        return '<a href="../tixtransaction?user__userId=%d">%d TIX (%d)</a>'%(obj.userId, bal, obj.tixtransactions.count())
 
     def unban_users(self, request, queryset):
         for obj in queryset:

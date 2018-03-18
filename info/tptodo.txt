@@ -30,3 +30,6 @@
 	c hype around people who run the race
 	d high visibility of the race
 19.take over a bit more of calculations
+20. warp to player
+21. event command
+22. event notifications on join!

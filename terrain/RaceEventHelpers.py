@@ -24,16 +24,18 @@ def EvaluateRunForEvents(run):
             ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_RACE_IN_RACEEVENT, run.user, raceEvent)
             actionResults.extend(ar)
 
-        place=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT.value, targetId=raceEvent.id)
-        if not place:
-            ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT, run.user,  raceEvent)
-            actionResults.extend(ar)
+        if run.place is not None:
+            place=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT.value, targetId=raceEvent.id)
+            if not place:
+                ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT, run.user,  raceEvent)
+                actionResults.extend(ar)
 
-        first=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST_TIME_FIRST_IN_RACEEVENT.value, targetId=raceEvent.id)
-        if not first:
-            ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_FIRST_IN_RACEEVENT, run.user, raceEvent)
-            actionResults.extend(ar)
-    return actionResults
+        if run.place == 1:
+            first=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST_TIME_FIRST_IN_RACEEVENT.value, targetId=raceEvent.id)
+            if not first:
+                ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_FIRST_IN_RACEEVENT, run.user, raceEvent)
+                actionResults.extend(ar)
+        return actionResults
 
 def makeTixTransaction(reason, user, raceEvent):
     actionResults=[]
