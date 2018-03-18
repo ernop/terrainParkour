@@ -28,13 +28,4 @@ class Migration(migrations.Migration):
                 'db_table': 'actionresultsent',
             },
         ),
-        migrations.RemoveField(
-            model_name='tixtransaction',
-            name='day',
-        ),
-        migrations.AddField(
-            model_name='tixtransaction',
-            name='transactionday',
-            field=models.DateField(blank=True, default=None, null=True),
-        ),
     ]

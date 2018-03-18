@@ -216,6 +216,7 @@ class Migration(migrations.Migration):
                 ('updated', models.DateTimeField(auto_now=True)),
                 ('amount', models.IntegerField()),
                 ('reason', models.IntegerField()),
+                ('transactionday', models.DateField(blank=True, default=None, null=True)),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='joins', to='terrainapp.RobloxUser')),
             ],
             options={
