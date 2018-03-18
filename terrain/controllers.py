@@ -239,12 +239,6 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     #if resp['improvedPlace']:
     otherPlayerIds = set([int(p) for p in playerIds.split(',') if int(p)!=userId])
     
-    #this is fake.
-    otherPlayerIds.add(90115385)
-    otherPlayerIds.add(38176056) #number 1.
-    otherPlayerIds.add(19401519) #mooman
-    resp['improvedPlace']=True
-    
     if int(userId) in otherPlayerIds:
         otherPlayerIds.remove(int(userId))
     
