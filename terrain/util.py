@@ -1,5 +1,7 @@
 import datetime, pytz, math
 
+from django.http import JsonResponse
+
 DATE='%Y-%m-%d'
 minute=60
 hour=minute*60
@@ -50,3 +52,9 @@ def utcnow():
 def dist(s1, s2):
     distance=math.pow(math.pow(s1.x-s2.x, 2)+math.pow(s1.y-s2.y, 2)+math.pow(s1.z-s2.z, 2), 1/2)
     return distance
+
+#def MyJsonResponse(data):
+#    res={}
+#    for k,v in 
+#    return JsonResponse(res)
+

@@ -9,6 +9,9 @@ from serializers import *
 from allmodels import *
 
 from webutil import security, postSecurity, logUser
+from ActionResult import ActionResult
+from TixTransactionAmountEnum import *
+from TixTransactionTypeEnum import *
 
 def test(request):
     return JsonResponse({"result":True, "message":'test.'})
@@ -27,8 +30,8 @@ def robloxUserJoined(request, userId, username):
         robloxuser.username=username
         robloxuser.save()
     res={'success':True}
-    tixGrantRes = TixTransaction.checkUserJoined(robloxuser)
-    res['tixGrantRes'] = tixGrantRes
+    actionResult = TixTransaction.checkUserJoined(robloxuser)
+    res['ActionResults'] = [vars(actionResult),]
     join=GameJoin(user=robloxuser)
     join.save()
     return JsonResponse(res)
@@ -37,7 +40,7 @@ def robloxUserLeft(request, userId):
     userId=int(userId)
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     GameJoin.playerLeft(userId, utcnow())
-    return JsonResponse({'success':True})
+    return MyJsonResponse({'success':True})
 
 def robloxUserDied(request, userId, x, y, z):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -62,13 +65,45 @@ def robloxUserReset(request, userId, x, y, z):
 
 def userFoundSign(request, userId, signId):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
+    actionResults=[]
     sign=tryGet(Sign, {'signId':signId})
     if not sign:
         return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     find=Find.objects.filter(user=user, sign=sign)
+    foundNew = False #we need this to update client side cache, and check badges over there.
     if find.count()==0:
         find, foundNew=Find.objects.get_or_create(user=user, sign=sign)
-    return JsonResponse({'success':True, 'foundNew':foundNew, 'created':foundNew, 'signTotalFindCount':sign.finds.count(),'userFindCount':user.finds.count()})
+
+    #create an actionresult.
+    signFindCount = Find.objects.filter(sign=sign).count()
+    userFindCount=Find.objects.filter(user=user).count()
+    totalSignCount=Sign.objects.count()
+
+    if foundNew:
+        reason = TixTransactionTypeEnum.NEW_FIND
+        amount = TixTransactionAmountEnum[reason.name].value
+        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+        tt.save()
+
+        if signFindCount==1:
+            message = "You discovered %s!"%(sign.name)
+        else:
+            cardinality = textmodule.getCardinal(signFindCount)
+            message = "You were the %d person to find %s!"%(cardinality, sign.name)
+    
+        message="%s\nYou've found %d out of %d!\nAnd this earned you %d tix!"%(message, userFindCount, totalSignCount, amount)
+        ar=ActionResult(notify=True, message=message)
+
+        resp={'success':True, 'foundNew':foundNew, 'created':foundNew, 'userFindCount':user.finds.count()}
+    
+        actionResults.append(vars(ar))
+        otherMessage ="%s found %s! They've found %d total."%(user.username, sign.name, userFindCount)
+        #would be nice to have customized messages to every other player about the actions of someone!
+        ar=ActionResult(notify=True, message=otherMessage, notifyAllExcept=True)
+        actionResults.append(vars(ar))
+
+    resp['ActionResults']=actionResults
+    return JsonResponse(resp)
 
 def setUserBanLevel(request, userId, banLevel):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
@@ -108,7 +143,17 @@ def userFinishedRun(request, userId, startId, endId, raceMilliseconds):
     end=tryGet(Sign, {'signId':endId})
     if not end:
         return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
-    race, created=Race.objects.get_or_create(start=start, end=end)
+    race, createdRace=Race.objects.get_or_create(start=start, end=end)
+    actionResults=[]
+    if createdRace:
+        reason = TixTransactionTypeEnum.NEW_RACE
+        amount = TixTransactionAmountEnum[reason.name].value
+        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+        tt.save()
+        message='You have earned %d tix for getting discovering a new run!'%amount
+        ar=ActionResult(notify=True, message=message)
+        actionResults.append(vars(ar))
+
     raceMilliseconds=math.ceil(int(raceMilliseconds))
     exi=Run.objects.filter(user=user, race=race, raceMilliseconds=raceMilliseconds)
     if exi.count()>0:
@@ -117,17 +162,35 @@ def userFinishedRun(request, userId, startId, endId, raceMilliseconds):
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
     resp={'success':True}
-    resp=maybeCreateBestrun(user, run, resp)
+    resp=maybeCreateBestRun(user, run, resp)
     if 'place' in resp and resp['place']:
+        #add place onto the run too, for convenience
         run.place=resp['place']
         run.save()
+    if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm tix by gradually improving WR time.
+        #grant new tixtransaction.
+        reason = TixTransactionTypeEnum.NEW_WR
+        amount = TixTransactionAmountEnum[reason.name].value
+        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+        tt.save()
+        
+        
+        
+        message='You have earned %d tix for getting a new WR!'%amount
+        ar=ActionResult(notify=True, message=message)
+        actionResults.append(vars(ar))
+        
+        message='%s earned %d tix for getting a new WR on race %s!'%(user.username, amount, race)
+        ar=ActionResult(notify=True, message=message, notifyAllExcept=True)
+        actionResults.append(vars(ar))
+    resp['ActionResults']=actionResults
     return JsonResponse(resp)
 
-def maybeCreateBestrun(user, run, resp):
+def maybeCreateBestRun(user, run, resp):
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
     placesNeedAdjustment=False
     thisPlace=None
-    if exi.count()>0:
+    if exi.count()>0: #there should not really ever be 2+ of these.
         bestrun=exi[0]
         if bestrun.raceMilliseconds>run.raceMilliseconds:
             bestrun.raceMilliseconds=run.raceMilliseconds
@@ -137,26 +200,31 @@ def maybeCreateBestrun(user, run, resp):
         bestrun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
         bestrun.save()
         placesNeedAdjustment=True
+    oldPlace = bestrun.place
     if placesNeedAdjustment:
-        thisPlace=adjustPlaces(user, run, bestrun)
-    bestrun=BestRun.objects.get(id=bestrun.id)
+        thisPlace=adjustPlaces(user, run)
+    
+    bestrun = BestRun.objects.get(id=bestrun.id)
+    newPlace=bestrun.place
     #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
+    
     resp['place']=thisPlace
+    resp['improvedPlace']=oldPlace is None or newPlace<oldPlace
     if bestrun.place<=10:
-        resp['topTenCount']=user.bestruns.exclude(place=None).count()
+        resp['userTotalTopTenCount']=user.bestruns.exclude(place=None).count()
     if bestrun.place==1:
-        resp['wrCount']=user.bestruns.filter(place=1).count()
+        resp['userTotalWRCount']=user.bestruns.filter(place=1).count()
     return resp
 
-def adjustPlaces(user, run, bestrun):
+def adjustPlaces(user, run):
     #we know bestrun is in the top 10.
     res=getTopTen(run.race.start.signId, run.race.end.signId, extra=True)
     ii=1
     thisPlace=None
     for bestrun in res:
-        useii=ii<=10 and ii or None
-        if bestrun.place!=useii:
-            bestrun.place=useii
+        useii = ii <= 10 and ii or None
+        if bestrun.place != useii:
+            bestrun.place = useii
             bestrun.save()
             if thisPlace==None and bestrun.raceMilliseconds==run.raceMilliseconds:
                 thisPlace=useii
