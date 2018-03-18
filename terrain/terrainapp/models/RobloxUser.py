@@ -1,6 +1,6 @@
 from django.db import models
 from terrainapp.basemodel import BaseModel
-APP='terrainapp'
+from constants import *
 
 class RobloxUser(BaseModel):
     userId=models.IntegerField(unique=True) #blank=True, null=True
@@ -15,7 +15,7 @@ class RobloxUser(BaseModel):
             self.save()
 
     class Meta:
-        app_label='terrainapp'
+        app_label=APP
         db_table='robloxuser'
 
     def __str__(self):

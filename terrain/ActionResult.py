@@ -5,6 +5,7 @@ import json
 #which will do stuff like grant badges, once that logic is on server.
 
 from terrainapp.models.ActionResultSent import ActionResultSent
+from terrainapp.models.RobloxUser import RobloxUser
 
 class ActionResult(object):
     def __init__(self, notify, message, userId, notifyAllExcept = False):
@@ -12,10 +13,11 @@ class ActionResult(object):
         self.message=message or ''
         self.notifyAllExcept = notifyAllExcept
         self.userId = userId
-        if not userId:
+        user=RobloxUser.objects.get(pk=userId)
+        if not user:
             import ipdb;ipdb.set_trace()
 
-        ars=ActionResultSent(notify=notify, userId=userId, message=message, notifyAllExcept=notifyAllExcept)
+        ars=ActionResultSent(notify=notify, user=user, message=message, notifyAllExcept=notifyAllExcept)
         ars.save()
 
     def __repr__(self):
