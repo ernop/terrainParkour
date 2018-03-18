@@ -26,3 +26,4 @@ rojo/.git
 .idea
 rojo
 local
+*.sql

@@ -1,5 +1,7 @@
 from admin_helpers import *
 from allmodels import *
+from TixTransactionTypeEnum import *
+from TixTransactionAmountEnum import *
 
 import util
 
@@ -12,7 +14,7 @@ class TixTransactionAdmin(OverriddenModelAdmin):
         return obj.user.clink()
 
     def myreason(self, obj):
-        return obj.reason
+        return TixTransactionTypeEnum(obj.reason).name
 
     def lookup_allowed(self, key, value):
         if key in ('user__userId', ):

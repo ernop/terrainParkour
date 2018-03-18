@@ -205,6 +205,7 @@
     <Folder Include="rojo\.git\refs\" />
     <Folder Include="rojo\.git\refs\heads\" />
     <Folder Include="rojo\.git\refs\tags\" />
+    <Folder Include="rojo\chat\" />
     <Folder Include="rojo\rs\" />
     <Folder Include="rojo\scs\" />
     <Folder Include="rojo\sps\" />
@@ -374,6 +375,7 @@
     <Content Include="rojo\.git\objects\fe\726eacdf3797970729522d7319cb8c0e5b3246" />
     <Content Include="rojo\.git\refs\heads\master" />
     <Content Include="rojo\.luacheckrc" />
+    <Content Include="rojo\chat\ErnieChat.lua" />
     <Content Include="rojo\rojo.json" />
     <Content Include="rojo\rs\colors.lua" />
     <Content Include="rojo\rs\enums.lua" />

@@ -135,58 +135,35 @@ def setSignPosition(request, signId, name, x,y,z):
     sign.save()
     return JsonResponse({'success':True})
 
-def userFinishedRun(request, userId, startId, endId, raceMilliseconds):
-    user, created=RobloxUser.objects.get_or_create(userId=userId)
-    start=tryGet(Sign, {'signId':startId})
-    if not start:
-        return JsonResponse({'error':True,'message':'no such sign %s'%str(startId)})
-    end=tryGet(Sign, {'signId':endId})
-    if not end:
-        return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
-    race, createdRace=Race.objects.get_or_create(start=start, end=end)
-    actionResults=[]
-    if createdRace:
-        reason = TixTransactionTypeEnum.NEW_RACE
-        amount = TixTransactionAmountEnum[reason.name].value
-        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
-        tt.save()
-        message='You have earned %d tix for getting discovering a new run!'%amount
-        ar=ActionResult(notify=True, message=message)
-        actionResults.append(vars(ar))
+def makeArForCreatedRace(user, race):
+    reason = TixTransactionTypeEnum.NEW_RACE
+    amount = TixTransactionAmountEnum[reason.name].value
+    tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+    tt.save()
+    message='You have earned %d tix for discovering a new run!'%amount
+    ar=ActionResult(notify=True, message=message)
+        
+    return vars(ar)
 
-    raceMilliseconds=math.ceil(int(raceMilliseconds))
-    exi=Run.objects.filter(user=user, race=race, raceMilliseconds=raceMilliseconds)
-    if exi.count()>0:
-        #run with this exact time, user, race already exists, no duplicates allowed!
-        return JsonResponse({'success':True })
-    run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
-    run.save()
-    resp={'success':True}
-    resp=maybeCreateBestRun(user, run, resp)
-    if 'place' in resp and resp['place']:
-        #add place onto the run too, for convenience
-        run.place=resp['place']
-        run.save()
-    if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm tix by gradually improving WR time.
-        #grant new tixtransaction.
-        reason = TixTransactionTypeEnum.NEW_WR
-        amount = TixTransactionAmountEnum[reason.name].value
-        tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
-        tt.save()
+def makeArsForImprovedPlace(user, race):
+    res=[]
+    reason = TixTransactionTypeEnum.NEW_WR
+    amount = TixTransactionAmountEnum[reason.name].value
+    tt = TixTransaction(user=user, amount=amount, day=None, reason=reason.value)
+    tt.save()
         
+    message='You have earned %d tix for getting a new WR!'%amount
+    ar=ActionResult(notify=True, message=message)
+    res.append(vars(ar))
         
-        
-        message='You have earned %d tix for getting a new WR!'%amount
-        ar=ActionResult(notify=True, message=message)
-        actionResults.append(vars(ar))
-        
-        message='%s earned %d tix for getting a new WR on race %s!'%(user.username, amount, race)
-        ar=ActionResult(notify=True, message=message, notifyAllExcept=True)
-        actionResults.append(vars(ar))
-    resp['ActionResults']=actionResults
-    return JsonResponse(resp)
+    message='%s earned %d tix for getting a new WR on race %s!'%(user.username, amount, race)
+    ar=ActionResult(notify=True, message=message, notifyAllExcept=True)
+    res.append(vars(ar))
+    return res
 
-def maybeCreateBestRun(user, run, resp):
+
+def maybeCreateBestRun(user, run):
+    resp={}
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
     placesNeedAdjustment=False
     thisPlace=None
@@ -196,6 +173,7 @@ def maybeCreateBestRun(user, run, resp):
             bestrun.raceMilliseconds=run.raceMilliseconds
             bestrun.save()
             placesNeedAdjustment=True
+        thisPlace=bestrun.place
     else:
         bestrun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
         bestrun.save()
@@ -205,11 +183,10 @@ def maybeCreateBestRun(user, run, resp):
         thisPlace=adjustPlaces(user, run)
     
     bestrun = BestRun.objects.get(id=bestrun.id)
-    newPlace=bestrun.place
     #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
     
     resp['place']=thisPlace
-    resp['improvedPlace']=oldPlace is None or newPlace<oldPlace
+    resp['improvedPlace']=oldPlace is None or bestrun.place<oldPlace
     if bestrun.place<=10:
         resp['userTotalTopTenCount']=user.bestruns.exclude(place=None).count()
     if bestrun.place==1:
@@ -218,7 +195,7 @@ def maybeCreateBestRun(user, run, resp):
 
 def adjustPlaces(user, run):
     #we know bestrun is in the top 10.
-    res=getTopTen(run.race.start.signId, run.race.end.signId, extra=True)
+    res=getTopTen(run.race, extra=True)
     ii=1
     thisPlace=None
     for bestrun in res:
@@ -230,6 +207,99 @@ def adjustPlaces(user, run):
                 thisPlace=useii
         ii=ii+1
     return thisPlace
+
+
+def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    start=tryGet(Sign, {'signId':startId})
+    if not start:
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(startId)})
+    end=tryGet(Sign, {'signId':endId})
+    if not end:
+        return JsonResponse({'error':True,'message':'no such sign %s'%str(endId)})
+    race, createdRace=Race.objects.get_or_create(start=start, end=end)
+    actionResults=[]
+    if createdRace:
+        actionResults.append(makeArForCreatedRace(user, race))
+
+    raceMilliseconds=math.ceil(int(raceMilliseconds))
+    run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
+    run.save()
+    #import ipdb;ipdb.set_trace()
+    resp=maybeCreateBestRun(user, run)
+    if 'place' in resp and resp['place']:
+        #add place onto the run too, for convenience
+        run.place=resp['place']
+        run.save()
+    if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm tix by gradually improving WR time.
+        #grant new tixtransaction.
+        actionResults.extend(makeArsForImprovedPlace(user, race))
+
+    
+    #if resp['improvedPlace']:
+    otherPlayerIds = set([int(p) for p in playerIds.split(',') if int(p)!=userId])
+    
+    #this is fake.
+    otherPlayerIds.add(90115385)
+    otherPlayerIds.add(38176056) #number 1.
+    otherPlayerIds.add(19401519) #mooman
+    resp['improvedPlace']=True
+    
+    if int(userId) in otherPlayerIds:
+        otherPlayerIds.remove(int(userId))
+    
+    top10=getTopTen(race, extra=True)
+    ars=makeRelativeActionResult(user, resp, top10, otherPlayerIds, race)
+    if ars:
+        actionResults.extend(ars)
+    #see if anybody else in the server was in the list!
+    #if they were higher, say "x tried to beat your record"
+    #if they were lower and bumped, say "x bumped you down!/x beat your record"
+
+    resp['ActionResults']=actionResults
+    
+    for ar in resp['ActionResults']:
+        print(ar)
+    
+    return JsonResponse(resp)
+
+def makeRelativeActionResult(user, resp, top10, otherPlayerIds, race):
+    myPlace=resp['place']
+    ars=[]
+    if myPlace==None or myPlace>=11:
+        return ars
+    if not resp['improvedPlace']:
+        return ars
+
+    for br in top10:
+        if br.user.userId in otherPlayerIds:
+            mymessage,othermessage=getMessage(br, user, myPlace, race)
+            if mymessage:
+                ar=ActionResult(notify=True, message=mymessage, notifyAllExcept=False)
+                ars.append(vars(ar))
+            if othermessage:
+                ar=ActionResult(notify=True, message=othermessage, notifyAllExcept=True)
+                ars.append(vars(ar))
+    return ars
+
+def getMessage(br, user, myPlace, race):
+    mymessage=''
+    othermessage=''
+    if br.place==None: #knocked them out.
+        mymessage="You knocked %s out of the top 10!"%(br.user.username)
+        othermessage="%s knocked you out of the top 10 in the race %s"%(user.username, race)
+    elif br.place<myPlace: #they are still winning
+        mymessage='%s holds %s place in this race!'%(br.user.username, str(br.place))
+        othermessage='%s is approaching your place %s in the race %s!!'%\
+            (user.username, myPlace, str(br.place), race)
+    elif br.place>myPlace: #pushed them down.
+        mymessage='You pushed %s down to place:%s'%(br.user.username, str(br.place))
+        othermessage='%s pushed you down to %s place in the race %s!'%(user.username, str(br.place), race)
+    return mymessage, othermessage
+    
+    
+    #if otherplayer is in the top 10, figure out the state.
+
 
 def getTotalWorldRecordCountByUser(request, userId):
     bests=BestRun.objects.filter(user__userId=userId).filter(place=1)
@@ -317,13 +387,16 @@ def getTotalRaceCountByUser(request, userId):
     return JsonResponse({'count':res.count()})
 
 def getBestTimesByRace(request, startId, endId):
-    res=getTopTen(startId, endId)
+    start=Sign.objects.get(signId=startId)
+    end=Sign.objects.get(signId=endId)
+    race,created=Race.objects.get_or_create(start=start, end=end)
+    res=getTopTen(race)
     res=[jsonRun(r) for r in res]
     return JsonResponse({'res':res})
 
 def getOrCreatePower(request, userId):
     today=datetime.datetime.today()-datetime.timedelta(days=1)
-    day=today.days
+    day=today.days 
     exi = Power.object.filter(user=user, day=day)
     if exi.count>0:
         power=exi[0]
@@ -341,11 +414,11 @@ def getPowerForUser(userId):
     pasPowers=Power.object.filter(user=user)
     return Power.objects.get(1)
 
-def getTopTen(startId, endId, extra=False):
+def getTopTen(race, extra=False):
     lim=10
     if extra:
         lim=11
-    res=BestRun.objects.filter(race__start__signId=startId, race__end__signId=endId).order_by('raceMilliseconds')[:lim]
+    res=BestRun.objects.filter(race=race).order_by('raceMilliseconds')[:lim]
     return res
 
 def userSentMessage(request, source):
@@ -384,3 +457,14 @@ def getTixBalanceByUsername(request, username):
           'balance':balance,
           'message':"Balance for %s: %d tix"%(username, balance)}
     return JsonResponse(resp)
+
+def postEndpoint(request, data):
+    method=request.POST.get('method')
+    if method=='userFinishedRun':
+        userId=request.POST.get('userId')
+        playerIds=request.POST.get('playerIds')
+        startId=request.POST.get('startId')
+        endId=request.POST.get('endId')
+        raceMilliseconds=request.POST.get('raceMilliseconds')
+        return userFinishedRun(userId=userId, playerIds=playerIds, endId=endId, startId=startId,raceMilliseconds=raceMilliseconds)
+    

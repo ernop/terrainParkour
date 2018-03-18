@@ -28,9 +28,7 @@ urlpatterns = [
     url(r'terrain/getUserBanLevel/(-?\d+)/',security(controllers.getUserBanLevel)),
     url(r'terrain/getUserInitialBlob/(-?\d+)/', security(controllers.getUserInitialBlob)),
     url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
-
-    #deprecate this
-    url(r'terrain/userFinishedRace/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
+    url(r'terrain/postEndpoint/', postSecurity(controllers.postEndpoint)),
 
     #when you add a new sign, you need to call this pointing at every server so scores, distances etc. can be calculated
     url(r'terrain/setSignPosition/(\d+)/([\w ]+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)', security(controllers.setSignPosition)),

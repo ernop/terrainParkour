@@ -1,3 +1,4 @@
+0. how to tell who else is in the server? send it along with the action?
 1. new sign adding should be easy
 2. 10x races - 
 3. nice UI
@@ -9,10 +10,15 @@
 5. highlight signs when you can hit them again.
 6. daily events - if you complete the race you get the "award"
 7. award system in lua side - award is getting points or something.
-8. tix system
+#8. tix system
+	8a. spending tix to get jumps
+	8b. buying tix w/robux
+	8c. trading tix
+	8d. 
 9. 10-sign races
 10. 26 (marathon) sign races
 11. leaderboard for today's races.
 12. allow users to warp in some way to a leaderboard way.
 13. fix the broken joins & leaves based on .length of the join in django admin
-14. one other person has run this rrace ever - doesn't display top ten list.
+14. one other person has run this race ever - doesn't display top ten list.
+#15. fix multi-hitting / dead sign bug!
