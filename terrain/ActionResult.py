@@ -16,7 +16,7 @@ class ActionResult(object):
         try:
             user=RobloxUser.objects.get(pk=userId)
         except:
-            assert(False,'failed to find userid when logging ActionResultSent. %s'%tostring(userId))
+            assert(False,'failed to find userid when logging ActionResultSent. %s'%str(userId))
             return
 
         ars=ActionResultSent(notify=notify, user=user, message=message, notifyAllExcept=notifyAllExcept)
