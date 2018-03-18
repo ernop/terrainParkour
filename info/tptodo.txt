@@ -14,7 +14,7 @@
 	8a. spending tix to get jumps
 	8b. buying tix w/robux
 	8c. trading tix
-	8d. 
+	8d. tix billboard
 9. 10-sign races
 10. 26 (marathon) sign races
 11. leaderboard for today's races.
@@ -22,3 +22,11 @@
 13. fix the broken joins & leaves based on .length of the join in django admin
 14. one other person has run this race ever - doesn't display top ten list.
 #15. fix multi-hitting / dead sign bug!
+16. fix session leaving
+17. fix bestrun calc stuff
+18. daily events
+	a long race
+	b short race
+	c hype around people who run the race
+	d high visibility of the race
+19.take over a bit more of calculations

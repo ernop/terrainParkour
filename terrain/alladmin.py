@@ -3,6 +3,7 @@ from allmodels import *
 
 from terrainapp.admin.ActionResultSentAdmin import ActionResultSentAdmin
 from terrainapp.admin.BadgeAdmin import BadgeAdmin
+from terrainapp.admin.BadgeGrantAdmin import BadgeGrantAdmin
 from terrainapp.admin.BestRunAdmin import BestRunAdmin
 from terrainapp.admin.ChatMessageAdmin import ChatMessageAdmin
 from terrainapp.admin.FailedSecurityAttemptAdmin import FailedSecurityAttemptAdmin
@@ -25,6 +26,7 @@ from terrainapp.admin.UserQuitAdmin import UserQuitAdmin
 
 admin.site.register(ActionResultSent, ActionResultSentAdmin)
 admin.site.register(Badge, BadgeAdmin)
+admin.site.register(BadgeGrant, BadgeGrantAdmin)
 admin.site.register(BestRun, BestRunAdmin)
 admin.site.register(ChatMessage,ChatMessageAdmin)
 admin.site.register(FailedSecurityAttempt, FailedSecurityAttemptAdmin)

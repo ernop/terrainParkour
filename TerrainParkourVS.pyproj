@@ -42,9 +42,12 @@
     <Compile Include="terrain\lists.py" />
     <Compile Include="terrain\localsettings.py" />
     <Compile Include="terrain\manage.py" />
+    <Compile Include="terrain\PlaceHelpers.py" />
     <Compile Include="terrain\serializers.py" />
     <Compile Include="terrain\ActionResult.py" />
+    <Compile Include="terrain\terrainapp\admin\ActionResultSentAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\BadgeAdmin.py" />
+    <Compile Include="terrain\terrainapp\admin\BadgeGrantAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\BestRunAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\ChatMessageAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\FailedSecurityAttemptAdmin.py" />
@@ -66,10 +69,10 @@
     <Compile Include="terrain\terrainapp\admin\__init__.py" />
     <Compile Include="terrain\terrainapp\apps.py" />
     <Compile Include="terrain\terrainapp\basemodel.py" />
-    <Compile Include="terrain\terrainapp\migrations\0001_initial.py" />
-    <Compile Include="terrain\terrainapp\migrations\__init__.py" />
     <Compile Include="terrain\terrainapp\models.py" />
+    <Compile Include="terrain\terrainapp\models\ActionResultSent.py" />
     <Compile Include="terrain\terrainapp\models\Badge.py" />
+    <Compile Include="terrain\terrainapp\models\BadgeGrant.py" />
     <Compile Include="terrain\terrainapp\models\BestRun.py" />
     <Compile Include="terrain\terrainapp\models\ChatMessage.py" />
     <Compile Include="terrain\terrainapp\models\FailedSecurityAttempt.py" />
@@ -100,6 +103,7 @@
     <Compile Include="terrain\terrain\__init__.py" />
     <Compile Include="terrain\TixTransactionAmountEnum.py" />
     <Compile Include="terrain\TixTransactionTypeEnum.py" />
+    <Compile Include="terrain\TouchSignController.py" />
     <Compile Include="terrain\util.py" />
     <Compile Include="terrain\webutil.py" />
     <Compile Include="terrain\wsgi.py" />
@@ -237,7 +241,6 @@
     <Folder Include="terrain\static\admin\js\vendor\xregexp\" />
     <Folder Include="terrain\terrainapp\" />
     <Folder Include="terrain\terrainapp\admin\" />
-    <Folder Include="terrain\terrainapp\migrations\" />
     <Folder Include="terrain\terrainapp\models\" />
     <Folder Include="terrain\terrain\" />
   </ItemGroup>

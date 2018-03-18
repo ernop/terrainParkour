@@ -9,8 +9,10 @@ import util
 class TixTransaction(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='tixtransactions')
     amount=models.IntegerField() #gain or loss of tix to the user.
-    reason=models.IntegerField() #a TixTransactionTypeEnum
+    targetType = models.IntegerField() #a TixTransactionTypeEnum.  aka the type
+    targetId = models.IntegerField(blank=True, null=True) #if the reason is one of the "raceEvent" types, this is the id of the event.
     transactionday=models.DateField(default=None, blank=True, null=True)
+
 
     class Meta:
         app_label=APP
@@ -18,7 +20,7 @@ class TixTransaction(BaseModel):
 
     def __str__(self):
         try:
-            return '%d tix transaction (%s) for %s.'%(self.amount, TixTransactionTypeEnum(self.reason).name, self.user.username)
+            return '%d TIX transaction (%s) for %s.'%(self.amount, TixTransactionTypeEnum(self.targetType).name, self.user.username)
         except:
             return str(self.id)
 
@@ -28,13 +30,13 @@ class TixTransaction(BaseModel):
         today=datetime.date.today()
         reason=TixTransactionTypeEnum.DAILY
         amount=TixTransactionAmountEnum[reason.name].value
-        exi=TixTransaction.objects.filter(user=user, reason=reason.value, transactionday=today)
+        exi=TixTransaction.objects.filter(user=user, targetType=reason.value, transactionday=today)
         if exi:
             return None
         else:
-            tt=TixTransaction(user=user, amount=amount, transactionday=today, reason=reason.value)
+            tt=TixTransaction(user=user, amount=amount, transactionday=today, targetType=reason.value)
             tt.save()
-            message='Daily Login Bonus: %d tix'%amount
+            message='Daily Login Bonus: %d TIX'%amount
             return ActionResult(notify=True, userId=user.userId, message=message)
 
     @classmethod

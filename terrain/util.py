@@ -8,6 +8,13 @@ hour=minute*60
 day=hour*24
 week=day*7
 
+
+def tryGet(cls, params):
+    res=cls.objects.filter(**params)
+    if res.count()>0:
+        return res[0]
+    return None
+
 def safeDateAsString(d):
     if d:
         return datetime.datetime.strftime(d,DATE)

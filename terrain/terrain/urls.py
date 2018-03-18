@@ -3,8 +3,9 @@ django.utils.timezone.activate('America/Juneau')
 
 from django.conf.urls import url
 from django.contrib import admin
-from controllers import security, postSecurity
+from webutil import security, postSecurity
 import controllers
+import TouchSignController
 import lists
 
 urlpatterns = [
@@ -21,14 +22,16 @@ urlpatterns = [
     url(r'terrain/userDied/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserDied)),
     url(r'terrain/userQuit/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserQuit)),
     url(r'terrain/userReset/(-?\d+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)',security(controllers.robloxUserReset)),
-    url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(controllers.userFoundSign)),
     url(r'terrain/userSentMessage/',postSecurity(controllers.userSentMessage)),
     url(r'terrain/receiveError/',postSecurity(controllers.receiveError)),
     url(r'terrain/setUserBanLevel/(-?\d+)/(\d+)/',security(controllers.setUserBanLevel)),
     url(r'terrain/getUserBanLevel/(-?\d+)/',security(controllers.getUserBanLevel)),
-    url(r'terrain/getUserInitialBlob/(-?\d+)/', security(controllers.getUserInitialBlob)),
-    url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(controllers.userFinishedRun)),
-    url(r'terrain/postEndpoint/', postSecurity(controllers.postEndpoint)),
+    
+
+    #signTouch endpoint
+    url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(TouchSignController.userFoundSign)),
+    url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(TouchSignController.userFinishedRun)),
+    url(r'terrain/postEndpoint/', postSecurity(TouchSignController.postEndpoint)),
 
     #when you add a new sign, you need to call this pointing at every server so scores, distances etc. can be calculated
     url(r'terrain/setSignPosition/(\d+)/([\w ]+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)', security(controllers.setSignPosition)),

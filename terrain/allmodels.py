@@ -1,5 +1,6 @@
 from terrainapp.models.ActionResultSent import ActionResultSent
 from terrainapp.models.Badge import Badge
+from terrainapp.models.BadgeGrant import BadgeGrant
 from terrainapp.models.BestRun import BestRun
 from terrainapp.models.ChatMessage import ChatMessage
 from terrainapp.models.FailedSecurityAttempt import FailedSecurityAttempt
@@ -15,7 +16,6 @@ from terrainapp.models.RobloxUser import RobloxUser
 from terrainapp.models.Run import Run
 from terrainapp.models.TixTransaction import TixTransaction
 from terrainapp.models.UserDied import UserDied
-#~ from terrainapp.models.UserPower import UserPower
 from terrainapp.models.UserReset import UserReset
 from terrainapp.models.UserSource import UserSource
 from terrainapp.models.UserQuit import UserQuit

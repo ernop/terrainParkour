@@ -4,7 +4,19 @@ from allmodels import *
 import util
 
 class RaceEventAdmin(OverriddenModelAdmin):
-    list_display='mydesc myrace mystartdate myenddate mybadge'.split()
+    list_display='mydesc active myrace mystartdate myenddate mybadge'.split()
+    list_filter=['active',]
+    actions=['make_active', 'make_inactive',]
+
+    def make_active(self, request, queryset):
+        for el in queryset:
+            el.active=True
+            el.save()
+
+    def make_inactive(self, request, queryset):
+        for el in queryset:
+            el.active=False
+            el.save()
 
     def mydesc(self, obj):
         return '%s<br>%s'%(obj.name, obj.description)
