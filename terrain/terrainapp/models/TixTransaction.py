@@ -17,7 +17,10 @@ class TixTransaction(BaseModel):
         db_table='tixtransaction'
 
     def __str__(self):
-        return '%d tix transaction (%s) for %s.'%(self.amount, TixTransactionTypeEnum(self.reason).name, self.user.username)
+        try:
+            return '%d tix transaction (%s) for %s.'%(self.amount, TixTransactionTypeEnum(self.reason).name, self.user.username)
+        except:
+            return str(self.id)
 
     @classmethod #returns actionResult.
     def checkUserJoined(self, user):
