@@ -13,9 +13,11 @@ class ActionResult(object):
         self.message=message or ''
         self.notifyAllExcept = notifyAllExcept
         self.userId = userId
-        user=RobloxUser.objects.get(pk=userId)
-        if not user:
-            import ipdb;ipdb.set_trace()
+        try:
+            user=RobloxUser.objects.get(pk=userId)
+        except:
+            assert(False,'failed to find userid when logging ActionResultSent. %s'%tostring(userId))
+            return
 
         ars=ActionResultSent(notify=notify, user=user, message=message, notifyAllExcept=notifyAllExcept)
         ars.save()
