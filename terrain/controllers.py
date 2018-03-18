@@ -78,7 +78,7 @@ def userFoundSign(request, userId, signId):
     signFindCount = Find.objects.filter(sign=sign).count()
     userFindCount=Find.objects.filter(user=user).count()
     totalSignCount=Sign.objects.count()
-
+    resp={}
     if foundNew:
         reason = TixTransactionTypeEnum.NEW_FIND
         amount = TixTransactionAmountEnum[reason.name].value
