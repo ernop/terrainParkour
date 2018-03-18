@@ -13,6 +13,8 @@ from ActionResult import ActionResult
 from TixTransactionAmountEnum import *
 from TixTransactionTypeEnum import *
 
+import util
+
 def test(request):
     return JsonResponse({"result":True, "message":'test.'})
 
