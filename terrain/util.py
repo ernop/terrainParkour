@@ -20,6 +20,12 @@ def safeDateAsString(d):
         return datetime.datetime.strftime(d,DATE)
     return 'no date set'
 
+def safeTimeIntervalAsString(totalSeconds):
+    if totalSeconds:
+        return describe_session_duration(totalSeconds)
+    else:
+        return 'no exact date set.'
+
 def describe_session_duration(remainder):
     if remainder ==0 or remainder==None:
         return 'active session'

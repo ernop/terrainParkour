@@ -32,4 +32,5 @@
 19.take over a bit more of calculations
 20. warp to player
 21. event command
-22. event notifications on join!
+22. event notifications on join! - about whether you have seen the signs.
+	a notify when you hit an event sign, too.

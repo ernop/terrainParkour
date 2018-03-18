@@ -10,7 +10,7 @@ class RaceEvent(BaseModel):
     active=models.BooleanField(default=False) #is the event active.
     startdate=models.DateTimeField()
     enddate=models.DateTimeField()
-    badge=models.ForeignKey('Badge', related_name='raceevents')
+    badge=models.ForeignKey('Badge', related_name='raceevents', blank=True, null=True)
 
     class Meta:
         app_label='terrainapp'
@@ -21,3 +21,15 @@ class RaceEvent(BaseModel):
 
     def forUser(self):
         return self.name
+
+    #for users
+    def GetEventDescription(self):
+        now=util.utcnow()
+        timeTilEnd=(self.enddate-now).total_seconds()
+        remainingtext=util.safeTimeIntervalAsString(timeTilEnd)
+        badgetext=self.badge and '\nIf you win, you get a badge: "%s"!'%self.badge.name or ''
+        return '%s. Race: %s! %s\nIt ends in %s.\nTIX Rewards!'\
+            %(self.name, 
+            self.race, 
+            badgetext,
+            remainingtext)

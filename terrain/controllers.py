@@ -193,13 +193,6 @@ def receiveError(request, source):
     err.save()
     resp={'success':True}
     return JsonResponse(resp)
-
-def getUpcomingEvents(request):
-    now=utcnow()
-    events=RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now)
-    resp={'success':True, 'res':[jsonEvent(e) for e in events]}
-    return JsonResponse(resp)
-
 def getTixBalanceByUsername(request, username):
     robloxuser=RobloxUser.objects.filter(username=username)
     if not robloxuser:

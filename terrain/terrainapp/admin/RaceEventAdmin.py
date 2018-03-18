@@ -13,7 +13,7 @@ class RaceEventAdminForm(forms.ModelForm):
 
 class RaceEventAdmin(OverriddenModelAdmin):
     form = RaceEventAdminForm
-    list_display='mydesc active myrace mystartdate myenddate mybadge'.split()
+    list_display='id active mydesc myuserdescription myrace mystartdate myenddate mybadge'.split()
     list_filter=['active',]
     actions=['make_active', 'make_inactive',]
 
@@ -42,5 +42,8 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def mybadge(self, obj):
         return obj.badge.clink()
 
-    adminify(mydesc, myrace, mystartdate, myenddate, mybadge)
+    def myuserdescription(self, obj):
+        return obj.GetEventDescription()
+
+    adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription)
 

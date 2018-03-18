@@ -18,6 +18,7 @@ def jsonEvent(e):
         'start_signid':e.race.start.signId,
         'end_signid':e.race.end.signId,
         'distance':e.race.distance,
+        'eventDescription':e.GetEventDescription()
     }
     return res
 

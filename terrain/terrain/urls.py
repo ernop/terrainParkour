@@ -5,10 +5,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from webutil import security, postSecurity
 import controllers
-import TouchSignController
+import TouchSignControllers
+import EventControllers
 import lists
 
-urlpatterns = [
+urlpatterns = [ 
     url(r'^terrain/adminx/', admin.site.urls),
     url(r'terrain/$', security(controllers.test)),
     #gets
@@ -29,9 +30,9 @@ urlpatterns = [
     
 
     #signTouch endpoint
-    url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(TouchSignController.userFoundSign)),
-    url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(TouchSignController.userFinishedRun)),
-    url(r'terrain/postEndpoint/', postSecurity(TouchSignController.postEndpoint)),
+    url(r'terrain/userFoundSign/(-?\d+)/(\d+)/',security(TouchSignControllers.userFoundSign)),
+    url(r'terrain/userFinishedRun/(-?\d+)/(\d+)/(\d+)/(\d+)', security(TouchSignControllers.userFinishedRun)),
+    url(r'terrain/postEndpoint/', postSecurity(TouchSignControllers.postEndpoint)),
 
     #when you add a new sign, you need to call this pointing at every server so scores, distances etc. can be calculated
     url(r'terrain/setSignPosition/(\d+)/([\w ]+)/([\-\d\.]+)/([\-\d\.]+)/([\-\d\.]+)', security(controllers.setSignPosition)),
@@ -63,7 +64,9 @@ urlpatterns = [
     url(r'terrain/getListbyType/', postSecurity(lists.getListByType)),
 
     #Events!
-    url(r'terrain/getUpcomingEvents/',security(controllers.getUpcomingEvents)),
+    url(r'terrain/getUpcomingEvents/',security(EventControllers.getUpcomingEvents)),
+    url(r'terrain/getCurrentEvents/',security(EventControllers.getCurrentEvents)),
+    
 
     #tix
     url(r'terrain/getTixBalanceByUsername/(.+)/',security(controllers.getTixBalanceByUsername)),
