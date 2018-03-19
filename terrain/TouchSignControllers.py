@@ -129,7 +129,10 @@ def adjustPlaces(user, race):
     ii=1
     userRun=None
     for bestRun in bestRuns:
-        useii = ii <= 10 and ii or None
+        if ii<=10:
+            useii=ii
+        else:
+            useii=None
         if bestRun.place != useii:
             bestRun.place = useii
             bestRun.save()
