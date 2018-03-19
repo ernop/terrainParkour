@@ -1,4 +1,4 @@
-bestfrom admin_helpers import *
+from admin_helpers import *
 from allmodels import *
 
 import util
