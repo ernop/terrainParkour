@@ -1,4 +1,4 @@
-from admin_helpers import *
+bestfrom admin_helpers import *
 from allmodels import *
 
 import util
@@ -26,9 +26,9 @@ class RunAdmin(OverriddenModelAdmin):
         if exi:
             best=exi[0]
             if best.raceMilliseconds==obj.raceMilliseconds:
-                return '<b>%0.3f Best</b>'%(obj.raceMilliseconds*1.0/1000)
+                return '<b>%0.3f (pb)</b>'%(obj.raceMilliseconds*1.0/1000)
             else:
-                besttext=' (best: %0.3f)'%(best.raceMilliseconds/1000)
+                besttext=' (pb: %0.3f)'%(best.raceMilliseconds/1000)
         else:
             besttext=' best missing? weird.'
         return '%0.3f%s'%(obj.raceMilliseconds*1.0/1000, besttext)

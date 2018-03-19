@@ -179,9 +179,6 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     ars=makeRelativeActionResult(user, resp, top10, otherPlayerIds, race)
     if ars:
         actionResults.extend(ars)
-    #see if anybody else in the server was in the list!
-    #if they were higher, say "x tried to beat your record"
-    #if they were lower and bumped, say "x bumped you down!/x beat your record"
 
     eventArs = RaceEventHelpers.EvaluateRunForEvents(run)
     if eventArs:

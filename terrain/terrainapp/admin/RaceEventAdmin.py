@@ -13,7 +13,7 @@ class RaceEventAdminForm(forms.ModelForm):
 
 class RaceEventAdmin(OverriddenModelAdmin):
     form = RaceEventAdminForm
-    list_display='id active mydesc myuserdescription myrace mystartdate myenddate mybadge'.split()
+    list_display='id active mydesc myuserdescription myrace myruns mystartdate myenddate mybadge'.split()
     list_filter=['active',]
     actions=['make_active', 'make_inactive',]
 
@@ -47,5 +47,8 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def myuserdescription(self, obj):
         return obj.GetEventDescription()
 
-    adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription)
+    def myruns(self, obj):
+        return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, obj.race.runs.count())
+
+    adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription, myruns)
 
