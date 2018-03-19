@@ -86,6 +86,8 @@ def makeArsForImprovedPlace(user, race):
 def maybeCreateBestRun(user, run):
     resp={}
     placesNeedAdjustment=False
+
+    #get the user's bestRun.
     exi=BestRun.objects.filter(user__userId=user.userId, race__id=run.race.id)
     if exi.count()>0: #there should not really ever be 2+ of these.
         bestRun=exi[0]
@@ -105,8 +107,6 @@ def maybeCreateBestRun(user, run):
         bestRun=adjustPlaces(user, run.race)
         assert(user.id==bestRun.user.id)
         thisPlace=bestRun.place
-    #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
-
     resp['place']=thisPlace
     resp['improvedPlace']=False
     if oldPlace is None:

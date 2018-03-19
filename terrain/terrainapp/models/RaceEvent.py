@@ -18,7 +18,7 @@ class RaceEvent(BaseModel):
 
     def __str__(self):
         badgetext=self.badge and ', and get badge %s'%self.badge.name or ''
-        return 'event: %s. Race: %s%s.  Start:%s End:%s. %s'%(self.name, self.race, badgetext, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
+        return '%s: %s%s - %s to %s. %s'%(self.name, self.race, badgetext, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
 
     def forUser(self):
         return self.name
@@ -29,7 +29,7 @@ class RaceEvent(BaseModel):
         timeTilEnd=(self.enddate-now).total_seconds()
         remainingtext=util.safeTimeIntervalAsString(timeTilEnd)
         badgetext=self.badge and '\nIf you win, you get a badge: "%s"!'%self.badge.name or ''
-        return '%s. Race: %s! %s\nIt ends in %s.\nTIX Rewards!'\
+        return '%s. Race: %s! %s\nIt ends in %s!'\
             %(self.name, 
             self.race, 
             badgetext,

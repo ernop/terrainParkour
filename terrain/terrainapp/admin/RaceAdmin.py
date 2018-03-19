@@ -5,7 +5,7 @@ import util
 
 
 class RaceAdmin(OverriddenModelAdmin):
-    list_display='id mystart myend distance myruns mybestruns created_tz mytop10'.split()
+    list_display='id mystart myend distance myruns mybestruns created_tz mytop10 myevents'.split()
     list_filter='start__signId end__signId'.split()
     actions=['recalculate_distance',]
 
@@ -37,6 +37,13 @@ class RaceAdmin(OverriddenModelAdmin):
             rows.append('%s (%0.3f)'%(br.user.clink(), br.raceMilliseconds/1000.0 or 0))
         return '<br>'.join(rows)
 
-    adminify(mystart, myend, myruncount, myruns, mybestruns, mytop10)
+    def myevents(self, obj):
+        pts=[]
+        link='<a href="../raceevent/?race__id__exact=%d">all %d</a>'%(obj.id, obj.raceevents.count())
+        for oo in obj.raceevents.all():
+            pts.append(oo.clink())
+        return '<br>'.join(pts)+'<br>'+link
+
+    adminify(mystart, myend, myruncount, myruns, mybestruns, mytop10, myevents)
 
 

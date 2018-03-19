@@ -17,6 +17,7 @@ class BestRunAdmin(RunAdmin):
         return '%0.1f studs/sec'%obj.speed
 
     myspeed.admin_order_field='-speed'
+    mytime.admin_order_field='raceMilliseconds'
 
     adminify(mytime, myspeed)
 
