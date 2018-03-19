@@ -93,7 +93,7 @@ def maybeCreateBestRun(user, run):
             bestRun.raceMilliseconds=run.raceMilliseconds
             bestRun.save()
             placesNeedAdjustment=True
-        thisPlace=bestRun.place
+        thisPlace = bestRun.place
         oldPlace = bestRun.place
     else:
         bestRun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
@@ -103,6 +103,7 @@ def maybeCreateBestRun(user, run):
         oldPlace=None
     if placesNeedAdjustment:
         bestRun=adjustPlaces(user, run.race)
+        assert(user.id==bestRun.user.id)
         thisPlace=bestRun.place
     #if we placed in the top ten, then return topTenCount and wrCount for those record checking on client.
 
@@ -128,7 +129,7 @@ def adjustPlaces(user, race):
     ii=1
     userRun=None
     for bestRun in bestRuns:
-        useii = ii <= 10 or None
+        useii = ii <= 10 and ii or None
         if bestRun.place != useii:
             bestRun.place = useii
             bestRun.save()
@@ -154,7 +155,6 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     raceMilliseconds=math.ceil(int(raceMilliseconds))
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
-
     resp=maybeCreateBestRun(user, run)
     if 'place' in resp and resp['place']:
         #add place onto the run too, for convenience
@@ -163,7 +163,6 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     if resp['place']==1 and resp['improvedPlace']: #bit annoying that they can farm TIX by gradually improving WR time.
         #grant new tixtransaction.
         actionResults.extend(makeArsForImprovedPlace(user, race))
-
 
     #if resp['improvedPlace']:
     otherPlayerIds = set([int(p) for p in playerIds.split(',') if int(p)!=userId])
