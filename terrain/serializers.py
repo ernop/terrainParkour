@@ -12,11 +12,13 @@ def jsonEvent(e):
         'id':e.id,
         'start':safeDateAsString(e.startdate),
         'end':safeDateAsString(e.enddate),
-        'badgeAssetId':e.badge.assetId,
-        'badgeId':e.badge.id,
-        'badgeName':e.badge.name,
-        'start_signid':e.race.start.signId,
-        'end_signid':e.race.end.signId,
+        'badgeAssetId':e.badge and e.badge.assetId or 0,
+        'badgeId':e.badge and e.badge.id or '',
+        'badgeName':e.badge and e.badge.name or '',
+        'startSignId':e.race.start.signId,
+        'endSignId':e.race.end.signId,
+        'startSignName':e.race.start.name,
+        'endSignName':e.race.end.name,
         'distance':e.race.distance,
         'eventDescription':e.GetEventDescription()
     }

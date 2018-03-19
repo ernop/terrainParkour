@@ -15,6 +15,11 @@ def GetQualifyingEventsByRunAndUser(run):
     match=active.filter(race=run.race)
     return match
 
+def GetQualifyingEventsBySign(sign):
+    active = GetActiveRaceEvents()
+    match=active.filter(race__start=sign)
+    return match
+
 def EvaluateRunForEvents(run):
     raceEvents = GetQualifyingEventsByRunAndUser(run)
     actionResults = []
