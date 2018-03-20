@@ -24,6 +24,7 @@ def userFoundSign(request, userId, signId):
         return JsonResponse({'error':True,'message':'no such sign %s'%str(signId)})
     find=Find.objects.filter(user=user, sign=sign)
     foundNew = False #we need this to update client side cache, and check badges over there.
+    #this is basically a secondary debounce?
     if find.count()==0:
         find, foundNew=Find.objects.get_or_create(user=user, sign=sign)
 
@@ -71,7 +72,10 @@ def makeArsForImprovedPlace(user, race):
     res=[]
     reason = TixTransactionTypeEnum.NEW_WR
     amount = TixTransactionAmountEnum[reason.name].value
-    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value)
+
+    #note: you can get multiple tix award for successively getting new first places, maybe in partnership with someone.
+
+    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value, targetId=race.id)
     tt.save()
 
     message='You have earned %d TIX for getting a new WR!'%amount
@@ -95,20 +99,18 @@ def maybeCreateBestRun(user, run):
             bestRun.raceMilliseconds=run.raceMilliseconds
             bestRun.save()
             placesNeedAdjustment=True
-        thisPlace = bestRun.place
         oldPlace = bestRun.place
     else:
         bestRun=BestRun(user=user, raceMilliseconds=run.raceMilliseconds, race=run.race)
         bestRun.save()
         placesNeedAdjustment=True
-        thisPlace=None
         oldPlace=None
     if placesNeedAdjustment:
         newBestRun=adjustPlaces(user, run.race)
         if newBestRun:
             bestRun=newBestRun
-            thisPlace=bestRun.place
         #else keep the bestRun from above with None value for place.
+    thisPlace=bestRun.place
     resp['place']=thisPlace
     resp['improvedPlace']=False
     if oldPlace is None:
@@ -161,7 +163,7 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
     resp=maybeCreateBestRun(user, run)
-    if 'place' in resp and resp['place']:
+    if resp['place']:
         #add place onto the run too, for convenience
         run.place=resp['place']
         run.save()

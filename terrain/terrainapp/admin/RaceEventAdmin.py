@@ -50,5 +50,9 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def myruns(self, obj):
         return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, obj.race.runs.count())
 
+    def mytixtransactions(self, obj):
+        tt=TixTransactions.filter()
+
+
     adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription, myruns)
 

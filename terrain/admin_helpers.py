@@ -29,6 +29,12 @@ class OverriddenModelAdmin(admin.ModelAdmin):
 
     created_tz.admin_order_field='created'
 
+    def updated_tz(self, obj):
+        dt = obj.updated.astimezone(pytz_timezone(settings.ADMIN_TIMEZONE))
+        return dt.strftime(settings.DATE_FORMAT)
+
+    updated_tz.admin_order_field='updated'
+
     def changelist_view(self, request, extra_context=None):
         '''rewriting this to sometimes kill the "ID" filter when you click on another one.'''
         if request.GET.get('id'):

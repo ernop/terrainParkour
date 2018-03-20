@@ -10,7 +10,10 @@ class TixTransaction(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='tixtransactions')
     amount=models.IntegerField() #gain or loss of tix to the user.
     targetType = models.IntegerField() #a TixTransactionTypeEnum.  aka the type
-    targetId = models.IntegerField(blank=True, null=True) #if the reason is one of the "raceEvent" types, this is the id of the event.
+    targetId = models.IntegerField(blank=True, null=True) 
+    #if the reason is one of the "raceEvent" types, this is the id of the event.
+    #if the reason is NEW_WR, target is the race.
+
     transactionday=models.DateField(default=None, blank=True, null=True)
 
 

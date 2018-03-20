@@ -5,7 +5,7 @@ from terrainapp.admin.RunAdmin import RunAdmin
 import util
 
 class BestRunAdmin(RunAdmin):
-    list_display='id myuser myrace mystart myend mytime myspeed place created_tz'.split()
+    list_display='id myuser myrace mystart myend mytime myspeed place created_tz updated_tz'.split()
 
     def mytime(self, obj):
         exi=BestRun.objects.filter(race=obj.race, user=obj.user)
