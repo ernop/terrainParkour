@@ -104,9 +104,11 @@ def maybeCreateBestRun(user, run):
         thisPlace=None
         oldPlace=None
     if placesNeedAdjustment:
-        bestRun=adjustPlaces(user, run.race)
-        assert(user.id==bestRun.user.id)
-        thisPlace=bestRun.place
+        newBestRun=adjustPlaces(user, run.race)
+        if newBestRun:
+            bestRun=newBestRun
+            thisPlace=bestRun.place
+        #else keep the bestRun from above with None value for place.
     resp['place']=thisPlace
     resp['improvedPlace']=False
     if oldPlace is None:
