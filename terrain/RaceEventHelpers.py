@@ -3,6 +3,9 @@ from TixTransactionAmountEnum import *
 from TixTransactionTypeEnum import *
 import util
 from ActionResult import ActionResult
+import logging
+
+logger = logging.getLogger(__name__)
 
 def GetActiveRaceEvents():
     now=util.utcnow()
@@ -32,6 +35,7 @@ def EvaluateRunForEvents(run):
         if run.place is not None:
             place=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT.value, targetId=raceEvent.id, user__id=run.user.id)
             if not place:
+                logger.info("awarding place award because place was: %d"%run.place)
                 ar= makeTixTransaction(TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT, run.user,  raceEvent)
                 actionResults.extend(ar)
 

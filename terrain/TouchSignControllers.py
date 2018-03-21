@@ -125,7 +125,7 @@ def maybeCreateBestRun(user, run):
             resp['userTotalTopTenCount']=user.bestruns.exclude(place=None).count()
         if bestRun.place==1:
             resp['userTotalWRCount']=user.bestruns.filter(place=1).count()
-    return resp
+    return resp, bestRun
 
 def adjustPlaces(user, race):
     #we know bestRun is in the top 10.
@@ -162,7 +162,7 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     raceMilliseconds=math.ceil(int(raceMilliseconds))
     run=Run(user=user, race=race, raceMilliseconds=raceMilliseconds)
     run.save()
-    resp=maybeCreateBestRun(user, run)
+    resp, bestRun = maybeCreateBestRun(user, run)
     if resp['place']:
         #add place onto the run too, for convenience
         run.place=resp['place']
@@ -172,7 +172,7 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
         actionResults.extend(makeArsForImprovedPlace(user, race))
 
     #if resp['improvedPlace']:
-    otherPlayerIds = set([int(p) for p in playerIds.split(',') if int(p)!=userId])
+    otherPlayerIds = set([int(p) for p in playerIds.split(',')])
 
     #always notify if you push these guys down.
     otherPlayerIds.add(90115385) #brou
@@ -186,7 +186,8 @@ def userFinishedRun(userId, startId, endId, raceMilliseconds, playerIds):
     if ars:
         actionResults.extend(ars)
 
-    eventArs = RaceEventHelpers.EvaluateRunForEvents(run)
+    #we should evaluate the bestrun, so that if they got 1st place in the past, by just completing a race they get something.
+    eventArs = RaceEventHelpers.EvaluateRunForEvents(bestRun)
     if eventArs:
         actionResults.extend(eventArs)
 
