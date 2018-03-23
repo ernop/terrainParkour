@@ -14,6 +14,7 @@ from terrainapp.admin.GameServerErrorAdmin import GameServerErrorAdmin
 from terrainapp.admin.SignAdmin import SignAdmin
 from terrainapp.admin.RaceAdmin import RaceAdmin
 from terrainapp.admin.RaceEventAdmin import RaceEventAdmin
+from terrainapp.admin.RaceEventTypeAdmin import RaceEventTypeAdmin
 from terrainapp.admin.RequestSourceAdmin import RequestSourceAdmin
 from terrainapp.admin.RunAdmin import RunAdmin
 from terrainapp.admin.RobloxUserAdmin import RobloxUserAdmin
@@ -38,6 +39,7 @@ admin.site.register(TixTransaction, TixTransactionAdmin)
 admin.site.register(UserSource, UserSourceAdmin)
 admin.site.register(Race, RaceAdmin)
 admin.site.register(RaceEvent, RaceEventAdmin)
+admin.site.register(RaceEventType, RaceEventTypeAdmin)
 admin.site.register(RequestSource, RequestSourceAdmin)
 admin.site.register(RobloxUser, RobloxUserAdmin)
 admin.site.register(Run, RunAdmin)

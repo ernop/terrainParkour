@@ -11,6 +11,7 @@ from terrainapp.models.Power import Power
 from terrainapp.models.Sign import Sign
 from terrainapp.models.Race import Race
 from terrainapp.models.RaceEvent import RaceEvent
+from terrainapp.models.RaceEventType import RaceEventType
 from terrainapp.models.RequestSource import RequestSource
 from terrainapp.models.RobloxUser import RobloxUser
 from terrainapp.models.Run import Run

@@ -11,6 +11,7 @@ class RaceEvent(BaseModel):
     startdate=models.DateTimeField()
     enddate=models.DateTimeField()
     badge=models.ForeignKey('Badge', related_name='raceevents', blank=True, null=True)
+    eventtype = models.ForeignKey('RaceEventType', default=None, null=True) #like, 5 minute, permanent, etc
 
     class Meta:
         app_label='terrainapp'

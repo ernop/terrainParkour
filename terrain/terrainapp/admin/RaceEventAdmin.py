@@ -15,7 +15,7 @@ class RaceEventAdmin(OverriddenModelAdmin):
     form = RaceEventAdminForm
     list_display='id active mydesc myuserdescription myrace myruns mystartdate myenddate mybadge'.split()
     list_filter=['active',]
-    actions=['make_active', 'make_inactive',]
+    actions=['make_active', 'make_inactive', 'make_permanent',]
 
     def make_active(self, request, queryset):
         for el in queryset:
@@ -25,6 +25,12 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def make_inactive(self, request, queryset):
         for el in queryset:
             el.active=False
+            el.save()
+
+    def make_permanent(self, request, queryset):
+        perm=RaceEventType.objects.get(name='permanent')
+        for el in queryset:
+            el.eventtype=el
             el.save()
 
     def mydesc(self, obj):
