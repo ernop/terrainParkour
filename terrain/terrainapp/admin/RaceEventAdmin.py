@@ -13,8 +13,8 @@ class RaceEventAdminForm(forms.ModelForm):
 
 class RaceEventAdmin(OverriddenModelAdmin):
     form = RaceEventAdminForm
-    list_display='id active mydesc myuserdescription myrace myruns mystartdate myenddate mybadge'.split()
-    list_filter=['active',]
+    list_display='id active mydesc myuserdescription eventtype myrace myruns mystartdate myenddate mybadge'.split()
+    list_filter=['active', 'eventtype']
     actions=['make_active', 'make_inactive', 'make_permanent',]
 
     def make_active(self, request, queryset):

@@ -11,4 +11,4 @@ class RaceEventType(BaseModel):
         db_table='raceeventtype'
 
     def __str__(self):
-        return 'RaceEventType:%s'%(self.name)
+        return '%s'%(self.name)
