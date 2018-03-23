@@ -16,7 +16,10 @@ def logUser(userId, source, first):
     userSource.save()
 
 def getSecretKey():
-    res=open('secret.txt','r').read().strip()
+    try:
+        res=open('secret.txt','r').read().strip()
+    except:
+        res='x'
     return res
 
 secret=getSecretKey()
