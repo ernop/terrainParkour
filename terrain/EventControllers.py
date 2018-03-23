@@ -23,6 +23,7 @@ def getUpcomingEvents(request):
 
 def getCurrentEvents(request):
     now=utcnow()
-    events=GetActiveRaceEvents()
+    #for now this only returns quickraces - other events should be discovered.
+    events=GetQuickRaceEvents()
     resp={'success':True, 'res':[jsonEvent(e) for e in events]}
     return JsonResponse(resp)
