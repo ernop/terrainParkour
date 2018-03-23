@@ -25,5 +25,9 @@ def getCurrentEvents(request):
     now=utcnow()
     #for now this only returns quickraces - other events should be discovered.
     events=GetQuickRaceEvents()
-    resp={'success':True, 'res':[jsonEvent(e) for e in events]}
+    if events:
+        evlist = [jsonEvent(e) for e in events]
+    else:
+        evlist = []
+    resp={'success':True, 'res':evlist}
     return JsonResponse(resp)
