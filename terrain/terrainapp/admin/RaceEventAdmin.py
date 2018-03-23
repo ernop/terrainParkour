@@ -30,7 +30,7 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def make_permanent(self, request, queryset):
         perm=RaceEventType.objects.get(name='permanent')
         for el in queryset:
-            el.eventtype=el
+            el.eventtype=perm
             el.save()
 
     def mydesc(self, obj):
