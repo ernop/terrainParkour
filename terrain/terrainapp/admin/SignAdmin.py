@@ -4,7 +4,7 @@ from allmodels import *
 import util
 
 class SignAdmin(OverriddenModelAdmin):
-    list_display='id signId name myfinds mynearest mystarts myends mypos'.split()
+    list_display='id signId name myfinds mynearest mystarts myends mypos created_tz'.split()
     list_filter=['name',]
     search_fields=['name',]
     actions=['recalculate_find_totals','recalculate_nearest',]

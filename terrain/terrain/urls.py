@@ -57,6 +57,7 @@ urlpatterns = [
     url(r'terrain/getTotalBestRunCountByRace/(\d+)/(\d+)/',security(controllers.getTotalBestRunCountByRace)),
     url(r'terrain/getRaceInfoByUser/(-?\d+)/(\d+)/(\d+)',security(controllers.getRaceInfoByUser)),
     url(r'terrain/getTotalRaceCountByUser/(-?\d+)/',security(controllers.getTotalRaceCountByUser)),
+    url(r'terrain/getStatsByUser/(-?\d+)/',security(controllers.getStatsByUser)),
 
     url(r'terrain/getBestTimesByRace/(\d+)/(\d+)/',security(controllers.getBestTimesByRace)),
 

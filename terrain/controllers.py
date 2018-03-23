@@ -121,6 +121,18 @@ def getTotalRunCount(request):
 def getTotalRaceCount(request):
     return JsonResponse({'count':Race.objects.count()})
 
+def getStatsByUser(request, userId):
+    user, created=RobloxUser.objects.get_or_create(userId=userId)
+    res={'finds':Find.objects.filter(user__userId=userId).count(),
+         'races':BestRun.objects.filter(user__userId=userId).count(),
+         'distinctRuns': Run.objects.filter(user__userId=userId).count(),
+         'toptens':BestRun.objects.filter(user__userId=userId).exclude(place=None).count(),
+         'wrs':BestRun.objects.filter(user__userId=userId).filter(place=1).count(),
+         'tix':TixTransaction.GetTixBalanceByUser(user),
+         #'tixNow':TixTransaction.GetTixBalanceByUser(user),
+         }
+    return JsonResponse(res)
+
 def getTotalRaceCountByDay(request):
     today=datetime.datetime.today()-datetime.timedelta(days=1)
     tomorrow=datetime.datetime.today()

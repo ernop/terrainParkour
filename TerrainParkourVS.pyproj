@@ -39,10 +39,12 @@
     <Compile Include="terrain\constants.py" />
     <Compile Include="terrain\controllers.py" />
     <Compile Include="terrain\errors.py" />
+    <Compile Include="terrain\EventControllers.py" />
     <Compile Include="terrain\lists.py" />
     <Compile Include="terrain\localsettings.py" />
     <Compile Include="terrain\manage.py" />
     <Compile Include="terrain\PlaceHelpers.py" />
+    <Compile Include="terrain\RaceEventHelpers.py" />
     <Compile Include="terrain\serializers.py" />
     <Compile Include="terrain\ActionResult.py" />
     <Compile Include="terrain\terrainapp\admin\ActionResultSentAdmin.py" />
@@ -103,7 +105,7 @@
     <Compile Include="terrain\terrain\__init__.py" />
     <Compile Include="terrain\TixTransactionAmountEnum.py" />
     <Compile Include="terrain\TixTransactionTypeEnum.py" />
-    <Compile Include="terrain\TouchSignController.py" />
+    <Compile Include="terrain\TouchSignControllers.py" />
     <Compile Include="terrain\util.py" />
     <Compile Include="terrain\webutil.py" />
     <Compile Include="terrain\wsgi.py" />
@@ -394,6 +396,7 @@
     <Content Include="rojo\sss\chatInterface.lua" />
     <Content Include="rojo\sss\config.lua" />
     <Content Include="rojo\sss\coregui.lua" />
+    <Content Include="rojo\sss\eventMonitor.lua" />
     <Content Include="rojo\sss\httpService.lua" />
     <Content Include="rojo\sss\locationMonitor.lua" />
     <Content Include="rojo\sss\main.server.lua" />

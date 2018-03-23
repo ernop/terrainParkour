@@ -34,3 +34,24 @@
 21. event command
 22. event notifications on join! - about whether you have seen the signs.
 	a notify when you hit an event sign, too.
+
+badge for tix bal
+multi-leg races
+clear cheaters around abcd
+longest race discovered
+direct compare A=>B by points, signs, etc. etc. with public display.
+use the metatable stuff?
+glowing signs
+signs which show when they are hittable again
+arrow pointing you which way to go
+better events
+adhoc events
+permanent events for opportune names - not reported
+spending tix to challenge people to do events
+spending tix to permanently create events
+rank/level systems
+level per sign - how many starts, WRs, toptens, etc you have from it.
+sound effects per sign
+background music
+custom animations, appearance, badges, names
+race for badges.
