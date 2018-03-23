@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 
 def GetQuickRaceEvents():
     now=util.utcnow()
-    res2 = RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now, active=True)
+    res = RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now, active=True)
+    return res
 
 def GetActiveRaceEvents():
     
