@@ -39,7 +39,7 @@ class RunAdmin(OverriddenModelAdmin):
         return obj.race.clink()
 
     def lookup_allowed(self, key, value):
-        if key in ('user__userId', 'user__userId__exact',  ):
+        if key in ('user__userId', 'user__userId__exact', 'race__start__signId' ):
             return True
         return super(RunAdmin, self).lookup_allowed(key, value)
 

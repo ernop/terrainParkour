@@ -34,21 +34,23 @@ class RaceEvent(BaseModel):
     def GetEventDescription(self, onlyTopLevel=False):
         now=util.utcnow()
         remainingtext=''
+
+        if self.badge:
+            badgetext='Badge award: "%s"!'%self.badge.name
+        else:
+            badgetext=''
+
         if self.eventtype:
             if self.eventtype.id in RaceEventTypeIdsWhichEnd:
                 if not self.enddate:
                     raise
                 timeTilEnd=(self.enddate-now).total_seconds()
                 if timeTilEnd>0:
-                    remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
+                    remainingtext='It ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
                 else:
-                    remainingtext='\nIt ended %s ago!'%util.safeTimeIntervalAsString(-1*timeTilEnd, onlyTopLevel)
+                    remainingtext='It ended %s ago!'%util.safeTimeIntervalAsString(-1*timeTilEnd, onlyTopLevel)
                 
-        if self.badge:
-            badgetext='\nBadge award: "%s"!'%self.badge.name
-        else:
-            badgetext=''
-        return '%s %s %s%s'\
+        return '%s %s %s %s'\
             %(self.name, 
             self.race, 
             badgetext,
