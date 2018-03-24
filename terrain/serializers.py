@@ -1,3 +1,4 @@
+from terrainapp.models.RaceEventTypeEnum import *
 from util import *
 
 def jsonRun(r):
@@ -21,7 +22,7 @@ def jsonEvent(e):
         'endSignName':e.race.end.name,
         'distance':e.race.distance,
         'name':e.name,
-        'ephemeral':e.startdate is not None,
+        'ephemeral':e.eventtype.id != RaceEventTypeEnum['permanent'] ,
         'eventDescription':e.GetEventDescription(onlyTopLevel=True)
     }
     return res
