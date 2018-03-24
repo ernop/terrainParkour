@@ -59,7 +59,8 @@ class RaceEventAdmin(OverriddenModelAdmin):
         return obj.GetEventDescription(onlyTopLevel=True)
 
     def myruns(self, obj):
-        return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, obj.race.runs.count())
+        runct=obj.GetValidRuns().count()
+        return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, runct)
 
     def mytixtransactions(self, obj):
         tt=TixTransactions.filter()

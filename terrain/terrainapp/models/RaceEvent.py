@@ -2,6 +2,7 @@ from django.db import models
 from terrainapp.basemodel import BaseModel
 from constants import *
 from terrainapp.models.RaceEventTypeEnum import *
+from terrainapp.models.Run import Run
 import util
 
 class RaceEvent(BaseModel):
@@ -42,3 +43,11 @@ class RaceEvent(BaseModel):
             self.race, 
             badgetext,
             remainingtext)
+
+    #get runs which qualify in this interval
+    def GetValidRuns(self):
+        if self.eventtype.id in [QUICK['id'], DAILY['id'], HOURLY['id']]:
+            res=Run.objects.filter(race=self.race, created__gt=self.startdate, created__lt=self.enddate)
+        else:
+            res=Run.objects.filter(race=self.race)
+        return res
