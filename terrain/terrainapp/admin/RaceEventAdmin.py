@@ -1,8 +1,10 @@
 from django import forms
 
 from admin_helpers import *
+from django.db.models import Sum
 from allmodels import *
 from terrainapp.models.RaceEventTypeEnum import *
+from TixTransactionTypeEnum import *
 
 import util
 
@@ -14,7 +16,7 @@ class RaceEventAdminForm(forms.ModelForm):
 
 class RaceEventAdmin(OverriddenModelAdmin):
     form = RaceEventAdminForm
-    list_display='id active myrunning_now mydesc myuserdescription eventtype myrace myvalid_runs myruns mystartdate myenddate mybadge'.split()
+    list_display='id active myrunning_now mydesc myuserdescription eventtype myrace myruns myvalid_runs mytixtransactions mystartdate myenddate mybadge'.split()
     list_filter=['active', 'eventtype']
     actions=['make_active', 'make_inactive', 'make_permanent',]
 
@@ -58,9 +60,22 @@ class RaceEventAdmin(OverriddenModelAdmin):
     def myuserdescription(self, obj):
         return obj.GetEventDescription(onlyTopLevel=True)
 
+    def mytixtransactions(self, obj):
+        #figure out
+        #link to the same raceevent__id
+        transactions=TixTransaction.objects.filter(targetType__in=TixTransactionRacePrizeAwardTypeIds,
+                                                    targetId=obj.id)
+        ct=transactions.count()
+        total=transactions.aggregate(Sum('amount'))['amount__sum'] or 0
+        if ct==0:
+            return '-'
+        return '%d tix (%d)'%(total, ct)
+
     def myvalid_runs(self, obj):
-        runct=obj.GetValidRuns().count()
-        return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, runct)
+        runs=obj.GetValidRuns()
+        joined='<br>'.join(['<span class=nb style="white-space:nowrap;">%s %s %0.3fs %sp</span>'%(run.user.clink(), run.race, run.raceMilliseconds/1000.0, str(run.place)) for run in runs])
+
+        return joined
 
     def myruns(self, obj):
         runct=obj.race.runs.count()
@@ -74,9 +89,5 @@ class RaceEventAdmin(OverriddenModelAdmin):
 
     myrunning_now.boolean=True
 
-    def mytixtransactions(self, obj):
-        tt=TixTransactions.filter()
-
-
-    adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription, myruns, myvalid_runs, myrunning_now)
+    adminify(mydesc, myrace, mytixtransactions, mystartdate, myenddate, mybadge, myuserdescription, myruns, myvalid_runs, myrunning_now)
 

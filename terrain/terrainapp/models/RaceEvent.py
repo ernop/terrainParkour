@@ -35,7 +35,11 @@ class RaceEvent(BaseModel):
                 if not self.enddate:
                     raise
                 timeTilEnd=(self.enddate-now).total_seconds()
-                remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
+                if timeTilEnd>0:
+                    remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
+                else:
+                    remainingtext='\nIt ended %s ago!'%util.safeTimeIntervalAsString(-1*timeTilEnd, onlyTopLevel)
+                
         if self.badge:
             badgetext='\nBadge award: "%s"!'%self.badge.name
         else:

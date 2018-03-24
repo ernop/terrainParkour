@@ -18,7 +18,7 @@ class Race(BaseModel):
             self.distance=terrainutil.getDistance(self.start, self.end)
 
     def __str__(self):
-        return '%s => %s (%0.0f)'%(self.start.name, self.end.name, self.distance)
+        return '%s => %s (%0.0fd)'%(self.start.name, self.end.name, self.distance)
 
     def save(self, *args, **kwargs):
         if not self.distance:

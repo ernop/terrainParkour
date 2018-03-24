@@ -21,7 +21,7 @@ class TixTransactionAdmin(OverriddenModelAdmin):
     def lookup_allowed(self, key, value):
         if key in ('user__userId', ):
             return True
-        return super(UserSourceAdmin, self).lookup_allowed(key, value)
+        return super(TixTransactionAdmin, self).lookup_allowed(key, value)
 
     def mytarget(self, obj):
         if obj:

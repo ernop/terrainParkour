@@ -15,7 +15,7 @@ class Run(BaseModel):
         db_table='run'
 
     def __str__(self):
-        return '%s ran the race from %s to %s in %f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
+        return '%s ran the race from %s to %s in %0.3f'%(self.user.username, self.race.start.name, self.race.end.name, self.raceMilliseconds/1000)
 
     def save(self, *args, **kwargs):
         self.speed=self.race.distance/1.0/self.raceMilliseconds*1000
