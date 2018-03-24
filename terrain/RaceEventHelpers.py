@@ -36,29 +36,37 @@ def EvaluateRunForEvents(run):
     actionResults = []
     for raceEvent in raceEvents:
         race=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.RACE.value, targetId=raceEvent.id, user__id=run.user.id)
+        if raceEvent.eventtype_id==QUICK['id']:
+            rewardData=QUICK['reward']
+        elif raceEvent.eventtype_id==HOURLY['id']:
+            rewardData=HOURLY['reward']
+        elif raceEvent.eventtype_id==DAILY['id']:
+            rewardData=DAILY['reward']
 
         if not race:
-            ar = makeTixTransaction(TixTransactionTypeEnum.RACE, run.user, raceEvent)
+            amount=rewardData['run']
+            ar = makeTixTransaction(TixTransactionTypeEnum.RACE, run.user, amount, raceEvent)
             actionResults.extend(ar)
 
         if run.place is not None:
             place=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.PLACE.value, targetId=raceEvent.id, user__id=run.user.id)
             if not place:
+                amount=rewardData['place']
                 logger.info("awarding place award because place was: %d"%run.place)
-                ar= makeTixTransaction(TixTransactionTypeEnum.PLACE, run.user,  raceEvent)
+                ar= makeTixTransaction(TixTransactionTypeEnum.PLACE, run.user,  amount, raceEvent)
                 actionResults.extend(ar)
 
         if run.place == 1:
             first=TixTransaction.objects.filter(targetType=TixTransactionTypeEnum.FIRST.value, targetId=raceEvent.id, user__id=run.user.id)
             if not first:
-                ar= makeTixTransaction(TixTransactionTypeEnum.FIRST, run.user, raceEvent)
+                amount=rewardData['first']
+                ar= makeTixTransaction(TixTransactionTypeEnum.FIRST, run.user, amount, raceEvent)
                 actionResults.extend(ar)
         return actionResults
 
-def makeTixTransaction(reason, user, raceEvent):
+def makeTixTransaction(reason, user, amount, raceEvent):
     actionResults=[]
     #make tix transaction
-    amount = TixTransactionAmountEnum[reason.name].value
     tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value, targetId=raceEvent.id)
     tt.save()
 

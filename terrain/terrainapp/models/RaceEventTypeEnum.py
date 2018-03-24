@@ -2,9 +2,9 @@
 PERMANENT=2
 STANDARD=3
  
-QUICK={'reward':{'run':2,'place':4, 'win':10}, 'length':15, 'id':4}
-HOURLY={'reward':{'run':2,'place':4, 'win':10}, 'length':60, 'id':5}
-DAILY={'reward':{'run':2,'place':4, 'win':10}, 'length':1440, 'id':6}
+QUICK={'reward':{'run':2,'place':4, 'first':10}, 'length':15, 'id':4}
+HOURLY={'reward':{'run':2,'place':4, 'first':10}, 'length':60, 'id':5}
+DAILY={'reward':{'run':2,'place':4, 'first':10}, 'length':1440, 'id':6}
 
 #how should we do this?
 #it's nice to give them rewards as time goes by
