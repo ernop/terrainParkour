@@ -16,18 +16,18 @@ class Command(BaseCommand):
         from terrainapp.models.RaceEventType import RaceEventType
         id = int(options['id'])
 
-        if id==QUICK['id']:
+        type=RaceEventTypeEnum[id]
+
+        if type=='quick':
             name="Quick race!"
-            minutes = QUICK['length']
-        elif id==HOURLY['id']:
+        elif type=='hourly':
             name="Hourly race!"
-            minutes = HOURLY['length']
-        elif id==DAILY['id']:
+        elif type=='daily':
             name="Daily race!"
-            minutes = DAILY['length']
         else:
             return
-            
+
+        minutes = RaceEventLengths[type]    
         now=util.utcnow()
         race = random.choice(Race.objects.all())
         gap = datetime.timedelta(minutes=minutes)

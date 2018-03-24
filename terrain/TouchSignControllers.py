@@ -10,7 +10,6 @@ from allmodels import *
 import PlaceHelpers
 
 from ActionResult import ActionResult
-from TixTransactionAmountEnum import *
 from TixTransactionTypeEnum import *
 import RaceEventHelpers 
 
@@ -34,9 +33,9 @@ def userFoundSign(request, userId, signId):
     totalSignCount=Sign.objects.count()
     resp={}
     if foundNew:
-        reason = TixTransactionTypeEnum.NEW_FIND
-        amount = TixTransactionAmountEnum[reason.name].value
-        tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value)
+        targetTypeId = TixTransactionTypeEnum['new find']
+        amount = TixTransactionAmountEnum['new find']
+        tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=targetTypeId)
         tt.save()
 
         if signFindCount==1:
@@ -59,9 +58,9 @@ def userFoundSign(request, userId, signId):
     return JsonResponse(resp)
 
 def makeArForCreatedRace(user, race):
-    reason = TixTransactionTypeEnum.NEW_RACE
-    amount = TixTransactionAmountEnum[reason.name].value
-    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value)
+    reason = 'new race'
+    amount = TixTransactionAmountEnum[reason].value
+    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=TixTransactionTypeEnum[reason])
     tt.save()
     message='You have earned %d TIX for discovering a new run!'%amount
     ar=ActionResult(notify=True, userId=user.userId, message=message)
@@ -70,12 +69,12 @@ def makeArForCreatedRace(user, race):
 
 def makeArsForImprovedPlace(user, race):
     res=[]
-    reason = TixTransactionTypeEnum.NEW_WR
-    amount = TixTransactionAmountEnum[reason.name].value
+    reason = 'new wr'
+    amount = TixTransactionAmountEnum[reason]
 
     #note: you can get multiple tix award for successively getting new first places, maybe in partnership with someone.
 
-    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=reason.value, targetId=race.id)
+    tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=TixTransactionTypeEnum[reason], targetId=race.id)
     tt.save()
 
     message='You have earned %d TIX for getting a new WR!'%amount

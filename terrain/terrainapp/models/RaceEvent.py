@@ -29,13 +29,15 @@ class RaceEvent(BaseModel):
     #for users
     def GetEventDescription(self, onlyTopLevel=False):
         now=util.utcnow()
-        timeTilEnd=(self.enddate-now).total_seconds()
-        if self.eventtype!=None and self.eventtype.id==PERMANENT:
-            remainingtext=''
-        else:
-            remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
+        remainingtext=''
+        if self.eventtype:
+            if self.eventtype.id in RaceEventTypeIdsWhichEnd:
+                if not self.enddate:
+                    raise
+                timeTilEnd=(self.enddate-now).total_seconds()
+                remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
         if self.badge:
-            badgetext='\nIf you win, you get a badge: "%s"!'%self.badge.name
+            badgetext='\nBadge award: "%s"!'%self.badge.name
         else:
             badgetext=''
         return '%s. Race: %s! %s%s'\
@@ -46,7 +48,7 @@ class RaceEvent(BaseModel):
 
     #get runs which qualify in this interval
     def GetValidRuns(self):
-        if self.eventtype.id in [QUICK['id'], DAILY['id'], HOURLY['id']]:
+        if self.eventtype.id in RaceEventTypeIdsWhichEnd:
             res=Run.objects.filter(race=self.race, created__gt=self.startdate, created__lt=self.enddate)
         else:
             res=Run.objects.filter(race=self.race)

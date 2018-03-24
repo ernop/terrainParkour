@@ -1,13 +1,26 @@
-#these are the ids
-PERMANENT=2
-STANDARD=3
- 
-QUICK={'reward':{'run':2,'place':4, 'first':10}, 'length':15, 'id':4}
-HOURLY={'reward':{'run':2,'place':4, 'first':10}, 'length':60, 'id':5}
-DAILY={'reward':{'run':2,'place':4, 'first':10}, 'length':1440, 'id':6}
+#these ids are the id of the raceEventType on the RaceEvent object.
+RaceEventLengths={
+    'quick':15,
+    'hourly':60,
+    'daily':1440
+}
 
-#how should we do this?
-#it's nice to give them rewards as time goes by
-#but it would be cool to have a daily race.
+rt={
+    'unused':1,
+    'permanent':2,
+    'standard':3, #unused.
+    'quick':4,
+    'hourly':5,
+    'daily':6,
+}
 
-#i should make the raceevent display mention how many played within the time interval.
+RaceEventTypeEnum={}
+for k,v in rt.items():
+    RaceEventTypeEnum[k]=v
+    RaceEventTypeEnum[v]=k
+
+RaceEventTypeIdsWhichEnd={
+    RaceEventTypeEnum['quick'],
+    RaceEventTypeEnum['hourly'],
+    RaceEventTypeEnum['daily'],
+}

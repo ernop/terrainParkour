@@ -1,7 +1,6 @@
 from admin_helpers import *
 from allmodels import *
 from TixTransactionTypeEnum import *
-from TixTransactionAmountEnum import *
 
 import util
 
@@ -15,7 +14,7 @@ class TixTransactionAdmin(OverriddenModelAdmin):
 
     def myreason(self, obj):
         try:
-            return TixTransactionTypeEnum(obj.targetType).name
+            return TixTransactionTypeEnum[obj.targetType]
         except:
             return 'err'
 
@@ -26,13 +25,19 @@ class TixTransactionAdmin(OverriddenModelAdmin):
 
     def mytarget(self, obj):
         if obj:
-            if TixTransactionTypeEnum(obj.targetType) in (TixTransactionTypeEnum.RACE,
-                                                          TixTransactionTypeEnum.PLACE,
-                                                          TixTransactionTypeEnum.FIRST):
+            targetType = TixTransactionTypeEnum[obj.targetType]
+            if targetType in TixTargetTypeIsRaceEventTypes:
                 raceEvent=RaceEvent.objects.get(pk=obj.targetId)
                 return raceEvent.clink()
+            if targetType in TargetIsFindTypes:
+                find=Find.objects.get(pk=obj.targetId)
+                return find.clink()
+            if targetType == 'dailylogin':
+                return 'daily'
+            else:
+                return '-'
         else:
-            return '-'
+            return '(None)'
 
     adminify(myuser, myreason, mytarget)
 
