@@ -48,7 +48,7 @@ class RaceEvent(BaseModel):
             badgetext='\nBadge award: "%s"!'%self.badge.name
         else:
             badgetext=''
-        return '%s. %s %s%s'\
+        return '%s %s %s%s'\
             %(self.name, 
             self.race, 
             badgetext,

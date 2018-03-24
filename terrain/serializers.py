@@ -21,6 +21,7 @@ def jsonEvent(e):
         'endSignName':e.race.end.name,
         'distance':e.race.distance,
         'name':e.name,
+        'ephemeral':e.startdate is not None,
         'eventDescription':e.GetEventDescription(onlyTopLevel=True)
     }
     return res

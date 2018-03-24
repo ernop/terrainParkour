@@ -29,7 +29,10 @@ class TixTransactionAdmin(OverriddenModelAdmin):
             if targetType in TixTargetTypeIsRaceEventTypes:
                 raceEvent=RaceEvent.objects.get(pk=obj.targetId)
                 return raceEvent.clink()
-            if targetType in TargetIsFindTypes:
+            if targetType in TixTargetTypeIsRaceTypes:
+                find=Race.objects.get(pk=obj.targetId)
+                return find.clink()
+            if targetType in TixTargetTypeIsFindTypes:
                 find=Find.objects.get(pk=obj.targetId)
                 return find.clink()
             if targetType == 'dailylogin':

@@ -67,6 +67,7 @@ urlpatterns = [
     #Events!
     url(r'terrain/getUpcomingEvents/',security(EventControllers.getUpcomingEvents)),
     url(r'terrain/getEphemeralEvents/',security(EventControllers.getEphemeralEventsEndpoint)),
+    url(r'terrain/getCurrentEvents/',security(EventControllers.getCurrentEventsEndpoint)),
     
 
     #tix

@@ -31,3 +31,14 @@ def getEphemeralEventsEndpoint(request):
         evlist = []
     resp={'success':True, 'res':evlist}
     return JsonResponse(resp)
+
+def getCurrentEventsEndpoint(request):
+    now=utcnow()
+    #for now this only returns quickraces - other events should be discovered.
+    events=getCurrentEvents()
+    if events:
+        evlist = [jsonEvent(e) for e in events]
+    else:
+        evlist = []
+    resp={'success':True, 'res':evlist}
+    return JsonResponse(resp)

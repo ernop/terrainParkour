@@ -26,7 +26,7 @@ def safeTimeIntervalAsString(totalSeconds, onlyTopLevel=False):
     else:
         return 'no exact date set.'
 
-def describe_session_duration(remainder, onlyTopLevel):
+def describe_session_duration(remainder, onlyTopLevel=False):
     if remainder ==0 or remainder==None:
         return 'active session'
 

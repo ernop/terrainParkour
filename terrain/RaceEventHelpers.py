@@ -12,6 +12,14 @@ def getEphemeralEvents():
                                    eventtype__id__in=RaceEventTypeIdsWhichEnd)
     return res
 
+def getCurrentEvents():
+    now=util.utcnow()
+    #get by having startdate - not exactly right.
+    permanent = RaceEvent.objects.filter(active=True,
+                                   eventtype__id=RaceEventTypeEnum['permanent'])
+    eph = getEphemeralEvents()
+    return permanent | eph
+
 #returns all active
 def GetActiveRaceEvents():
     res1 = RaceEvent.objects.filter(active=True, eventtype__id=RaceEventTypeEnum['permanent'])

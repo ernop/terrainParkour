@@ -35,7 +35,7 @@ def userFoundSign(request, userId, signId):
     if foundNew:
         targetTypeId = TixTransactionTypeEnum['new find']
         amount = TixTransactionAmountEnum['new find']
-        tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=targetTypeId)
+        tt = TixTransaction(user=user, amount=amount, transactionday=None, targetType=targetTypeId, targetId=find.id)
         tt.save()
 
         if signFindCount==1:

@@ -55,8 +55,16 @@ TixTargetTypeIsRaceEventTypes={
     'hourly first',
     'daily run',
     'daily place',
-    'daily first'
+    'daily first',
+    'permanent run',
+    'permanent place',
+    'permanent first',
 }
+
+TixTargetTypeIsRaceTypes = {
+    'new wr',
+    'new race',
+    }
 
 TixTransactionParticipationTypes={'quick run','hourly run','daily run',
                                   'permanent run',}
@@ -65,7 +73,7 @@ TixTransactionPlaceTypes={'quick place','hourly place','daily place',
 TixTransactionFirstTypes={'quick first','hourly first','daily first',
                           'permanent first',}
 
-TargetIsFindTypes={'new find'}
+TixTargetTypeIsFindTypes={'new find'}
 
 
 
