@@ -32,6 +32,7 @@ def robloxUserJoined(request, userId, username):
 def robloxUserLeft(request, userId):
     userId=int(userId)
     user, created=RobloxUser.objects.get_or_create(userId=userId)
+    import ipdb;ipdb.set_trace()
     GameJoin.playerLeft(userId, utcnow())
     return MyJsonResponse({'success':True})
 
@@ -45,8 +46,9 @@ def robloxUserDied(request, userId, x, y, z):
 def robloxUserQuit(request, userId, x, y, z):
     user, created=RobloxUser.objects.get_or_create(userId=userId)
     res={'success':True}
-    join=UserQuit(user=user, x=x, y=y, z=z)
-    join.save()
+    quit=UserQuit(user=user, x=x, y=y, z=z)
+    quit.save()
+    GameJoin.playerLeft(userId, utcnow())
     return JsonResponse(res)
 
 def robloxUserReset(request, userId, x, y, z):
