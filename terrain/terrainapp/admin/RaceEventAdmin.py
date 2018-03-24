@@ -73,7 +73,7 @@ class RaceEventAdmin(OverriddenModelAdmin):
 
     def myvalid_runs(self, obj):
         runs=obj.GetValidRuns()
-        joined='<br>'.join(['<span class=nb style="white-space:nowrap;">%s %s %0.3fs %sp</span>'%(run.user.clink(), run.race, run.raceMilliseconds/1000.0, str(run.place)) for run in runs])
+        joined='<br>'.join(['<span class=nb style="white-space:nowrap;">%s %0.3fs %sp</span>'%(run.user.clink(), run.raceMilliseconds/1000.0, str(run.place)) for run in runs])
 
         return joined
 

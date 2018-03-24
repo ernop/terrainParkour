@@ -8,7 +8,8 @@ from TixTransactionTypeEnum import *
 def getEphemeralEvents():
     now=util.utcnow()
     #get by having startdate - not exactly right.
-    res = RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now, active=True)
+    res = RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now, active=True,
+                                   eventtype__id__in=RaceEventTypeIdsWhichEnd)
     return res
 
 #returns all active

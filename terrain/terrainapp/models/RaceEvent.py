@@ -21,7 +21,11 @@ class RaceEvent(BaseModel):
 
     def __str__(self):
         badgetext=self.badge and ', and get badge %s'%self.badge.name or ''
-        return '%s: %s%s - %s to %s. %s'%(self.name, self.race, badgetext, util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate), self.description)
+        if self.startdate:
+            datezone = '%s to %s'%(util.safeDateAsString(self.startdate), util.safeDateAsString(self.enddate))
+        else:
+            datezone='permanent'
+        return '%s: %s%s - %s. %s'%(self.name, self.race, badgetext, datezone, self.description)
 
     def forUser(self):
         return self.name
@@ -44,7 +48,7 @@ class RaceEvent(BaseModel):
             badgetext='\nBadge award: "%s"!'%self.badge.name
         else:
             badgetext=''
-        return '%s. Race: %s! %s%s'\
+        return '%s. %s %s%s'\
             %(self.name, 
             self.race, 
             badgetext,
