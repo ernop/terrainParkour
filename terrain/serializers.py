@@ -20,6 +20,7 @@ def jsonEvent(e):
         'startSignName':e.race.start.name,
         'endSignName':e.race.end.name,
         'distance':e.race.distance,
+        'name':e.name,
         'eventDescription':e.GetEventDescription(onlyTopLevel=True)
     }
     return res

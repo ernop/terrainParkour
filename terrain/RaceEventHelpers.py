@@ -5,8 +5,9 @@ from terrainapp.models.RaceEventTypeEnum import *
 from TixTransactionTypeEnum import *
 
 #returns all quick, hourly, and daily
-def GetQuickRaceEvents():
+def getEphemeralEvents():
     now=util.utcnow()
+    #get by having startdate - not exactly right.
     res = RaceEvent.objects.filter(startdate__lt=now, enddate__gt=now, active=True)
     return res
 

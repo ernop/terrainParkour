@@ -21,10 +21,10 @@ def getUpcomingEvents(request):
     resp={'success':True, 'res':[jsonEvent(e) for e in events]}
     return JsonResponse(resp)
 
-def getCurrentEvents(request):
+def getEphemeralEventsEndpoint(request):
     now=utcnow()
     #for now this only returns quickraces - other events should be discovered.
-    events=GetQuickRaceEvents()
+    events=getEphemeralEvents()
     if events:
         evlist = [jsonEvent(e) for e in events]
     else:
