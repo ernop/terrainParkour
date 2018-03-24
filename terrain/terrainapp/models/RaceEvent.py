@@ -26,13 +26,13 @@ class RaceEvent(BaseModel):
         return self.name
 
     #for users
-    def GetEventDescription(self):
+    def GetEventDescription(self, onlyTopLevel=False):
         now=util.utcnow()
         timeTilEnd=(self.enddate-now).total_seconds()
         if self.eventtype!=None and self.eventtype.id==PERMANENT:
             remainingtext=''
         else:
-            remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd)
+            remainingtext='\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
         if self.badge:
             badgetext='\nIf you win, you get a badge: "%s"!'%self.badge.name
         else:

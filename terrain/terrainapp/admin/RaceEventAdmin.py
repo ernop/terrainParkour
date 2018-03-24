@@ -56,7 +56,7 @@ class RaceEventAdmin(OverriddenModelAdmin):
         return '-'
 
     def myuserdescription(self, obj):
-        return obj.GetEventDescription()
+        return obj.GetEventDescription(onlyTopLevel=True)
 
     def myruns(self, obj):
         return '<a href="../run/?race__id__exact=%d">%d</a>'%(obj.race.id, obj.race.runs.count())

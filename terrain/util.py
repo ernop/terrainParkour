@@ -20,13 +20,13 @@ def safeDateAsString(d):
         return datetime.datetime.strftime(d,DATE)
     return 'no date set'
 
-def safeTimeIntervalAsString(totalSeconds):
+def safeTimeIntervalAsString(totalSeconds, onlyTopLevel=False):
     if totalSeconds:
-        return describe_session_duration(totalSeconds)
+        return describe_session_duration(totalSeconds, onlyTopLevel=onlyTopLevel)
     else:
         return 'no exact date set.'
 
-def describe_session_duration(remainder):
+def describe_session_duration(remainder, onlyTopLevel):
     if remainder ==0 or remainder==None:
         return 'active session'
 
@@ -47,15 +47,19 @@ def describe_session_duration(remainder):
     res=''
     if weeks:
         res='%d weeks '%weeks
+        if onlyTopLevel:return res.strip()
     if days:
         res+='%d days '%days
+        if onlyTopLevel:return res.strip()
     if hours:
         res+='%d hours '%hours
+        if onlyTopLevel:return res.strip()
     if minutes:
         res+='%d minutes '%minutes
+        if onlyTopLevel:return res.strip()
     if seconds:
         res+='%d seconds'%seconds
-
+        if onlyTopLevel:return res.strip()
     return res.strip()
 
 def utcnow():
