@@ -26,9 +26,9 @@ class TixTransactionAdmin(OverriddenModelAdmin):
 
     def mytarget(self, obj):
         if obj:
-            if TixTransactionTypeEnum(obj.targetType) in (TixTransactionTypeEnum.FIRST_TIME_RACE_IN_RACEEVENT,
-                                  TixTransactionTypeEnum.FIRST_TIME_PLACE_IN_RACEEVENT,
-                                  TixTransactionTypeEnum.FIRST_TIME_FIRST_IN_RACEEVENT):
+            if TixTransactionTypeEnum(obj.targetType) in (TixTransactionTypeEnum.RACE,
+                                                          TixTransactionTypeEnum.PLACE,
+                                                          TixTransactionTypeEnum.FIRST):
                 raceEvent=RaceEvent.objects.get(pk=obj.targetId)
                 return raceEvent.clink()
         else:

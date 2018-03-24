@@ -6,7 +6,7 @@ import util
 
 class ChatMessageAdmin(OverriddenModelAdmin):
     list_display='id myuser mytext created_tz mysource'.split()
-    list_filter=['requestsource__ip',]
+    #list_filter=['requestsource__ip',]
 
     actions=['unban_users', 'softban_users', 'hardban_users',]
 

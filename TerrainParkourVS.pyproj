@@ -59,6 +59,7 @@
     <Compile Include="terrain\terrainapp\admin\QuitAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\RaceAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\RaceEventAdmin.py" />
+    <Compile Include="terrain\terrainapp\admin\RaceEventTypeAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\RequestSourceAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\RobloxUserAdmin.py" />
     <Compile Include="terrain\terrainapp\admin\RunAdmin.py" />
@@ -71,6 +72,9 @@
     <Compile Include="terrain\terrainapp\admin\__init__.py" />
     <Compile Include="terrain\terrainapp\apps.py" />
     <Compile Include="terrain\terrainapp\basemodel.py" />
+    <Compile Include="terrain\terrainapp\management\commands\createTemporaryEventRace.py" />
+    <Compile Include="terrain\terrainapp\management\commands\__init__.py" />
+    <Compile Include="terrain\terrainapp\management\__init__.py" />
     <Compile Include="terrain\terrainapp\models.py" />
     <Compile Include="terrain\terrainapp\models\ActionResultSent.py" />
     <Compile Include="terrain\terrainapp\models\Badge.py" />
@@ -85,6 +89,8 @@
     <Compile Include="terrain\terrainapp\models\Power.py" />
     <Compile Include="terrain\terrainapp\models\Race.py" />
     <Compile Include="terrain\terrainapp\models\RaceEvent.py" />
+    <Compile Include="terrain\terrainapp\models\RaceEventType.py" />
+    <Compile Include="terrain\terrainapp\models\RaceEventTypeEnum.py" />
     <Compile Include="terrain\terrainapp\models\RequestSource.py" />
     <Compile Include="terrain\terrainapp\models\RobloxUser.py" />
     <Compile Include="terrain\terrainapp\models\Run.py" />
@@ -243,6 +249,8 @@
     <Folder Include="terrain\static\admin\js\vendor\xregexp\" />
     <Folder Include="terrain\terrainapp\" />
     <Folder Include="terrain\terrainapp\admin\" />
+    <Folder Include="terrain\terrainapp\management\" />
+    <Folder Include="terrain\terrainapp\management\commands\" />
     <Folder Include="terrain\terrainapp\models\" />
     <Folder Include="terrain\terrain\" />
   </ItemGroup>
