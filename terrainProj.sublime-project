@@ -2,10 +2,7 @@
 	"folders":
 	[
 		{
-			"path": "terrain\\terrainapp"
-		},
-		{
-			"path": "rojo"
+			"path": "terrain"
 		}
 	]
 }

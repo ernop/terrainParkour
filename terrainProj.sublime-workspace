@@ -8,19 +8,77 @@
 	"buffers":
 	[
 		{
-			"file": "rojo/sss/eventMonitor.lua",
+			"file": "terrain/terrainapp/management/commands/createTemporaryEventRace.py",
 			"settings":
 			{
-				"buffer_size": 2015,
+				"buffer_size": 1177,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "terrain/terrainapp/models/RaceEventTypeEnum.py",
+			"contents": "Searching 6032 files for \"it ends in\"\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   33              remainingtext=''\n   34          else:\n   35:             remainingtext='\\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd)\n   36          if self.badge:\n   37              badgetext='\\nIf you win, you get a badge: \"%s\"!'%self.badge.name\n\n1 match in 1 file\n\n\nSearching 6032 files for \"safeTimeIntervalAsString\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 58750      return obj.GetEventDescription()\n 58751    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 29, in GetEventDescription\n 58752:     remainingtext=util.safeTimeIntervalAsString(timeTilEnd.totalSeconds())\n 58753  AttributeError: 'float' object has no attribute 'totalSeconds'\n 58754  \"GET /terrain/adminx/terrainapp/raceevent/ HTTP/1.1\" 500 348420\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   33              remainingtext=''\n   34          else:\n   35:             remainingtext='\\nIt ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd)\n   36          if self.badge:\n   37              badgetext='\\nIf you win, you get a badge: \"%s\"!'%self.badge.name\n\nF:\\proj\\terrainParkour\\terrain\\util.py:\n   21      return 'no date set'\n   22  \n   23: def safeTimeIntervalAsString(totalSeconds):\n   24      if totalSeconds:\n   25          return describe_session_duration(totalSeconds)\n\n3 matches across 3 files\n\n\nSearching 6032 files for \"GetEventDescription\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 58748      value = attr(obj)\n 58749    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58750:     return obj.GetEventDescription()\n 58751:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 29, in GetEventDescription\n 58752      remainingtext=util.safeTimeIntervalAsString(timeTilEnd.totalSeconds())\n 58753  AttributeError: 'float' object has no attribute 'totalSeconds'\n .....\n 58834      value = attr(obj)\n 58835    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58836:     return obj.GetEventDescription()\n 58837:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 30, in GetEventDescription\n 58838      badgetext=self.badge and '\\nIf you win, you get the badge: %s'%badge.name or ''\n 58839  NameError: name 'badge' is not defined\n .....\n 60703      value = attr(obj)\n 60704    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60705:     return obj.GetEventDescription()\n 60706:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 44, in GetEventDescription\n 60707      remainingtext)\n 60708  TypeError: not all arguments converted during string formatting\n .....\n 60789      value = attr(obj)\n 60790    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60791:     return obj.GetEventDescription()\n 60792:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 32, in GetEventDescription\n 60793      if self.eventtype.id==PERMANENT:\n 60794  AttributeError: 'NoneType' object has no attribute 'id'\n\nF:\\proj\\terrainParkour\\terrain\\serializers.py:\n   21          'endSignName':e.race.end.name,\n   22          'distance':e.race.distance,\n   23:         'eventDescription':e.GetEventDescription()\n   24      }\n   25      return res\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   57  \n   58      def myuserdescription(self, obj):\n   59:         return obj.GetEventDescription()\n   60  \n   61      def myruns(self, obj):\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   27  \n   28      #for users\n   29:     def GetEventDescription(self):\n   30          now=util.utcnow()\n   31          timeTilEnd=(self.enddate-now).total_seconds()\n\n11 matches across 4 files\n\n\nSearching 6032 files for \"GetEventDescription\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 58748      value = attr(obj)\n 58749    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58750:     return obj.GetEventDescription()\n 58751:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 29, in GetEventDescription\n 58752      remainingtext=util.safeTimeIntervalAsString(timeTilEnd.totalSeconds())\n 58753  AttributeError: 'float' object has no attribute 'totalSeconds'\n .....\n 58834      value = attr(obj)\n 58835    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58836:     return obj.GetEventDescription()\n 58837:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 30, in GetEventDescription\n 58838      badgetext=self.badge and '\\nIf you win, you get the badge: %s'%badge.name or ''\n 58839  NameError: name 'badge' is not defined\n .....\n 60703      value = attr(obj)\n 60704    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60705:     return obj.GetEventDescription()\n 60706:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 44, in GetEventDescription\n 60707      remainingtext)\n 60708  TypeError: not all arguments converted during string formatting\n .....\n 60789      value = attr(obj)\n 60790    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60791:     return obj.GetEventDescription()\n 60792:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 32, in GetEventDescription\n 60793      if self.eventtype.id==PERMANENT:\n 60794  AttributeError: 'NoneType' object has no attribute 'id'\n\nF:\\proj\\terrainParkour\\terrain\\serializers.py:\n   21          'endSignName':e.race.end.name,\n   22          'distance':e.race.distance,\n   23:         'eventDescription':e.GetEventDescription()\n   24      }\n   25      return res\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   57  \n   58      def myuserdescription(self, obj):\n   59:         return obj.GetEventDescription()\n   60  \n   61      def myruns(self, obj):\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   27  \n   28      #for users\n   29:     def GetEventDescription(self, onlyTopLevel=False):\n   30          now=util.utcnow()\n   31          timeTilEnd=(self.enddate-now).total_seconds()\n\n11 matches across 4 files\n\n\nSearching 6032 files for \"GetEventDescription\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 58748      value = attr(obj)\n 58749    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58750:     return obj.GetEventDescription()\n 58751:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 29, in GetEventDescription\n 58752      remainingtext=util.safeTimeIntervalAsString(timeTilEnd.totalSeconds())\n 58753  AttributeError: 'float' object has no attribute 'totalSeconds'\n .....\n 58834      value = attr(obj)\n 58835    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58836:     return obj.GetEventDescription()\n 58837:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 30, in GetEventDescription\n 58838      badgetext=self.badge and '\\nIf you win, you get the badge: %s'%badge.name or ''\n 58839  NameError: name 'badge' is not defined\n .....\n 60703      value = attr(obj)\n 60704    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60705:     return obj.GetEventDescription()\n 60706:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 44, in GetEventDescription\n 60707      remainingtext)\n 60708  TypeError: not all arguments converted during string formatting\n .....\n 60789      value = attr(obj)\n 60790    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60791:     return obj.GetEventDescription()\n 60792:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 32, in GetEventDescription\n 60793      if self.eventtype.id==PERMANENT:\n 60794  AttributeError: 'NoneType' object has no attribute 'id'\n\nF:\\proj\\terrainParkour\\terrain\\serializers.py:\n   21          'endSignName':e.race.end.name,\n   22          'distance':e.race.distance,\n   23:         'eventDescription':e.GetEventDescription()\n   24      }\n   25      return res\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   57  \n   58      def myuserdescription(self, obj):\n   59:         return obj.GetEventDescription()\n   60  \n   61      def myruns(self, obj):\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   27  \n   28      #for users\n   29:     def GetEventDescription(self, onlyTopLevel=False):\n   30          now=util.utcnow()\n   31          timeTilEnd=(self.enddate-now).total_seconds()\n\n11 matches across 4 files\n\n\nSearching 6032 files for \"GetEventDescription\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 58748      value = attr(obj)\n 58749    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58750:     return obj.GetEventDescription()\n 58751:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 29, in GetEventDescription\n 58752      remainingtext=util.safeTimeIntervalAsString(timeTilEnd.totalSeconds())\n 58753  AttributeError: 'float' object has no attribute 'totalSeconds'\n .....\n 58834      value = attr(obj)\n 58835    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 46, in myuserdescription\n 58836:     return obj.GetEventDescription()\n 58837:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 30, in GetEventDescription\n 58838      badgetext=self.badge and '\\nIf you win, you get the badge: %s'%badge.name or ''\n 58839  NameError: name 'badge' is not defined\n .....\n 60703      value = attr(obj)\n 60704    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60705:     return obj.GetEventDescription()\n 60706:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 44, in GetEventDescription\n 60707      remainingtext)\n 60708  TypeError: not all arguments converted during string formatting\n .....\n 60789      value = attr(obj)\n 60790    File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 59, in myuserdescription\n 60791:     return obj.GetEventDescription()\n 60792:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py\", line 32, in GetEventDescription\n 60793      if self.eventtype.id==PERMANENT:\n 60794  AttributeError: 'NoneType' object has no attribute 'id'\n\nF:\\proj\\terrainParkour\\terrain\\serializers.py:\n   21          'endSignName':e.race.end.name,\n   22          'distance':e.race.distance,\n   23:         'eventDescription':e.GetEventDescription()\n   24      }\n   25      return res\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   57  \n   58      def myuserdescription(self, obj):\n   59:         return obj.GetEventDescription()\n   60  \n   61      def myruns(self, obj):\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEvent.py:\n   27  \n   28      #for users\n   29:     def GetEventDescription(self, onlyTopLevel=False):\n   30          now=util.utcnow()\n   31          timeTilEnd=(self.enddate-now).total_seconds()\n\n11 matches across 4 files\n\n\nSearching 6032 files for \"mystartdate\"\n\nF:\\proj\\terrainParkour\\terrain\\logs\\error.log:\n 45859    File \"F:\\proj\\terrainParkour\\env\\lib\\site-packages\\django\\db\\models\\options.py\", line 617, in get_field\n 45860      return self.fields_map[field_name]\n 45861: KeyError: 'mystartdate'\n 45862  \n 45863  During handling of the above exception, another exception occurred:\n .....\n 45870    File \"F:\\proj\\terrainParkour\\env\\lib\\site-packages\\django\\db\\models\\options.py\", line 619, in get_field\n 45871      raise FieldDoesNotExist(\"%s has no field named '%s'\" % (self.object_name, field_name))\n 45872: django.core.exceptions.FieldDoesNotExist: RaceEvent has no field named 'mystartdate'\n 45873  \n 45874  During handling of the above exception, another exception occurred:\n .....\n 45935    File \"F:\\proj\\terrainParkour\\env\\lib\\site-packages\\django\\contrib\\admin\\utils.py\", line 295, in lookup_field\n 45936      value = attr(obj)\n 45937:   File \"F:\\proj\\terrainParkour\\terrain\\admin.py\", line 404, in mystartdate\n 45938      return util.safeDateAsString(obj)\n 45939    File \"F:\\proj\\terrainParkour\\terrain\\util.py\", line 7, in safeDateAsString\n .....\n 60798    File \"F:\\proj\\terrainParkour\\env2\\lib\\site-packages\\django\\db\\models\\options.py\", line 617, in get_field\n 60799      return self.fields_map[field_name]\n 60800: KeyError: 'mystartdate'\n 60801  \n 60802  During handling of the above exception, another exception occurred:\n .....\n 60809    File \"F:\\proj\\terrainParkour\\env2\\lib\\site-packages\\django\\db\\models\\options.py\", line 619, in get_field\n 60810      raise FieldDoesNotExist(\"%s has no field named '%s'\" % (self.object_name, field_name))\n 60811: django.core.exceptions.FieldDoesNotExist: RaceEvent has no field named 'mystartdate'\n 60812  \n 60813  During handling of the above exception, another exception occurred:\n .....\n 60874    File \"F:\\proj\\terrainParkour\\env2\\lib\\site-packages\\django\\contrib\\admin\\utils.py\", line 295, in lookup_field\n 60875      value = attr(obj)\n 60876:   File \"F:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py\", line 44, in mystartdate\n 60877      if obj.eventtype.id==PERMANENT:\n 60878  AttributeError: 'NoneType' object has no attribute 'id'\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   15  class RaceEventAdmin(OverriddenModelAdmin):\n   16      form = RaceEventAdminForm\n   17:     list_display='id active mydesc myuserdescription eventtype myrace myruns mystartdate myenddate mybadge'.split()\n   18      list_filter=['active', 'eventtype']\n   19      actions=['make_active', 'make_inactive', 'make_permanent',]\n   ..\n   41          return obj.race.clink()\n   42  \n   43:     def mystartdate(self,obj):\n   44          if obj.eventtype is not None and obj.eventtype.id==PERMANENT:\n   45              return '-'\n   ..\n   66  \n   67  \n   68:     adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription, myruns)\n   69  \n   70  \n\n9 matches across 2 files\n\n\nSearching 6032 files for \"adminify\"\n\nF:\\proj\\terrainParkour\\terrain\\admin_helpers.py:\n  127          return sup.changelist_view(request, extra_context=extra_context)\n  128  \n  129: def adminify(*args):\n  130      for func in args:\n  131          name=None\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\ActionResultSentAdmin.py:\n   10          return obj.user.clink()\n   11  \n   12:     adminify(myuser)\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\BadgeAdmin.py:\n   10          return '<a href=../badgegrant/?badge__id=%d>%d grants</a>'%(obj.id, obj.badgegrants.count())\n   11  \n   12:     adminify(mygrants)\n   13  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\BadgeGrantAdmin.py:\n   13          return obj.badge.clink()\n   14  \n   15:     adminify(myuser, mybadge)\n   16  \n   17  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\BestRunAdmin.py:\n   20      mytime.admin_order_field='raceMilliseconds'\n   21  \n   22:     adminify(mytime, myspeed)\n   23  \n   24  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\ChatMessageAdmin.py:\n   40          return super(ChatMessageAdmin, self).lookup_allowed(key, value)\n   41  \n   42:     adminify(myuser, mytext, mysource)\n   43  \n   44  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\FailedSecurityAttemptAdmin.py:\n   12          return obj.source.clink()\n   13  \n   14:     adminify(mysource)\n   15  \n   16  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\FindAdmin.py:\n   18          return super(FindAdmin, self).lookup_allowed(key, value)\n   19  \n   20:     adminify(myuser, mysign)\n   21  \n   22  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\GameJoinAdmin.py:\n   26          return dt.strftime(settings.DATE_FORMAT)\n   27  \n   28:     adminify(myuser, mylength, myleft)\n   29  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\QuitAdmin.py:\n   15          return super(UserQuitAdmin, self).lookup_allowed(key, value)\n   16  \n   17:     adminify(myuser)\n   18  \n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceAdmin.py:\n   45          return '<br>'.join(pts)+'<br>'+link\n   46  \n   47:     adminify(mystart, myend, myruncount, myruns, mybestruns, mytop10, myevents)\n   48  \n   49  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventAdmin.py:\n   66  \n   67  \n   68:     adminify(mydesc, myrace, mystartdate, myenddate, mybadge, myuserdescription, myruns)\n   69  \n   70  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RaceEventTypeAdmin.py:\n   15          return '<a href=\"../raceevent/?eventtype__id=%d&active=True\">%d active</a>\\n<a href=\"../raceevent/?eventtype__exact__id=%d&active=False\">%d inactive</a>'%(obj.id, activect, obj.id, inactivect)\n   16  \n   17:     adminify(myraceevents)\n   18  \n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RequestSourceAdmin.py:\n   16          return '<a href=\"../chatmessage/?requestsource__id=%d\">%d</a>'%(obj.id, obj.chatmessages.count())\n   17  \n   18:     adminify(myfailures, mychats, myusersources)\n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RobloxUserAdmin.py:\n   74          return util.describe_session_duration(total)\n   75  \n   76:     adminify(myjoins, mytix, myplaytime, mybanLevel, mychats, myquits, mysources, mydeaths, myruns, myfinds, mybestruns, mywrs, mytoptens)\n   77  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\RunAdmin.py:\n   52      mytime.admin_order_field='raceMilliseconds'\n   53  \n   54:     adminify(mystart, myend, myuser, mytime, myrace, myspeed)\n   55  \n   56  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\SignAdmin.py:\n   42          return obj.calcNearest.clink(text='%s %d'%(obj.calcNearest.name, dist))\n   43  \n   44:     adminify(myfinds, myends, mystarts, mypos, mynearest)\n   45  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\TixTransactionAdmin.py:\n   35              return '-'\n   36  \n   37:     adminify(myuser, myreason, mytarget)\n   38  \n   39  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\UserDiedAdmin.py:\n   15          return super(UserDiedAdminn, self).lookup_allowed(key, value)\n   16  \n   17:     adminify(myuser)\n   18  \n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\UserQuitAdmin.py:\n   15          return super(UserQuitAdmin, self).lookup_allowed(key, value)\n   16  \n   17:     adminify(myuser)\n   18  \n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\UserResetAdmin.py:\n   15          return super(UserResetAdmin, self).lookup_allowed(key, value)\n   16  \n   17:     adminify(myuser)\n   18  \n   19  \n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\admin\\UserSourceAdmin.py:\n   19          return super(UserSourceAdmin, self).lookup_allowed(key, value)\n   20  \n   21:     adminify(myuser, mysource)\n   22  \n   23  \n\n22 matches across 22 files\n\n\nSearching 6032 files for \"autogenerated_tenminute\"\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\management\\commands\\createTemporaryEventRace.py:\n   17          id = int(options['id'])\n   18  \n   19:         if id==AUTOGENERATED_TENMINUTE['id']:\n   20              name=\"Quick race!\"\n   21:             minutes = AUTOGENERATED_TENMINUTE['length']\n   22          elif id==AUTOGENERATED_HOURLY['id']:\n   23              name=\"Hourly race!\"\n\nF:\\proj\\terrainParkour\\terrain\\terrainapp\\models\\RaceEventTypeEnum.py:\n    3  STANDARD=3\n    4   \n    5: AUTOGENERATED_TENMINUTE={'reward':{'run':2,'place':4, 'win':10}, 'length':15, 'id':4}\n    6  AUTOGENERATED_HOURLY={'reward':{'run':2,'place':4, 'win':10}, 'length':60, 'id':5}\n    7  AUTOGENERATED_DAILY={'reward':{'run':2,'place':4, 'win':10}, 'length':1440, 'id':6}\n\n3 matches across 2 files\n",
 			"settings":
 			{
-				"buffer_size": 505,
+				"buffer_size": 20067,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "terrain/TixTransactionTypeEnum.py",
+			"settings":
+			{
+				"buffer_size": 407,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "terrain/admin_helpers.py",
+			"settings":
+			{
+				"buffer_size": 8494,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "terrain/terrainapp/admin/RaceEventAdmin.py",
+			"settings":
+			{
+				"buffer_size": 2168,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "terrain/util.py",
+			"settings":
+			{
+				"buffer_size": 2024,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "terrain/terrainapp/models/RaceEvent.py",
+			"settings":
+			{
+				"buffer_size": 1821,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "#these are the ids\nPERMANENT=2\nSTANDARD=3\n \nQUICK={'reward':{'run':2,'place':4, 'win':10}, 'length':15, 'id':4}\nHOURLY={'reward':{'run':2,'place':4, 'win':10}, 'length':60, 'id':5}\nDAILY={'reward':{'run':2,'place':4, 'win':10}, 'length':1440, 'id':6}\n\n#how should we do this?\n#it's nice to give them rewards as time goes by\n#but it would be cool to have a daily race.\n\n#i should make the raceevent display mention how many played within the time interval.",
+			"file": "terrain/terrainapp/models/RaceEventTypeEnum.py",
+			"file_size": 513,
+			"file_write_time": 131663412239880631,
+			"settings":
+			{
+				"buffer_size": 455,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
@@ -28,7 +86,7 @@
 			"file": "terrain/RaceEventHelpers.py",
 			"settings":
 			{
-				"buffer_size": 3442,
+				"buffer_size": 3435,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -66,22 +124,26 @@
 	},
 	"expanded_folders":
 	[
-		"/F/proj/terrainParkour/terrain/terrainapp",
-		"/F/proj/terrainParkour/rojo"
+		"/F/proj/terrainParkour/terrain"
 	],
 	"file_history":
 	[
+		"/F/proj/terrainParkour/rojo/sss/eventMonitor.lua",
+		"/F/proj/terrainParkour/terrain/terrainapp/admin/RaceEventAdmin.py",
+		"/F/proj/terrainParkour/terrain/terrainapp/admin/RaceAdmin.py",
+		"/F/proj/terrainParkour/terrainProj.sublime-project",
 		"/F/proj/terrainParkour/terrain/terrainapp/admin/TixTransactionAdmin.py"
 	],
 	"find":
 	{
-		"height": 35.0
+		"height": 60.0
 	},
 	"find_in_files":
 	{
-		"height": 156.0,
+		"height": 193.0,
 		"where_history":
 		[
+			"F:\\proj\\terrainParkour",
 			""
 		]
 	},
@@ -90,6 +152,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"autogenerated_tenminute",
+			"adminify",
+			"mystartdate",
+			"GetEventDescription",
+			"safeTimeIntervalAsString",
+			"it ends in",
+			"eventtype",
+			"AUTOGENERATED_",
 			"FIRST_TIME_PLACE_IN_RACEEVENT",
 			"FIRST_TIME*",
 			"FIRST_TIME_RACE_IN_RACEEVENT",
@@ -113,88 +183,24 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "rojo/sss/eventMonitor.lua",
+					"file": "terrain/terrainapp/management/commands/createTemporaryEventRace.py",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2015,
+						"buffer_size": 1177,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1346,
-								1346
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Lua/Lua.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "terrain/terrainapp/models/RaceEventTypeEnum.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 505,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								301,
-								301
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Python/Python.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 2,
-					"file": "terrain/RaceEventHelpers.py",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3442,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								315,
-								315
+								558,
+								558
 							]
 						],
 						"settings":
@@ -207,7 +213,590 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 20067,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										195,
+										205
+									],
+									[
+										676,
+										700
+									],
+									[
+										1049,
+										1073
+									],
+									[
+										1292,
+										1316
+									],
+									[
+										1712,
+										1731
+									],
+									[
+										1826,
+										1845
+									],
+									[
+										2174,
+										2193
+									],
+									[
+										2288,
+										2307
+									],
+									[
+										2621,
+										2640
+									],
+									[
+										2735,
+										2754
+									],
+									[
+										3028,
+										3047
+									],
+									[
+										3142,
+										3161
+									],
+									[
+										3444,
+										3463
+									],
+									[
+										3648,
+										3667
+									],
+									[
+										3821,
+										3840
+									],
+									[
+										4233,
+										4252
+									],
+									[
+										4347,
+										4366
+									],
+									[
+										4695,
+										4714
+									],
+									[
+										4809,
+										4828
+									],
+									[
+										5142,
+										5161
+									],
+									[
+										5256,
+										5275
+									],
+									[
+										5549,
+										5568
+									],
+									[
+										5663,
+										5682
+									],
+									[
+										5965,
+										5984
+									],
+									[
+										6169,
+										6188
+									],
+									[
+										6342,
+										6361
+									],
+									[
+										6774,
+										6793
+									],
+									[
+										6888,
+										6907
+									],
+									[
+										7236,
+										7255
+									],
+									[
+										7350,
+										7369
+									],
+									[
+										7683,
+										7702
+									],
+									[
+										7797,
+										7816
+									],
+									[
+										8090,
+										8109
+									],
+									[
+										8204,
+										8223
+									],
+									[
+										8506,
+										8525
+									],
+									[
+										8710,
+										8729
+									],
+									[
+										8883,
+										8902
+									],
+									[
+										9315,
+										9334
+									],
+									[
+										9429,
+										9448
+									],
+									[
+										9777,
+										9796
+									],
+									[
+										9891,
+										9910
+									],
+									[
+										10224,
+										10243
+									],
+									[
+										10338,
+										10357
+									],
+									[
+										10631,
+										10650
+									],
+									[
+										10745,
+										10764
+									],
+									[
+										11047,
+										11066
+									],
+									[
+										11251,
+										11270
+									],
+									[
+										11424,
+										11443
+									],
+									[
+										11861,
+										11872
+									],
+									[
+										12259,
+										12270
+									],
+									[
+										12584,
+										12595
+									],
+									[
+										12915,
+										12926
+									],
+									[
+										13314,
+										13325
+									],
+									[
+										13665,
+										13676
+									],
+									[
+										14025,
+										14036
+									],
+									[
+										14250,
+										14261
+									],
+									[
+										14438,
+										14449
+									],
+									[
+										14727,
+										14735
+									],
+									[
+										14931,
+										14939
+									],
+									[
+										15139,
+										15147
+									],
+									[
+										15294,
+										15302
+									],
+									[
+										15476,
+										15484
+									],
+									[
+										15686,
+										15694
+									],
+									[
+										15877,
+										15885
+									],
+									[
+										16066,
+										16074
+									],
+									[
+										16249,
+										16257
+									],
+									[
+										16450,
+										16458
+									],
+									[
+										16616,
+										16624
+									],
+									[
+										16803,
+										16811
+									],
+									[
+										17203,
+										17211
+									],
+									[
+										17446,
+										17454
+									],
+									[
+										17647,
+										17655
+									],
+									[
+										17926,
+										17934
+									],
+									[
+										18169,
+										18177
+									],
+									[
+										18353,
+										18361
+									],
+									[
+										18569,
+										18577
+									],
+									[
+										18764,
+										18772
+									],
+									[
+										18961,
+										18969
+									],
+									[
+										19160,
+										19168
+									],
+									[
+										19445,
+										19468
+									],
+									[
+										19543,
+										19566
+									],
+									[
+										19774,
+										19797
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								19115,
+								19115
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 9,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 10120.0,
+						"zoom_level": 1.0
+					},
 					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "terrain/TixTransactionTypeEnum.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 407,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								373,
+								373
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "terrain/admin_helpers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8494,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5594,
+								5594
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1959.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "terrain/terrainapp/admin/RaceEventAdmin.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2168,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2087,
+								2087
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 324.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "terrain/util.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2024,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								410,
+								422
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 235.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "terrain/terrainapp/models/RaceEvent.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1821,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								866,
+								866
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 55.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "terrain/terrainapp/models/RaceEventTypeEnum.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								186,
+								186
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "terrain/RaceEventHelpers.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3435,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								668,
+								668
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 118.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
 					"type": "text"
 				}
 			]
@@ -241,7 +830,7 @@
 		"cols":
 		[
 			0.0,
-			0.482097186701,
+			0.430806796011,
 			1.0
 		],
 		"rows":
@@ -268,6 +857,22 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"ttte",
+				"TixTransactionTypeEnum.py"
+			],
+			[
+				"raceeventadmin",
+				"terrainapp\\admin\\RaceEventAdmin.py"
+			],
+			[
+				"raceadmin",
+				"terrainapp\\admin\\RaceAdmin.py"
+			],
+			[
+				"type",
+				"terrainapp\\models\\RaceEventTypeEnum.py"
+			],
 			[
 				"rete",
 				"terrainapp\\models\\RaceEventTypeEnum.py"
@@ -297,7 +902,7 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
@@ -305,7 +910,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 214.0,
+	"side_bar_width": 311.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
