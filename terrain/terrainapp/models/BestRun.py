@@ -22,3 +22,9 @@ class BestRun(BaseModel): #an individual user's best run of a certain race.  Thi
         super(BestRun, self).save(*args, **kwargs)
 
          
+    @classmethod
+    def GetFirstPlaceBestRunForRace(self, race):
+        exi=BestRun.objects.filter(race__id=race.id).order_by('place')
+        if exi:
+            return exi[0]
+        return None

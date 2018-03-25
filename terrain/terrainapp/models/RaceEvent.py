@@ -3,6 +3,7 @@ from terrainapp.basemodel import BaseModel
 from constants import *
 from terrainapp.models.RaceEventTypeEnum import *
 from terrainapp.models.Run import Run
+from terrainapp.models.BestRun import BestRun
 import util
 
 class RaceEvent(BaseModel):
@@ -46,15 +47,22 @@ class RaceEvent(BaseModel):
                     raise
                 timeTilEnd=(self.enddate-now).total_seconds()
                 if timeTilEnd>0:
-                    remainingtext='It ends in %s!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
+                    remainingtext='%s left!'%util.safeTimeIntervalAsString(timeTilEnd, onlyTopLevel)
                 else:
                     remainingtext='It ended %s ago!'%util.safeTimeIntervalAsString(-1*timeTilEnd, onlyTopLevel)
-                
-        return '%s %s %s %s'\
+        
+        #this is confusing that it's showing all-time.
+        br=BestRun.GetFirstPlaceBestRunForRace(self.race)
+        if br   :
+            leaderText='The current leader is %s, who took %0.3fs'%(br.user.username, br.raceMilliseconds/1000.0)
+        else:
+            leaderText='Nobody has run it yet.'
+
+        return '%s %s %s %s %s'\
             %(self.name, 
             self.race, 
             badgetext,
-            remainingtext)
+            remainingtext, leaderText)
 
     #get runs which qualify in this interval
     def GetValidRuns(self):

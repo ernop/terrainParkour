@@ -5,7 +5,7 @@ RaceEventLengths={
     'daily':1440
 }
 
-rt={
+_rt={
     'unused':1,
     'permanent':2,
     'standard':3, #unused.
@@ -15,7 +15,7 @@ rt={
 }
 
 RaceEventTypeEnum={}
-for k,v in rt.items():
+for k,v in _rt.items():
     RaceEventTypeEnum[k]=v
     RaceEventTypeEnum[v]=k
 
