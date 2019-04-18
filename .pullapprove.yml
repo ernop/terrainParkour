@@ -16,7 +16,7 @@ notifications:
 groups:
   code:
     conditions:
-    - "'*.cs' in files
+    - "'*.cs' in files"
     reviewers:
       users:
       - ernop
@@ -27,7 +27,7 @@ groups:
       request_order: random  # "random" or "given"
   css:
     conditions:
-    - "'*.css' in files
+    - "'*.css' in files"
     reviewers:
       users:
       - ernop
