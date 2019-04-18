@@ -38,7 +38,7 @@ groups:
       request_order: random  # "random" or "given"
   infofolder:
     conditions:
-    - "files.include('/info/*')"
+    - "files.include('info/*')"
     reviewers:
       users:
       - ernop
