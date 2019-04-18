@@ -36,3 +36,14 @@ groups:
       required: 1  # number of approvals required from this group
       request: 1  # number of review requests sent at a time
       request_order: random  # "random" or "given"
+  infofolder:
+    conditions:
+    - "files.include("/info/*")"
+    reviewers:
+      users:
+      - ernop
+      - ernopms
+    reviews:
+      required: 1  # number of approvals required from this group
+      request: 1  # number of review requests sent at a time
+      request_order: random  # "random" or "given"
