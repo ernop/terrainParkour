@@ -16,8 +16,6 @@ services:
     volumes:
       - ./image/terrainparkour:/code
       - ./image/terrainparkour/static:/static    #copy files to static directory whenever web starts up.
-    ports:
-      - "8001:8001"
     restart: always
     depends_on:
       - db
