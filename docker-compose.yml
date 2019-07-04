@@ -11,13 +11,13 @@ services:
     container_name: django
     #command: gunicorn terrainparkour.wsgi -b 0.0.0.0:8000
     #command: gunicorn app:app -b 0.0.0.0:8000 #run a simple web server that returns okay for everything.
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn terrainparkour.wsgi -b 0.0.0.0:8000"  
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn terrainparkour.wsgi -b 0.0.0.0:8001"  
     #command: python manage.py runserver  0.0.0.0:8000
     volumes:
       - ./image/terrainparkour:/code
       - ./image/terrainparkour/static:/static    #copy files to static directory whenever web starts up.
     ports:
-      - "8000:8000"
+      - "8001:8001"
     restart: always
     depends_on:
       - db
@@ -26,10 +26,10 @@ services:
     build: nginx
     image: nginx:1.13-alpine
     ports:
-      - "8001:80"
+      - "8000:80"
     volumes:
       - ./nginx:/config
-      - ./image/terrainparkour/static:/static #but where do these show up?
+      - ./image/terrainparkour/static:/static
     depends_on:
       - web
     
