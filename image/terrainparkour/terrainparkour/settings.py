@@ -27,8 +27,8 @@ SECRET_KEY = 'klr$0tz*m*!%__mdb_i*=#7hbr#b-vd72tda%*jhjav@u-zp@#'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['web',]
-ALLOW_HOSTS = ['web',]
+ALLOWED_HOSTS = ['web','localhost',]
+ALLOW_HOSTS = ['web','localhost',]
 
 
 # Application definition
