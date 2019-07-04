@@ -64,12 +64,12 @@ class OverriddenModelAdmin(admin.ModelAdmin):
             list_display_links = self.get_list_display_links(request, list_display)
             from django.contrib.admin import options
             list_filter = self.get_list_filter(request)
-            
+
              #~ def __init__(self, request, model, list_display, list_display_links,
                  #~ list_filter, date_hierarchy, search_fields, list_select_related,
                  #~ list_per_page, list_max_show_all, list_editable, model_admin, sortable_by):
-            
-            
+
+
             cl = ChangeList(request, self.model, list_display,
                 list_display_links, list_filter, self.date_hierarchy,
                 self.search_fields, self.list_select_related,
@@ -137,24 +137,25 @@ class OverriddenModelAdmin(admin.ModelAdmin):
 #TODO do this better.
 def adminify(*args):
     res=[]
+    print(args)
     for func in args:
         if func.__name__.startswith('my'):
             name=func.__name__[2:]
+            #name=func.__name__
         else:
             name=func.__name__
         name = name.replace('_', ' ')
         func = wrap_for_adminfy(func,name)
         res.append(func)
     return res
-        
+
 def wrap_for_adminfy(func,name):
-        def inner(*args):
-                res=func(*args)
-                
-                return mark_safe(res)
-        inner.allow_tags=True
-        inner.short_description=name
-        return inner
+    def inner(*args):
+        res=func(*args)
+        return mark_safe(res)
+    inner.allow_tags=True
+    inner.short_description=name
+    return inner
 
 
 def make_null_filter(field, title=None, param_name=None, include_empty_string=True):

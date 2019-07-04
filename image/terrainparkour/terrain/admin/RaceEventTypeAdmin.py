@@ -14,5 +14,5 @@ class RaceEventTypeAdmin(OverriddenModelAdmin):
         inactivect=RaceEvent.objects.filter(eventtype=obj.id, active=False).count()
         return '<a href="../raceevent/?eventtype__id=%d&active=True">%d active</a>\n<a href="../raceevent/?eventtype__exact__id=%d&active=False">%d inactive</a>'%(obj.id, activect, obj.id, inactivect)
 
-    myraceevents=adminify(myraceevents)
+    myraceevents,=adminify(myraceevents)
 

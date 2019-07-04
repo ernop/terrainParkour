@@ -9,11 +9,15 @@ class UserDiedAdmin(OverriddenModelAdmin):
     def myuser(self,obj):
         return obj.user.clink()
 
+    def myother(self):
+        return ''
+
     def lookup_allowed(self, key, value):
         if key in ('user__userId__exact',):
             return True
         return super(UserDiedAdminn, self).lookup_allowed(key, value)
 
-    myuser=adminify(myuser)
+    print('a')
+    myuser, =adminify(myuser)
 
 

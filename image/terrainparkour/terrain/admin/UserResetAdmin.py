@@ -14,5 +14,5 @@ class UserResetAdmin(OverriddenModelAdmin):
             return True
         return super(UserResetAdmin, self).lookup_allowed(key, value)
 
-    myuser=adminify(myuser)
+    myuser,=adminify(myuser)
 

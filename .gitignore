@@ -2,3 +2,4 @@ secret.txt
 *.pyc
 local
 localsettings.py
+docker-compose.yml

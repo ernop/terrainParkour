@@ -14,6 +14,6 @@ class UserQuitAdmin(OverriddenModelAdmin):
             return True
         return super(UserQuitAdmin, self).lookup_allowed(key, value)
 
-    myuser=adminify(myuser)
+    myuser,=adminify(myuser)
 
 

@@ -9,4 +9,4 @@ class ActionResultSentAdmin(OverriddenModelAdmin):
     def myuser(self, obj):
         return obj.user.clink()
 
-    myuser=adminify(myuser)
+    myuser,=adminify(myuser)

@@ -10,5 +10,5 @@ class FailedSecurityAttemptAdmin(OverriddenModelAdmin):
         print("handling obj:",obj)
         return obj.source.clink()
 
-    mysource=adminify(mysource)
+    mysource,=adminify(mysource)
 

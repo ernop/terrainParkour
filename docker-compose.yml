@@ -11,8 +11,8 @@ services:
     container_name: django
     #command: gunicorn terrainparkour.wsgi -b 0.0.0.0:8000
     #command: gunicorn app:app -b 0.0.0.0:8000 #run a simple web server that returns okay for everything.
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn terrainparkour.wsgi -b 0.0.0.0:8001"  
-    #command: python manage.py runserver  0.0.0.0:8000
+    #command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn terrainparkour.wsgi -b 0.0.0.0:8001"  
+    command: python manage.py runserver  0.0.0.0:8001
     volumes:
       - ./image/terrainparkour:/code
       - ./image/terrainparkour/static:/static    #copy files to static directory whenever web starts up.

@@ -9,4 +9,4 @@ class BadgeAdmin(OverriddenModelAdmin):
     def mygrants(self, obj):
         return '<a href=../badgegrant/?badge__id=%d>%d grants</a>'%(obj.id, obj.badgegrants.count())
 
-    mygrants=adminify(mygrants)
+    mygrants,=adminify(mygrants)
