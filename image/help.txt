@@ -1,0 +1,4 @@
+docker run -it --entrypoint /bin/bash image_web
+docker search NAME
+docker volume ls
+docker run -it ubuntu bash

@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres
+    ports: 
+      - "5432:5432"
+  web:
+    build: image
+    container_name: django
+    #command: gunicorn terrainparkour.wsgi -b 0.0.0.0:8000
+    #command: gunicorn app:app -b 0.0.0.0:8000 #run a simple web server that returns okay for everything.
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn terrainparkour.wsgi -b 0.0.0.0:8000"  
+    #command: python manage.py runserver  0.0.0.0:8000
+    volumes:
+      - ./image/terrainparkour:/code
+      - ./image/terrainparkour/static:/static    #copy files to static directory whenever web starts up.
+    ports:
+      - "8000:8000"
+    restart: always
+    depends_on:
+      - db
+  nginx:
+    container_name: nginx
+    build: nginx
+    image: nginx:1.13-alpine
+    ports:
+      - "8001:80"
+    volumes:
+      - ./nginx:/config
+      - ./image/terrainparkour/static:/static #but where do these show up?
+    depends_on:
+      - web
+    
