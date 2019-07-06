@@ -137,7 +137,6 @@ class OverriddenModelAdmin(admin.ModelAdmin):
 #TODO do this better.
 def adminify(*args):
     res=[]
-    print(args)
     for func in args:
         if func.__name__.startswith('my'):
             name=func.__name__[2:]
