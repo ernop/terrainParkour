@@ -8,17 +8,20 @@ from terrain.models.ActionResultSent import ActionResultSent
 from terrain.models.RobloxUser import RobloxUser
 
 class ActionResult(object):
-    def __init__(self, notify, message, userId, notifyAllExcept = False):
+    def __init__(self, notify, message, userId, notifyAllExcept = False, persistent = False, kind='undefined'):
         self.notify=notify or False
         self.message=message or ''
         self.notifyAllExcept = notifyAllExcept
         self.userId = userId
+        self.persistent = persistent
+        self.kind=kind
+        print("persistent",persistent)
         try:
             user=RobloxUser.objects.get(pk=userId)
         except:
             assert(False,'failed to find userid when logging ActionResultSent. %s'%str(userId))
             return
-
+ 
         ars=ActionResultSent(notify=notify, user=user, message=message, notifyAllExcept=notifyAllExcept)
         ars.save()
 

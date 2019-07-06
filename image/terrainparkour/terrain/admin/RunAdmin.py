@@ -4,7 +4,7 @@ from terrainparkour.allmodels import *
 from terrainparkour import util
 
 class RunAdmin(OverriddenModelAdmin):
-    list_display='id myuser myrace place mystart myend mytime myspeed created_tz'.split()
+    list_display='id myuser myrace place mystart myend mytime myspeed created'.split()
     list_filter=[make_null_filter('place', 'top10'),  'race__start','race__end', ] #'race',
 
     def mystart(self, obj):

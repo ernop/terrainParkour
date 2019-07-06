@@ -44,14 +44,14 @@ def userFoundSign(request, userId, signId):
             message = "You were the %s person to find %s!"%(util.getCardinal(signFindCount), sign.name)
 
         message="%s\nYou've found %d out of %d!\nAnd this earned you %d TIX!"%(message, userFindCount, totalSignCount, amount)
-        ar=ActionResult(notify=True, userId=userId, message=message)
+        ar=ActionResult(notify=True, userId=userId, message=message, persistent=True, kind="found sign")
 
         resp={'success':True, 'foundNew':foundNew, 'created':foundNew, 'userFindCount':user.finds.count()}
 
         actionResults.append(vars(ar))
         otherMessage ="%s found %s! They've found %d total."%(user.username, sign.name, userFindCount)
         #would be nice to have customized messages to every other player about the actions of someone!
-        ar=ActionResult(notify=True, userId=userId, message=otherMessage, notifyAllExcept=True)
+        ar=ActionResult(notify=True, userId=userId, message=otherMessage, notifyAllExcept=True, kind = "other found sign")
         actionResults.append(vars(ar))
 
     resp['ActionResults']=actionResults
