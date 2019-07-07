@@ -1,4 +1,5 @@
 secret.txt
+.vscode
 *.pyc
 local
 localsettings.py
