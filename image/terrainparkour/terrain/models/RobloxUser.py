@@ -5,7 +5,7 @@ from terrainparkour.constants import *
 class RobloxUser(BaseModel):
     userId=models.IntegerField(unique=True, db_column='userid') #blank=True, null=True
     username=models.CharField(max_length=30)
-    banLevel=models.IntegerField(default=0) #0==safe, 1=ban, 2=bad ban
+    banLevel=models.IntegerField(default=0, db_column='banlevel') #0==safe, 1=ban, 2=bad ban
 
     #ban = no chat
     #superban = no chat, slow runspeed muahaha.
