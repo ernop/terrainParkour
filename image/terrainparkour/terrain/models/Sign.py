@@ -10,8 +10,8 @@ class Sign(BaseModel):
     y=models.FloatField(blank=True, null=True)
     z=models.FloatField(blank=True, null=True)
 
-    calcFinds=models.IntegerField(default=0) #calculated values for total finds.
-    calcNearest=models.ForeignKey('Sign', related_name='nearest_to', default=None, null=True, on_delete=models.CASCADE)
+    calcFinds=models.IntegerField(default=0, db_column='calcfinds') #calculated values for total finds.
+    calcNearest=models.ForeignKey('Sign', related_name='nearest_to', default=None, null=True, on_delete=models.CASCADE, db_column='calcnearest')
 
     class Meta:
         app_label='terrainparkour'
