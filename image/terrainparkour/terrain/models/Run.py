@@ -8,7 +8,7 @@ class Run(BaseModel):
     place=models.IntegerField(default=0)
     speed=models.FloatField(default=0)
 
-    raceMilliseconds=models.IntegerField() #run time in milliseconds
+    raceMilliseconds=models.IntegerField(db_column='racemilliseconds') #run time in milliseconds
 
     class Meta:
         app_label='terrainparkour'

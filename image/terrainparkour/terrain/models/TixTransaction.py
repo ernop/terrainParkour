@@ -8,8 +8,8 @@ from terrainparkour import util
 class TixTransaction(BaseModel):
     user=models.ForeignKey('RobloxUser', related_name='tixtransactions', on_delete=models.CASCADE)
     amount=models.IntegerField() #gain or loss of tix to the user.
-    targetType = models.IntegerField() #a TixTransactionTypeEnum.  This is actually the TargetTypeID.
-    targetId = models.IntegerField(blank=True, null=True) 
+    targetType = models.IntegerField(db_column='targettype') #a TixTransactionTypeEnum.  This is actually the TargetTypeID.
+    targetId = models.IntegerField(blank=True, null=True, db_column='targetid') 
     #if the reason is one of the "raceEvent" types, this is the id of the event.
     #if the reason is NEW_WR, target is the race.
 
