@@ -4,9 +4,9 @@ from terrainparkour.constants import *
 
 class ActionResultSent(BaseModel):
     message=models.CharField(max_length=300)
-    notifyAllExcept=models.BooleanField()
+    notifyAllExcept=models.BooleanField(db_column='notifyallexcept')
     notify=models.BooleanField()
-    user=models.ForeignKey('RobloxUser', related_name='actionresultssent', default=None, on_delete=models.CASCADE)
+    user=models.ForeignKey('RobloxUser', related_name='actionresultssent', default=None, on_delete=models.CASCADE, db_column='userid')
 
     class Meta:
         app_label=APP

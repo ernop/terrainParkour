@@ -3,10 +3,10 @@ from terrainparkour.basemodel import BaseModel
 from terrainparkour.constants import *
 
 class BestRun(BaseModel): #an individual user's best run of a certain race.  This is how we generate user-distinct top 10
-    race=models.ForeignKey('Race', related_name='bestruns', on_delete=models.CASCADE)
-    user=models.ForeignKey('RobloxUser', related_name='bestruns', on_delete=models.CASCADE)
+    race=models.ForeignKey('Race', related_name='bestruns', on_delete=models.CASCADE, db_column='raceid')
+    user=models.ForeignKey('RobloxUser', related_name='bestruns', on_delete=models.CASCADE, db_column='userid')
     place=models.IntegerField(blank=True, null=True) #global place for this race.
-    raceMilliseconds=models.IntegerField() #run time in milliseconds
+    raceMilliseconds=models.IntegerField(db_column='racemilliseconds') #run time in milliseconds
     speed=models.FloatField(default=0)
 
     class Meta:
