@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'klr$0tz*m*!%__mdb_i*=#7hbr#b-vd72tda%*jhjav@u-zp@#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['web','localhost','192.81.130.196']
 #ALLOW_HOSTS = ['web','localhost','192.81.130.196']
@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'terrainparkour.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'terrainparkour',
         'USER': 'postgres',
         #'HOST': "localhost", # set in docker-compose.yml
         'HOST':"db", #this is for when running everything inside a container.

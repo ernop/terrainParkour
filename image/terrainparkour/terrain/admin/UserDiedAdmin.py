@@ -17,7 +17,6 @@ class UserDiedAdmin(OverriddenModelAdmin):
             return True
         return super(UserDiedAdminn, self).lookup_allowed(key, value)
 
-    print('a')
     myuser, =adminify(myuser)
 
 
