@@ -6,7 +6,7 @@ class ActionResultSent(BaseModel):
     message=models.CharField(max_length=300)
     notifyAllExcept=models.BooleanField(db_column='notifyallexcept')
     notify=models.BooleanField()
-    user=models.ForeignKey('RobloxUser', related_name='actionresultssent', default=None, on_delete=models.CASCADE, db_column='userid')
+    user=models.ForeignKey('RobloxUser', related_name='actionresultssent', default=None, on_delete=models.CASCADE, db_column='user_id')
 
     class Meta:
         app_label=APP

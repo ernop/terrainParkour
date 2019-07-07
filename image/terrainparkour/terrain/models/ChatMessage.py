@@ -3,10 +3,10 @@ from terrainparkour.basemodel import BaseModel
 from terrainparkour.constants import *
 
 class ChatMessage(BaseModel):
-    user=models.ForeignKey('RobloxUser', related_name='chatmessages', on_delete=models.CASCADE)
+    user=models.ForeignKey('RobloxUser', related_name='chatmessages', on_delete=models.CASCADE, db_column='user_id')
     rawtext=models.CharField(max_length=500)
     filteredtext=models.CharField(max_length=500)
-    requestsource=models.ForeignKey('RequestSource', related_name='chatmessages', on_delete=models.CASCADE)
+    requestsource=models.ForeignKey('RequestSource', related_name='chatmessages', on_delete=models.CASCADE, db_column='requestsource_id')
 
     class Meta:
         app_label='terrainparkour'

@@ -3,8 +3,8 @@ from terrainparkour.basemodel import BaseModel
 from terrainparkour.constants import *
 
 class BadgeGrant(BaseModel):
-    user=models.ForeignKey('RobloxUser', related_name='badgegrants', on_delete=models.CASCADE, db_column='userid')
-    badge=models.ForeignKey('Badge', related_name='badgegrants', on_delete=models.CASCADE, db_column='badgeid')
+    user=models.ForeignKey('RobloxUser', related_name='badgegrants', on_delete=models.CASCADE, db_column='user_id')
+    badge=models.ForeignKey('Badge', related_name='badgegrants', on_delete=models.CASCADE, db_column='badge_id')
 
     class Meta:
         app_label='terrainparkour'

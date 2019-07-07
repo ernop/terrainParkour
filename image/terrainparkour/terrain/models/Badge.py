@@ -4,7 +4,7 @@ from terrainparkour.constants import *
 
 class Badge(BaseModel):
     name=models.CharField(max_length=200)
-    assetId=models.IntegerField(db_column='assetid') #the roblox assetId
+    assetId=models.IntegerField(db_column='asset_id') #the roblox assetId
 
     class Meta:
         app_label='terrainparkour'
