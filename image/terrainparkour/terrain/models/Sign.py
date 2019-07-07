@@ -4,7 +4,7 @@ from terrainparkour.basemodel import BaseModel
 from terrainparkour.constants import *
 
 class Sign(BaseModel):
-    signId=models.IntegerField()
+    signId=models.IntegerField(db_column='signid')
     name=models.CharField(max_length=50)
     x=models.FloatField(blank=True, null=True)
     y=models.FloatField(blank=True, null=True)

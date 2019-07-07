@@ -1,4 +1,4 @@
-pgloader mysql://tparkour:tparkour@localhost/terrainparkour postgresql://postgres@localhost:5432/tp
+pgloader mysql://tparkour:tparkour@localhost/terrainparkour postgresql://postgres@localhost:5432/terrainparkour
 docker run -it --entrypoint /bin/bash image_web
 docker search NAME
 docker volume ls

@@ -15,7 +15,6 @@ class ActionResult(object):
         self.userId = userId
         self.persistent = persistent
         self.kind=kind
-        print("persistent",persistent)
         try:
             user=RobloxUser.objects.get(pk=userId)
         except:

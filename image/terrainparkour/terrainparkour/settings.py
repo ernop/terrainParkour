@@ -80,6 +80,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'terrainparkour',
         'USER': 'postgres',
+        'PASSWORD':'postgres',
         #'HOST': "localhost", # set in docker-compose.yml
         'HOST':"db", #this is for when running everything inside a container.
         'PORT': 5432 # default postgres port
